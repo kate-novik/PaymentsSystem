@@ -1,0 +1,21 @@
+body {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #eee;
+}
+
+.main {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding: 20px 45px;
+    background: white;
+    border: 1px solid #999;
+}
+
+.main h2 {
+    margin-bottom: 30px;
+}
+
+footer .navbar p {
+    float: none;
+}

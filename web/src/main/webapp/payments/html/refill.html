@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Account Refill</title>
+    <link rel="stylesheet" href="styles/bootstrap.css">
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+
+<header>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-6" aria-expanded="false"><span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Payment system</a></div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
+                <ul class="nav navbar-nav">
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="reg.html">Registration</a></li>
+                    <li class="active"><a href="refill.html">Refill Account</a></li>
+                    <li><a href="payments.html">Payments</a></li>
+                    <li><a href="payment.html">Make a payment</a></li>
+                    <li><a href="block.html">Block account</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<div class="main container">
+    <div class="row">
+        <div class="col-sm-offset-3">
+            <h2>Refill the account</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label"># of account</label>
+                    <div class="col-sm-8">
+                        <p class="form-control-static">12345678</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="amount" class="col-sm-4 control-label">Amount</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="amount">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">Refill</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container">
+            <p class="text-center navbar-text">© 2016 Kate Novik — All rights reserved.</p>
+        </div>
+    </nav>
+</footer>
+
+</body>
+</html>
