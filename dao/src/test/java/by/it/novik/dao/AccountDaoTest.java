@@ -32,7 +32,7 @@ public class AccountDaoTest {
         address.setCity("Grodno");
         address.setStreet("Lenina");
         address.setHome("2");
-        address.setFlat(10);
+        address.setFlat("10");
 
         passport = new Passport();
         passport.setNumber("MP1278956");

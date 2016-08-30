@@ -34,7 +34,7 @@ public class UserDaoTest {
         address.setCity("Minsk");
         address.setStreet("Yankovskogo");
         address.setHome("6");
-        address.setFlat(105);
+        address.setFlat("105");
 
         passport = new Passport();
         passport.setNumber("MP1234567");

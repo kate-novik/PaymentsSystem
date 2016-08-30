@@ -1,8 +1,14 @@
 package by.it.novik.filters;
 
 
-import by.it.novik.entities.User;
-import by.it.novik.DAO;
+
+import by.it.novik.dao.CreateDao;
+import by.it.novik.dao.Dao;
+import by.it.novik.pojos.User;
+import by.it.novik.services.Service;
+import by.it.novik.services.UserService;
+import by.it.novik.util.ServiceException;
+import org.apache.log4j.Logger;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -24,6 +30,7 @@ import java.util.List;
 public class FilterCheckSession implements Filter{
     //Поле, содержащее название страницы для перехода
     private String pageLogin;
+    private static Logger log = Logger.getLogger (FilterCheckSession.class);
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -66,20 +73,22 @@ public class FilterCheckSession implements Filter{
                 }
             }
             if (login!=null && password!=null) {
-                //Создаем объект DAO
-                DAO dao = DAO.getDAO();
+
+                UserService userService = Service.getService().getUserService();
                 //Получаем пользователя с логином и паролем из куки
-                List<User> users = dao.getUserDAO().getAll(String.format("where Login='%s' and Password='%s'", login, password));
                 User user = null;
-                if (users.size() > 0) {
-                    user = users.get(0);
+                try {
+                    user = userService.findByLoginAndPass( login, password);
+                } catch (ServiceException e) {
+                    log.error("Error in FilterCheckSession." + e);
                 }
+
                 if (user != null) {
                     //Создадим сессию
                     HttpSession session = request.getSession(true);
                     //Передадим в сессию объект user
                     session.setAttribute("user", user);
-                    session.setAttribute("login", user.getNickname());
+                    session.setAttribute("login", user.getLogin());
                     session.setAttribute("password", user.getPassword());
                 }
             }

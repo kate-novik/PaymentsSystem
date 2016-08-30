@@ -38,7 +38,7 @@ public class CommandLocking implements ActionCommand {
                 page = Action.LOCK.okPage;
         }
         catch (ServiceException e){
-            log.error("Error in CommandLocking account. Locking of account #" + id + " wasn't done.");
+            log.error("Error in CommandLocking account. Locking of account #" + id + " wasn't done." + e);
             request.setAttribute(Action.msgMessage, "Locking of account #" + id + " wasn't done.");
             page = Action.LOCK.inPage;
             request.setAttribute("type", "danger");

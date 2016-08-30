@@ -1,8 +1,5 @@
 package by.it.novik.controller;
 
-import by.it.novik.DAO;
-import by.it.novik.connection.ConnectorDB;
-import by.it.novik.entities.User;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;

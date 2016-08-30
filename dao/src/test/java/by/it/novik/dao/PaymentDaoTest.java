@@ -37,7 +37,7 @@ public class PaymentDaoTest {
         address.setCity("Grodno");
         address.setStreet("Lenina");
         address.setHome("2");
-        address.setFlat(10);
+        address.setFlat("10");
 
         passport = new Passport();
         passport.setNumber("MP1278956");
@@ -51,7 +51,7 @@ public class PaymentDaoTest {
         user.setAddress(address);
         user.setEmail("pet@mail.ru");
         user.setPassport(passport);
-        user.setLogin("petrov");
+        user.setLogin("pppp65");
         user.setPassword("123");
         user.setPhone("375447244848");
         user.setSalt("356hgdf8776gjgk");
@@ -121,7 +121,7 @@ public class PaymentDaoTest {
 
     @Test
     public void getAllPaymentsTest() throws Exception {
-        user.setLogin("Ppetr");
+        user.setLogin("Ppetr2");
         userDao.saveOrUpdate(user);
         paymentDao.saveOrUpdate(payment);
         userDao.session.flush();
