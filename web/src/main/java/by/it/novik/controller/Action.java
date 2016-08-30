@@ -64,9 +64,9 @@ enum Action {
             this.okPage ="/do?command=Accounts";
         }
     },
-    BLOCK {
+    LOCK {
         {
-            this.command = new CommandBlocking();
+            this.command = new CommandLocking();
             this.inPage="/block.jsp";
             this.okPage ="/do?command=Accounts";
         }

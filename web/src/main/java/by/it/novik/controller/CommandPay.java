@@ -1,7 +1,10 @@
 package by.it.novik.controller;
 
+import by.it.novik.pojos.User;
 import by.it.novik.services.Service;
-import by.it.novik.entities.User;
+import by.it.novik.util.ServiceException;
+import org.apache.log4j.Logger;
+
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -9,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
  * Created by Kate Novik.
  */
 public class CommandPay implements ActionCommand {
+    private static Logger log = Logger.getLogger (CommandPay.class);
     @Override
     public String execute(HttpServletRequest request) {
         String page = Action.PAY.inPage;
@@ -43,8 +47,9 @@ public class CommandPay implements ActionCommand {
                 request.setAttribute("pay", "pay");
                 page = Action.PAY.okPage;
 
-            } catch (Exception e) {
-                request.setAttribute(Action.msgMessage, e.getMessage());
+            } catch (ServiceException e) {
+                log.error("Error in CommandPay."+ e);
+                request.setAttribute(Action.msgMessage, "Error in CommandPay.");
                 request.setAttribute("type", "danger");
                 page = Action.PAY.inPage;
             }

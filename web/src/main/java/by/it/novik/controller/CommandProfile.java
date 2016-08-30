@@ -1,6 +1,7 @@
 package by.it.novik.controller;
 
-import by.it.novik.entities.User;
+
+import by.it.novik.pojos.User;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,7 +16,7 @@ public class CommandProfile implements ActionCommand {
         if (user==null) {
             return Action.LOGIN.inPage;
         }
-        request.setAttribute("login", user.getNickname());
+        request.setAttribute("login", user.getLogin());
         request.setAttribute("password", user.getPassword());
         return Action.PROFILE.inPage;
     }

@@ -1,6 +1,8 @@
 package by.it.novik.controller;
 
 import by.it.novik.services.Service;
+import by.it.novik.util.ServiceException;
+import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -8,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
  * Created by Kate Novik.
  */
 public class CommandRefilling implements ActionCommand {
+    private static Logger log = Logger.getLogger (CommandRefilling.class);
     @Override
     public String execute(HttpServletRequest request) {
         String page = Action.REFILL.inPage;
@@ -39,8 +42,9 @@ public class CommandRefilling implements ActionCommand {
                         request.setAttribute("type", "success");
                         page = Action.REFILL.okPage;
 
-                    } catch (Exception e) {
-                        request.setAttribute(Action.msgMessage, e.getMessage());
+                    } catch (ServiceException e) {
+                        log.error("Error in CommandRefilling."+ e);
+                        request.setAttribute(Action.msgMessage, "Error in CommandRefilling.");
                         request.setAttribute("type", "danger");
                         page = Action.REFILL.inPage;
                     }

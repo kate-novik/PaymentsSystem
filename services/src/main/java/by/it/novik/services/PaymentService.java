@@ -88,11 +88,11 @@ public class PaymentService extends BaseService<Payment> implements IPaymentServ
                 saveOrUpdate(payment);
 
                 } catch (ServiceException e) {
-                        log.error("Error make payment in PaymentService.");
+                        log.error("Error make payment in PaymentService." + e);
                         throw new ServiceException("Payment wasn't done. Repeat, please, enter.");
 
                 } catch (ParseException e) {
-                    log.error("Error parsing Date in PaymentService.");
+                    log.error("Error parsing Date in PaymentService."+ e);
                     throw new ServiceException("Error parsing Date in PaymentService.");
                 }
             }
@@ -101,7 +101,7 @@ public class PaymentService extends BaseService<Payment> implements IPaymentServ
                 throw new ServiceException("Account of destination doesn't exist. Repeat, please, enter.") ;
             }
         } else {
-            log.error("Error make payment in PaymentService. Few funds in the account_source..");
+            log.error("Error make payment in PaymentService. Few funds in the account_source.");
             throw new ServiceException("Few funds in the account_source. Refill your account.") ;
         }
     }

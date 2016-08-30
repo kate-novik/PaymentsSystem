@@ -60,13 +60,13 @@ public class Address implements Serializable{
         this.home = home;
     }
 
-    private Integer flat;
+    private String flat;
     @Column(name="flat", length = 5)
-    @Type(type = "integer")
-    public Integer getFlat() {
+    @Type(type = "string")
+    public String getFlat() {
         return flat;
     }
-    public void setFlat(Integer flat) {
+    public void setFlat(String flat) {
         this.flat = flat;
     }
 
