@@ -19,13 +19,16 @@ public class AccountDao extends Dao <Account> {
     public AccountDao() {
     }
 
-    public List<Account> getAccountsByUser (User user) throws DaoException {
+    public List<Account> getAccountsByUser (User user, String orderState) throws DaoException {
         List<Account> accounts;
+        if (orderState == null) {
+            orderState = "ASC";
+        }
         try {
             session = HibernateUtil.getHibernateUtil().getSession();
             //Открываем транзакцию
             transaction = session.beginTransaction();
-            Query query = session.getNamedQuery("getAccountsByUser").setEntity("user",user);
+            Query query = session.getNamedQuery("getAccountsByUser").setEntity("user",user).setString("orderState",orderState);
             accounts = query.list();
             log.info("getAccountsByUser():" + accounts);
             //При отсутствии исключения коммитим транзакцию

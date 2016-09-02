@@ -15,9 +15,10 @@ public interface IAccountService {
     /**
      * Получение списка счетов пользователя
      * @param id_user id пользователя
+     * @param orderState порядок сортировки по состоянию счета
      * @return список счетов пользователя
      */
-    List<Account> getAccountsByUser(Serializable id_user) throws ServiceException;
+    List<Account> getAccountsByUser(Serializable id_user, String orderState) throws ServiceException;
 
     /**
      * Блокировка счета

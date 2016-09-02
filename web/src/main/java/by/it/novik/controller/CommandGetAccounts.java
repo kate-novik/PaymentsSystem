@@ -22,9 +22,10 @@ public class CommandGetAccounts implements ActionCommand{
 //        if (user==null) {
 //            return Action.LOGIN.inPage;
 //        }
-
+        //Сделать сортировку на фронтенде
+        String orderState = request.getParameter("orderState");
         try {
-            List<Account> listAccounts = Service.getService().getAccountService().getAccountsByUser(user.getId());
+            List<Account> listAccounts = Service.getService().getAccountService().getAccountsByUser(user.getId(),orderState);
             if (!listAccounts.isEmpty()) {
                 request.setAttribute(Action.msgMessage, "List of accounts for user " + user.getLogin());
                 request.setAttribute("listAccounts", listAccounts);

@@ -24,7 +24,7 @@ import java.io.Serializable;
 public class Account implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    static final String QUERY_GET_ACCOUNTS_BY_USER = "FROM Account a WHERE a.user = :user";
+    static final String QUERY_GET_ACCOUNTS_BY_USER = "FROM Account a WHERE a.user = :user ORDER BY :orderState";
     static final String QUERY_GET_ALL_ACCOUNTS = "FROM Account";
     static final String QUERY_GET_LOCKED_ACCOUNTS = "FROM Account a WHERE a.state = 'LOCKED'";
 

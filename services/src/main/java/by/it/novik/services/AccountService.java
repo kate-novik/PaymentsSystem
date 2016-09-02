@@ -29,11 +29,11 @@ public class AccountService extends BaseService<Account> implements IAccountServ
     }
 
     @Override
-    public List<Account> getAccountsByUser(Serializable id_user) throws ServiceException {
+    public List<Account> getAccountsByUser(Serializable id_user, String orderState) throws ServiceException {
         List<Account> accounts;
         try {
             User user = Service.getService().getUserService().get(id_user);
-            accounts = accountDao.getAccountsByUser(user);
+            accounts = accountDao.getAccountsByUser(user, orderState);
         }
         catch (DaoException d){
             log.error("Error getAccountsByUser() in AccountService." + d);
