@@ -74,7 +74,7 @@ public class AccountDaoTest {
         userDao.saveOrUpdate(user);
         userDao.session.flush();
         userDao.session.evict(user);
-        List<Account> accounts = accountDao.getAccountsByUser(user);
+        List<Account> accounts = accountDao.getAccountsByUser(user,"ASC");
         Assert.assertEquals("Don't equals accounts!", accounts.iterator().next(), user.getAccounts().iterator().next());
     }
 
