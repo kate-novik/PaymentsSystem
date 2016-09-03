@@ -49,9 +49,9 @@ public class UserDaoTest {
 //        user2.setEmail("ret@mail.ru");
 //        user2.setPassport(passport);
 //        user2.setLogin("ter");
-//        user2.setPassword("123456");
+//        user2.setPassword("3af8212b2bee9ac54115a6fc5d455ca8");
 //        user2.setPhone("375447547878");
-//        user2.setSalt("3hh6kk7jkl6789");
+//        user2.setSalt("•9uk¤ЄRщhE@К!х");
 //
 //        role = new Role();
 //        role.setRole("user");
@@ -70,14 +70,14 @@ public class UserDaoTest {
 //
 //
 //    }
-
+//
 //    @Test
 //    public void testSaveOrUpdate() throws Exception {
 //        userDao.saveOrUpdate(user2);
 //        userDao.session.flush();
 //        Assert.assertNotNull("User did't save!", userDao.session.get(User.class,user2.getId()));
 //    }
-//
+
 //    @Test
 //    public void testDelete() throws Exception {
 //        userDao.saveOrUpdate(user2);

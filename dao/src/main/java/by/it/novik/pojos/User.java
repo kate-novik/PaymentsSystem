@@ -129,8 +129,8 @@ public class User implements Serializable {
     }
 
     private String password;
-    @Column(name="password", length=15)
-    @Type(type = "string")
+    @Column(name="password", length=50)
+//    @Type(type = "string")
     public String getPassword() {
         return password;
     }
@@ -141,7 +141,7 @@ public class User implements Serializable {
 
     private String salt;
     @Column(name="salt")
-    @Type(type = "string")
+//    @Type(type = "string")
     public String getSalt() {
         return salt;
     }

@@ -34,31 +34,31 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-    <filter>
-            <filter-name>CheckSessionFilter</filter-name>
-            <filter-class>by.it.novik.filters.FilterCheckSession</filter-class>
-    <init-param>
-    <param-name>pageLogin</param-name>
-    <param-value>index.jsp</param-value>
-    </init-param>
-    </filter>
-    <filter-mapping>
-        <filter-name>CheckSessionFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
+    <!--<filter>-->
+            <!--<filter-name>CheckSessionFilter</filter-name>-->
+            <!--<filter-class>by.it.novik.filters.FilterCheckSession</filter-class>-->
+    <!--<init-param>-->
+    <!--<param-name>pageLogin</param-name>-->
+    <!--<param-value>index.jsp</param-value>-->
+    <!--</init-param>-->
+    <!--</filter>-->
+    <!--<filter-mapping>-->
+        <!--<filter-name>CheckSessionFilter</filter-name>-->
+        <!--<url-pattern>/*</url-pattern>-->
+    <!--</filter-mapping>-->
 
-    <filter>
-        <filter-name>RedirectLogInFilter</filter-name>
-        <filter-class>by.it.novik.filters.FilterRedirectLogIn</filter-class>
-        <init-param>
-            <param-name>pageRedirect</param-name>
-            <param-value>do?command=Profile</param-value>
-        </init-param>
-    </filter>
-    <filter-mapping>
-        <filter-name>RedirectLogInFilter</filter-name>
-        <url-pattern>/index.jsp</url-pattern>
-    </filter-mapping>
+    <!--<filter>-->
+        <!--<filter-name>RedirectLogInFilter</filter-name>-->
+        <!--<filter-class>by.it.novik.filters.FilterRedirectLogIn</filter-class>-->
+        <!--<init-param>-->
+            <!--<param-name>pageRedirect</param-name>-->
+            <!--<param-value>do?command=Profile</param-value>-->
+        <!--</init-param>-->
+    <!--</filter>-->
+    <!--<filter-mapping>-->
+        <!--<filter-name>RedirectLogInFilter</filter-name>-->
+        <!--<url-pattern>/index.jsp</url-pattern>-->
+    <!--</filter-mapping>-->
     <context-param>
         <param-name>com.sun.faces.writeStateAtFormEnd</param-name>
         <param-value>false</param-value>

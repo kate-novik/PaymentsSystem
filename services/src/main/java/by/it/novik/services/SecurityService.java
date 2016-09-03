@@ -110,9 +110,9 @@ public class SecurityService implements ISecurityService {
         //Пароль по безопасности нужно "солить" и хэшировать
             user.setSalt(salt);
             user.setPassword(hashPassword);
-        Role role;
+        Role role ;
         try {
-            role = CreateDao.getDao().getRoleDao().get(2);
+            role = CreateDao.getDao().getRoleDao().getRoleByName("user");
         } catch (DaoException e) {
             log.error("Error in getting role in SecurityService." + e);
             throw new ServiceException("Error in getting role.");

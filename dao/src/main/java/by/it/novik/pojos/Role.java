@@ -1,8 +1,12 @@
 package by.it.novik.pojos;
 
-import org.hibernate.annotations.Type;
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.io.Serializable;
 
 /**
@@ -10,9 +14,14 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name="role")
+@NamedQueries({
+       @NamedQuery(name="findByName", query= Role.QUERY_FIND_BY_NAME),
+})
 public class Role implements Serializable {
     private static final long serialVersionUID = 1L;
     //Идентификатор роли
+
+    static final String QUERY_FIND_BY_NAME = "FROM Role r WHERE r.role = :role";
 
     private Long idRole;
     @Id
