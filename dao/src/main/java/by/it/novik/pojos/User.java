@@ -52,9 +52,9 @@ public class User implements Serializable {
         this.firstName = firstName;
     }
 
+    private String middleName;
     @Column(name="middle_name", length = 15)
     @Type(type = "string")
-    private String middleName;
     public String getMiddleName() {
         return middleName;
     }

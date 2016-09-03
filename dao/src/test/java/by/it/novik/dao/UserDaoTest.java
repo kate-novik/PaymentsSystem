@@ -16,60 +16,60 @@ import java.util.List;
 public class UserDaoTest {
 
 
-    private static User user2 = null;
-    private static Role role = null;
-    private static Account account = null;
-    private static Address address = null;
-    private static Passport passport = null;
-    private static UserDao userDao = null;
-    private static RoleDao roleDao = null;
-    private static AccountDao accountDao = null;
-    @Before
-    public void initialize () {
-        userDao = CreateDao.getDao().getUserDao();
-        roleDao = CreateDao.getDao().getRoleDao();
-        accountDao = CreateDao.getDao().getAccountDao();
-
-        address = new Address();
-        address.setCity("Minsk");
-        address.setStreet("Yankovskogo");
-        address.setHome("6");
-        address.setFlat("105");
-
-        passport = new Passport();
-        passport.setNumber("MP1234567");
-        passport.setDateOfIssue(Date.valueOf("2014-05-15"));
-        passport.setIssued("Minskiy ROVD");
-
-        user2 = new User();
-        user2.setFirstName("Anna");
-        user2.setMiddleName("Antonovna");
-        user2.setLastName("Ivanova");
-        user2.setAddress(address);
-        user2.setEmail("ret@mail.ru");
-        user2.setPassport(passport);
-        user2.setLogin("ter");
-        user2.setPassword("123456");
-        user2.setPhone("375447547878");
-        user2.setSalt("3hh6kk7jkl6789");
-
-        role = new Role();
-        role.setRole("user");
-
-        user2.setRole(role);
-
-        account = new Account();
-        account.setBalance(256);
-        account.setState(AccountState.WORKING);
-        account.setUser(user2);
-
-        user2.getAccounts().add(account);
-
-        address.setUser(user2);
-        passport.setUser(user2);
-
-
-    }
+//    private static User user2 = null;
+//    private static Role role = null;
+//    private static Account account = null;
+//    private static Address address = null;
+//    private static Passport passport = null;
+//    private static UserDao userDao = null;
+//    private static RoleDao roleDao = null;
+//    private static AccountDao accountDao = null;
+//    @Before
+//    public void initialize () {
+//        userDao = CreateDao.getDao().getUserDao();
+//        roleDao = CreateDao.getDao().getRoleDao();
+//        accountDao = CreateDao.getDao().getAccountDao();
+//
+//        address = new Address();
+//        address.setCity("Minsk");
+//        address.setStreet("Yankovskogo");
+//        address.setHome("6");
+//        address.setFlat("105");
+//
+//        passport = new Passport();
+//        passport.setNumber("MP1234567");
+//        passport.setDateOfIssue(Date.valueOf("2014-05-15"));
+//        passport.setIssued("Minskiy ROVD");
+//
+//        user2 = new User();
+//        user2.setFirstName("Anna");
+//        user2.setMiddleName("Antonovna");
+//        user2.setLastName("Ivanova");
+//        user2.setAddress(address);
+//        user2.setEmail("ret@mail.ru");
+//        user2.setPassport(passport);
+//        user2.setLogin("ter");
+//        user2.setPassword("123456");
+//        user2.setPhone("375447547878");
+//        user2.setSalt("3hh6kk7jkl6789");
+//
+//        role = new Role();
+//        role.setRole("user");
+//
+//        user2.setRole(role);
+//
+//        account = new Account();
+//        account.setBalance(256);
+//        account.setState(AccountState.WORKING);
+//        account.setUser(user2);
+//
+//        user2.getAccounts().add(account);
+//
+//        address.setUser(user2);
+//        passport.setUser(user2);
+//
+//
+//    }
 
 //    @Test
 //    public void testSaveOrUpdate() throws Exception {
@@ -144,40 +144,40 @@ public class UserDaoTest {
 //        Assert.assertEquals("Don't equals objects Passport!", newPassport, user2.getPassport());
 //    }
 
-    @Test
-    public void findByLoginTest() throws Exception {
-        user2.setLogin("ivan");
-        userDao.saveOrUpdate(user2);
-        userDao.session.flush();
-        userDao.session.evict(user2);
-        User userTest = userDao.findByLogin("ivan");
-        Assert.assertEquals("Don't equal's objects",userTest, user2);
-    }
-
-    @Test
-    public void findByLoginAndPassTest() throws Exception {
-        user2.setLogin("petr");
-        userDao.saveOrUpdate(user2);
-        userDao.session.flush();
-        userDao.session.evict(user2);
-        User userTest = userDao.findByLoginAndPass("petr","123456");
-        Assert.assertEquals("Don't equal's objects",userTest, user2);
-    }
-
-    @Test
-    public void getAllUsersTest() throws Exception {
-        userDao.saveOrUpdate(user2);
-        //List<User> users = new ArrayList<User>();
-       // users.add(user2);
-        userDao.session.flush();
-        userDao.session.evict(user2);
-        List<User> usersTest = userDao.getAllUsers();
-        Assert.assertNotNull("Don't equal's objects",usersTest);
-    }
-
-    @AfterClass
-    public static void closeSession () {
-        userDao.session.close();
-    }
+//    @Test
+//    public void findByLoginTest() throws Exception {
+//        user2.setLogin("ivan");
+//        userDao.saveOrUpdate(user2);
+//        userDao.session.flush();
+//        userDao.session.evict(user2);
+//        User userTest = userDao.findByLogin("ivan");
+//        Assert.assertEquals("Don't equal's objects",userTest, user2);
+//    }
+//
+//    @Test
+//    public void findByLoginAndPassTest() throws Exception {
+//        user2.setLogin("petr");
+//        userDao.saveOrUpdate(user2);
+//        userDao.session.flush();
+//        userDao.session.evict(user2);
+//        User userTest = userDao.findByLoginAndPass("petr","123456");
+//        Assert.assertEquals("Don't equal's objects",userTest, user2);
+//    }
+//
+//    @Test
+//    public void getAllUsersTest() throws Exception {
+//        userDao.saveOrUpdate(user2);
+//        //List<User> users = new ArrayList<User>();
+//       // users.add(user2);
+//        userDao.session.flush();
+//        userDao.session.evict(user2);
+//        List<User> usersTest = userDao.getAllUsers();
+//        Assert.assertNotNull("Don't equal's objects",usersTest);
+//    }
+//
+//    @AfterClass
+//    public static void closeSession () {
+//        userDao.session.close();
+//    }
 
 }

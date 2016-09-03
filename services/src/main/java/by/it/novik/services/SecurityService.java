@@ -2,9 +2,13 @@ package by.it.novik.services;
 
 
 
+import by.it.novik.dao.CreateDao;
+import by.it.novik.pojos.Role;
 import by.it.novik.pojos.User;
+import by.it.novik.util.DaoException;
 import by.it.novik.util.ServiceException;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.log4j.Logger;
 
 import java.security.SecureRandom;
 
@@ -12,6 +16,7 @@ import java.security.SecureRandom;
  * Created by Kate Novik.
  */
 public class SecurityService implements ISecurityService {
+    private static Logger log = Logger.getLogger (SecurityService.class);
 
     private UserService userService = Service.getService().getUserService();
 
@@ -105,7 +110,14 @@ public class SecurityService implements ISecurityService {
         //Пароль по безопасности нужно "солить" и хэшировать
             user.setSalt(salt);
             user.setPassword(hashPassword);
-            user.setRole(Service.getService().getRoleService().get(2));
+        Role role;
+        try {
+            role = CreateDao.getDao().getRoleDao().get(2);
+        } catch (DaoException e) {
+            log.error("Error in getting role in SecurityService." + e);
+            throw new ServiceException("Error in getting role.");
+        }
+        user.setRole(role);
             userService.saveOrUpdate(user);
     }
 }

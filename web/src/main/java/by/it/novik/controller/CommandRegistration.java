@@ -38,6 +38,8 @@ public class CommandRegistration implements ActionCommand {
             phone == null || password == null || login == null || city == null || street == null ||
                 flat == null || home == null || numberOfPassport == null || issued == null ||
                 date == null) {
+            request.setAttribute(Action.msgMessage, "Complete all fields.");
+            request.setAttribute("type", "danger");
             return page;
         }
         SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
@@ -65,6 +67,7 @@ public class CommandRegistration implements ActionCommand {
             user.setPhone(phone);
             user.setEmail(email);
             user.setLogin(login);
+            user.setPassword(password);
 
             Address address = new Address();
             address.setCity(city);
@@ -91,7 +94,7 @@ public class CommandRegistration implements ActionCommand {
             }
             catch (ServiceException e){
                 log.error("Error in CommandRegistration. User wasn't create."+ e);
-                request.setAttribute(Action.msgMessage, "User wasn't created. Enter data .");
+                request.setAttribute(Action.msgMessage, "User wasn't created. Enter data ." + e.getMessage());
                 request.setAttribute("type", "danger");
                 page = Action.REGISTRATION.inPage;
             }

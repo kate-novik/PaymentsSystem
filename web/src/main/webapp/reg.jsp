@@ -37,8 +37,9 @@
                         <span class="help-block">Enter phone in format: xxxxxxxxxxxx</span>
                     </div>
                 </div>
+                <!--<label class="col-sm-4 control-label">Address</label>-->
                 <div class="form-group">
-                    <label class="col-sm-4 control-label">Address</label>
+
                     <label for="city" class="col-sm-4 control-label">City</label>
                     <div class="col-sm-8">
                         <input type="text" class="form-control" name="city" id="city" placeholder="City">
@@ -63,11 +64,12 @@
                         <span class="help-block">Enter email</span>
                     </div>
                 </div>
+                <!--<label class="col-sm-4 control-label">Passport</label>-->
                 <div class="form-group">
-                    <label class="col-sm-4 control-label">Passport</label>
-                    <label for="number" class="col-sm-4 control-label">Number of passport</label>
+
+                    <label for="numberOfPassport" class="col-sm-4 control-label">Number of passport</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" name="number" id="number" placeholder="Number of passport">
+                        <input type="text" class="form-control" name="numberOfPassport" id="numberOfPassport" placeholder="Number of passport">
                     </div>
                     <label for="date" class="col-sm-4 control-label">Date of issue</label>
                     <div class="col-sm-8">
