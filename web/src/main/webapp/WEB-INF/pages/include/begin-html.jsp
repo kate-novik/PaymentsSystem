@@ -8,6 +8,12 @@
     <link rel="stylesheet" href="resources/styles/bootstrap.css">
     <link rel="stylesheet" href="resources/styles/style.css">
 </head>
-<body>
-
+<body ng-app="payments">
+<md-toolbar md-scroll-shrink ng-if="true" ng-controller="Controller">
+    <div class="md-toolbar-tools">
+        <h3>
+            <span>{{title}}</span>
+        </h3>
+    </div>
+</md-toolbar>
 

@@ -20,5 +20,6 @@
 </footer>
 <script src="resources/scripts/jquery.min.js"></script>
 <script src="resources/scripts/bootstrap.min.js"> </script>
+<script src="resources/js/payments.js"> </script>
 </body>
 </html>
