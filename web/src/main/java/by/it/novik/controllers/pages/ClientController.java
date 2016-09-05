@@ -3,6 +3,8 @@ package by.it.novik.controllers.pages;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Created by Kate Novik.
@@ -12,7 +14,7 @@ public class ClientController {
 
     @RequestMapping("/")
     public String home(ModelMap model) {
-        model.addAttribute("message", "Spring 3 MVC - Hello World");
+        model.addAttribute("message", "Page for users!");
         return "index";
     }
 
@@ -54,5 +56,21 @@ public class ClientController {
     @RequestMapping("/registration")
     public String registration(ModelMap model) {
         return "reg";
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String login (ModelMap model,
+            @RequestParam(value = "error", required = false) String error,
+            @RequestParam(value = "logout", required = false) String logout) {
+
+        if (error != null) {
+            model.addAttribute("error", "Invalid username and password!");
+        }
+
+        if (logout != null) {
+            model.addAttribute("msg", "You've been logged out successfully.");
+        }
+
+        return "login";
     }
 }
