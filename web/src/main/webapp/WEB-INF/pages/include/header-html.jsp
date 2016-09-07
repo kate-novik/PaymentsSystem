@@ -13,6 +13,8 @@
         <md-button aria-label="Accounts" ng-href="/accounts">
             Accounts
         </md-button>
+        </sec:authorize>
+        <sec:authorize access="hasRole('ADMIN')">
         <md-button aria-label="Payments" ng-href="/payments">
             Payments
         </md-button>
@@ -23,10 +25,10 @@
             Logout
         </md-button>
         </sec:authorize>
-        <%--<sec:authorize access="isAnonymous()">--%>
-            <%--<md-button aria-label="Registration" ng-href="/registration">--%>
-                <%--Registration--%>
-            <%--</md-button>--%>
-        <%--</sec:authorize>--%>
+        <sec:authorize access="isAnonymous()">
+            <md-button aria-label="Registration" ng-href="/registration">
+                Registration
+            </md-button>
+        </sec:authorize>
     </div>
 </md-toolbar>

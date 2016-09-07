@@ -1,47 +1,12 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<html>
-<head>
-    <title>Login Page</title>
-    <style>
-        .error {
-            padding: 15px;
-            margin-bottom: 20px;
-            border: 1px solid transparent;
-            border-radius: 4px;
-            color: #a94442;
-            background-color: #f2dede;
-            border-color: #ebccd1;
-        }
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
+<%@ include file="include/begin-html.jsp" %>
+<%@ include file="include/header-html.jsp" %>
 
-        .msg {
-            padding: 15px;
-            margin-bottom: 20px;
-            border: 1px solid transparent;
-            border-radius: 4px;
-            color: #31708f;
-            background-color: #d9edf7;
-            border-color: #bce8f1;
-        }
-
-        #login-box {
-            width: 300px;
-            padding: 20px;
-            margin: 100px auto;
-            background: #fff;
-            -webkit-border-radius: 2px;
-            -moz-border-radius: 2px;
-            border: 1px solid #000;
-        }
-    </style>
-</head>
-<body onload='document.loginForm.username.focus();'>
-
-<h1>Spring Security Custom Login Form (Annotation)</h1>
-
-<div id="login-box">
-
-    <h2>Login with Username and Password</h2>
-
+<br><br>
+<div class="container">
+<div class="row">
+<legend> <h3>Authorization</h3></legend>
+    </div>
     <c:if test="${not empty error}">
         <div class="error">${error}</div>
     </c:if>
@@ -49,29 +14,35 @@
         <div class="msg">${msg}</div>
     </c:if>
     <c:url value="/login" var="loginUrl" />
-    <form name='loginForm'
-          action="${loginUrl}" method='POST'>
-
-        <table>
-            <tr>
-                <td>User:</td>
-                <td><input type='text' name='login' value=''></td>
-            </tr>
-            <tr>
-                <td>Password:</td>
-                <td><input type='password' name='password' /></td>
-            </tr>
-            <tr>
-                <td colspan='2'>
-                    <input name="submit" type="submit" value="submit" />
-                </td>
-            </tr>
-        </table>
-
-        <input type="hidden"
-               name="${_csrf.parameterName}" value="${_csrf.token}" />
+   <form class="form-horizontal col-sm-6 col-sm-offset-3" name="loginForm" action="${loginUrl}" method="POST">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Login</label>
+            <div class="col-sm-10">
+                <input type="text" name="username" class="form-control" id="inputLogin3" placeholder="Login">
+                <span class="help-block">Enter login from 3 to 10 characters</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+            <div class="col-sm-10">
+                <input type="password" name="password" class="form-control" id="inputPassword3" placeholder="Password">
+                <span class="help-block">Enter password from 3 to 15 characters</span>
+            </div>
+        </div>
+        <div class="form-group">
+        <div class="checkbox col-sm-offset-2 col-sm-10">
+            <label><input type="checkbox" name="remember" value="yes"> Remember me</label>
+          </div>
+        </div>
+       <input type="hidden"
+              name="${_csrf.parameterName}" value="${_csrf.token}" />
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-success">Sign in</button>
+            </div>
+        </div>
     </form>
+
 </div>
 
-</body>
-</html>
+<script src="resources/js/payments.js"> </script>

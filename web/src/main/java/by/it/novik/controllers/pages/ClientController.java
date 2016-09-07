@@ -15,7 +15,7 @@ public class ClientController {
     @RequestMapping("/")
     public String home(ModelMap model) {
         model.addAttribute("message", "Page for users!");
-        return "index";
+        return "payments";
     }
 
     @RequestMapping("/accounts")
