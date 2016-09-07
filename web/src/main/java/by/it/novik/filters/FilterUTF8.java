@@ -10,9 +10,9 @@ import java.io.IOException;
 /**
  * Created by Kate Novik.
  */
-@WebFilter(urlPatterns = {"/*"},
-        initParams = {
-                @WebInitParam(name = "encoding", value = "UTF-8", description = "Encoding Param")})
+//@WebFilter(urlPatterns = {"/*"},
+//        initParams = {
+//                @WebInitParam(name = "encoding", value = "UTF-8", description = "Encoding Param")})
 public class FilterUTF8 implements Filter {
     //Поле, содержащее кодировку
     private String coding;

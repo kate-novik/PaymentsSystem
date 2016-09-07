@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
+
 <div class="row notification" >
 <c:if test="${not empty message}" >
                 <div class="alert alert-${type} alert-dismissible fade in" role="alert">

@@ -19,5 +19,5 @@ angular.module('payments', [
     ngMaterial,
     angularMaterialTable
 ]).controller('Controller', ['$scope', $scope => {
-    $scope.title = 'Test title';
+    $scope.title = 'Payment system';
 }]);

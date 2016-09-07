@@ -11,9 +11,9 @@ import java.io.IOException;
 /**
  * Created by Kate Novik.
  */
-@WebFilter(urlPatterns = {"/index.jsp"},
-        initParams = {
-                @WebInitParam(name = "pageRedirect", value = "do?command=Profile", description = "For redirection with session")})
+//@WebFilter(urlPatterns = {"/index.jsp"},
+//        initParams = {
+//                @WebInitParam(name = "pageRedirect", value = "do?command=Profile", description = "For redirection with session")})
 public class FilterRedirectLogIn implements Filter {
     //Поле, содержащее название страницы для перехода
     private String pageRedirect;

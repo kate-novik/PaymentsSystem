@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,11 +11,3 @@
     <link rel="stylesheet" href="resources/styles/style.css">
 </head>
 <body ng-app="payments">
-<md-toolbar md-scroll-shrink ng-if="true" ng-controller="Controller">
-    <div class="md-toolbar-tools">
-        <h3>
-            <span>{{title}}</span>
-        </h3>
-    </div>
-</md-toolbar>
-

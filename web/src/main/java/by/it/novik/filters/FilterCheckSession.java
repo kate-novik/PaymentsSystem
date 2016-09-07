@@ -23,10 +23,9 @@ import java.util.List;
 /**
  * Created by Kate Novik.
  */
-@WebFilter(urlPatterns = {"/*"},
-        initParams = {
-                @WebInitParam(name = "pageLogin", value = "index.jsp", description = "For prohibition jumps without session")})
-
+//@WebFilter(urlPatterns = {"/*"},
+//        initParams = {
+//                @WebInitParam(name = "pageLogin", value = "index.jsp", description = "For prohibition jumps without session")})
 public class FilterCheckSession implements Filter{
     //Поле, содержащее название страницы для перехода
     private String pageLogin;

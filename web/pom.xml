@@ -14,9 +14,6 @@
     <packaging>war</packaging>
     <name>web Maven Webapp</name>
     <url>http://maven.apache.org</url>
-    <properties>
-        <spring.security.version>3.2.3.RELEASE</spring.security.version>
-    </properties>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -69,6 +66,12 @@
             <artifactId>spring-security-web</artifactId>
             <version>${spring.security.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+            <version>${spring.security.version}</version>
+        </dependency>
+
     </dependencies>
     <build>
         <finalName>web-1.0-SNAPSHOT</finalName>
