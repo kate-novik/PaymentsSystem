@@ -9,16 +9,23 @@ import by.it.novik.util.DaoException;
 import by.it.novik.util.ServiceException;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 
 /**
  * Created by Kate Novik.
  */
+@Service
 public class SecurityService implements ISecurityService {
     private static Logger log = Logger.getLogger (SecurityService.class);
 
-    private UserService userService = Service.getService().getUserService();
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+    private UserService userService = by.it.novik.services.Service.getService().getUserService();
 
     /**
      * Получение хэш-кода в 16-ричной системе для пароля с добавлением "соли"
@@ -104,11 +111,12 @@ public class SecurityService implements ISecurityService {
     @Override
     public void createUser(User user) throws ServiceException {
         //Получим соль для пароля
-        String salt = getSalt();
+        //String salt = getSalt();
         //Захэшируем пароль
-        String hashPassword = getHash(user.getPassword(),salt);
+        //String hashPassword = getHash(user.getPassword(),salt);
         //Пароль по безопасности нужно "солить" и хэшировать
-            user.setSalt(salt);
+           // user.setSalt(salt);
+        String hashPassword = passwordEncoder.encode(user.getPassword());
             user.setPassword(hashPassword);
         Role role ;
         try {
