@@ -4,6 +4,7 @@ import by.it.novik.services.MyUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
  * Created by Kate Novik.
@@ -12,8 +13,8 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan("by.it.novik.services")
 public class ServiceConfig {
 
-    @Bean(name = "userDetailsService")
-    public MyUserDetailsService userDetailsService(){
+    @Bean
+    public UserDetailsService userDetailsService(){
         return new MyUserDetailsService();
     }
 

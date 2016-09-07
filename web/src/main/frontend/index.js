@@ -1,3 +1,6 @@
+// import './scripts/jquery.min';
+// import './scripts/bootstrap.min';
+
 import angular from 'angular';
 import angularAnimate from 'angular-animate';
 import ngMaterial from 'angular-material';

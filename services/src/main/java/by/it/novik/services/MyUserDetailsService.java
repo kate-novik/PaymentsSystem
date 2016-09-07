@@ -1,5 +1,6 @@
 package by.it.novik.services;
 
+import by.it.novik.dao.CreateDao;
 import by.it.novik.dao.UserDao;
 import by.it.novik.pojos.Role;
 import by.it.novik.util.DaoException;
@@ -21,11 +22,11 @@ import java.util.List;
 /**
  * Created by Kate Novik.
  */
-@Service("userDetailsService")
+@Service
 public class MyUserDetailsService implements UserDetailsService {
     private static Logger log = Logger.getLogger (MyUserDetailsService.class);
-    @Autowired
-    private UserDao userDao;
+//    @Autowired
+    private UserDao userDao = CreateDao.getDao().getUserDao();
 
     @Transactional
     @Override

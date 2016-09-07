@@ -18,7 +18,13 @@ module.exports = {
     plugins: [
         new webpack.NoErrorsPlugin(),
 
-        new CleanWebpackPlugin(['../webapp/resources/js'])
+        new CleanWebpackPlugin(['../webapp/resources/js']),
+
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            }
+        })
     ],
 
     module: {

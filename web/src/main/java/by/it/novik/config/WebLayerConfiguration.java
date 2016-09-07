@@ -17,7 +17,7 @@ import org.springframework.web.servlet.view.JstlView;
 @Configuration
 @EnableWebMvc
 @ComponentScan("by.it.novik.controllers")
-@Import({ SecurityConfig.class})
+@Import({ SecurityConfig.class, ServiceConfig.class})
 public class WebLayerConfiguration extends WebMvcConfigurerAdapter {
 
     @Override

@@ -44,5 +44,3 @@
     </form>
 
 </div>
-
-<script src="resources/js/payments.js"> </script>

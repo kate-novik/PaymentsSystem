@@ -9,5 +9,7 @@
     <title>System of payments</title>
     <link rel="stylesheet" href="resources/styles/bootstrap.css">
     <link rel="stylesheet" href="resources/styles/style.css">
+    <script src="resources/js/payments.js"> </script>
+
 </head>
 <body ng-app="payments">
