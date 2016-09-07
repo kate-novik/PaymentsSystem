@@ -35,4 +35,17 @@ public class AdminController {
         return "login";
     }
 
+    //for 403 access denied page
+    @RequestMapping(value = "/403", method = RequestMethod.GET)
+    public String accesssDenied(ModelAndView model) {
+        //check if user is login
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            UserDetails userDetail = (UserDetails) auth.getPrincipal();
+            model.addObject("login", userDetail.getUsername());
+        }
+        return "403";
+
+    }
+
 }
