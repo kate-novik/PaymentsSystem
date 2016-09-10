@@ -139,16 +139,16 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    private String salt;
-    @Column(name="salt")
-//    @Type(type = "string")
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
+//    private String salt;
+//    @Column(name="salt")
+////    @Type(type = "string")
+//    public String getSalt() {
+//        return salt;
+//    }
+//
+//    public void setSalt(String salt) {
+//        this.salt = salt;
+//    }
 
     private Role role;
     @ManyToOne(cascade = CascadeType.ALL)
@@ -195,7 +195,6 @@ public class User implements Serializable {
         if (email != null ? !email.equals(user.email) : user.email != null) return false;
         if (login != null ? !login.equals(user.login) : user.login != null) return false;
         if (password != null ? !password.equals(user.password) : user.password != null) return false;
-        if (salt != null ? !salt.equals(user.salt) : user.salt != null) return false;
         if (role != null ? !role.equals(user.role) : user.role != null) return false;
         return accounts != null ? accounts.equals(user.accounts) : user.accounts == null;
 
@@ -213,7 +212,6 @@ public class User implements Serializable {
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (login != null ? login.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (salt != null ? salt.hashCode() : 0);
        // result = 31 * result + (role != null ? role.hashCode() : 0);
         //result = 31 * result + (accounts != null ? accounts.hashCode() : 0);
         return result;
@@ -230,7 +228,6 @@ public class User implements Serializable {
                 ", email='" + email + '\'' +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
-                ", salt='" + salt + '\'' +
                 '}';
     }
 }

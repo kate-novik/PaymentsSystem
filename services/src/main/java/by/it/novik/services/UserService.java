@@ -5,15 +5,23 @@ import by.it.novik.dao.UserDao;
 import by.it.novik.pojos.User;
 import by.it.novik.util.DaoException;
 import by.it.novik.util.ServiceException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 /**
  * Created by Kate Novik.
  */
+@Service("userService")
+@Transactional
 public class UserService extends BaseService<User> implements IUserService {
 
+    @Autowired
     private UserDao userDao;
+
+    public UserService () {}
 
     public UserService(UserDao userDao) {
         super(userDao);

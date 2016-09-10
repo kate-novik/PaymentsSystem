@@ -7,6 +7,7 @@ import by.it.novik.util.DaoException;
 import by.it.novik.util.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
+import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
 import java.util.List;
@@ -14,7 +15,8 @@ import java.util.List;
 /**
  * Created by Kate Novik.
  */
-public class AccountDao extends Dao <Account> {
+@Repository("accountDao")
+public class AccountDao extends Dao <Account> implements IAccountDao {
 
     public AccountDao() {
     }
@@ -25,20 +27,20 @@ public class AccountDao extends Dao <Account> {
             orderState = "ASC";
         }
         try {
-            session = HibernateUtil.getHibernateUtil().getSession();
+            //session = HibernateUtil.getHibernateUtil().getSession();
             //Открываем транзакцию
-            transaction = session.beginTransaction();
-            Query query = session.getNamedQuery("getAccountsByUser").setEntity("user",user).setString("orderState",orderState);
+           // transaction = session.beginTransaction();
+            Query query = getSession().getNamedQuery("getAccountsByUser").setEntity("user",user).setString("orderState",orderState);
             accounts = query.list();
             log.info("getAccountsByUser():" + accounts);
             //При отсутствии исключения коммитим транзакцию
-            transaction.commit();
-            log.info("getAccountsByUser() (commit):" + accounts);
+//            transaction.commit();
+//            log.info("getAccountsByUser() (commit):" + accounts);
         }
         catch (HibernateException e) {
             log.error("Error getAccountsByUser() in Dao" + e);
             //Откатываем транзакцию
-            transaction.rollback();
+            //transaction.rollback();
             throw new DaoException("Error getAccountsByUser() in Dao.");
         }
         return accounts;
@@ -47,20 +49,20 @@ public class AccountDao extends Dao <Account> {
     public List<Account> getAllAccounts () throws DaoException {
         List<Account> accounts;
         try {
-            session = HibernateUtil.getHibernateUtil().getSession();
+            //session = HibernateUtil.getHibernateUtil().getSession();
             //Открываем транзакцию
-            transaction = session.beginTransaction();
-            Query query = session.getNamedQuery("getAllAccounts");
+            //transaction = session.beginTransaction();
+            Query query = getSession().getNamedQuery("getAllAccounts");
             accounts = query.list();
             log.info("getAllAccounts():" + accounts);
             //При отсутствии исключения коммитим транзакцию
-            transaction.commit();
-            log.info("getAllAccounts() (commit):" + accounts);
+//            transaction.commit();
+//            log.info("getAllAccounts() (commit):" + accounts);
         }
         catch (HibernateException e) {
             log.error("Error getAllAccounts() in Dao" + e);
             //Откатываем транзакцию
-            transaction.rollback();
+            //transaction.rollback();
             throw new DaoException("Error getAllAccounts() in Dao.");
         }
         return accounts;
@@ -69,20 +71,20 @@ public class AccountDao extends Dao <Account> {
     public List<Account> getLockedAccounts () throws DaoException {
         List<Account> accounts;
         try {
-            session = HibernateUtil.getHibernateUtil().getSession();
+            //session = HibernateUtil.getHibernateUtil().getSession();
             //Открываем транзакцию
-            transaction = session.beginTransaction();
-            Query query = session.getNamedQuery("getLockedAccounts");
+            //transaction = session.beginTransaction();
+            Query query = getSession().getNamedQuery("getLockedAccounts");
             accounts = query.list();
             log.info("getLockedAccounts():" + accounts);
             //При отсутствии исключения коммитим транзакцию
-            transaction.commit();
-            log.info("getLockedAccounts() (commit):" + accounts);
+//            transaction.commit();
+//            log.info("getLockedAccounts() (commit):" + accounts);
         }
         catch (HibernateException e) {
             log.error("Error getLockedAccounts() in Dao" + e);
             //Откатываем транзакцию
-            transaction.rollback();
+            //transaction.rollback();
             throw new DaoException("Error getLockedAccounts() in Dao.");
         }
         return accounts;

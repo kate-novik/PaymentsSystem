@@ -6,6 +6,9 @@ import by.it.novik.pojos.Payment;
 import by.it.novik.pojos.User;
 import by.it.novik.util.DaoException;
 import by.it.novik.util.ServiceException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -16,9 +19,14 @@ import java.util.List;
 /**
  * Created by Kate Novik.
  */
+@Service("paymentService")
+@Transactional
 public class PaymentService extends BaseService<Payment> implements IPaymentService {
 
+    @Autowired
     private PaymentDao paymentDao;
+
+    public PaymentService () {}
 
 
     public PaymentService(PaymentDao paymentDAO) {
@@ -29,7 +37,7 @@ public class PaymentService extends BaseService<Payment> implements IPaymentServ
     @Override
     public List<Payment> getPaymentsByUser(Serializable id_user) throws ServiceException {
         List<Payment> payments;
-        User user = Service.getService().getUserService().get(id_user);
+        User user = by.it.novik.services.Service.getService().getUserService().get(id_user);
         try {
             payments = paymentDao.getPaymentsByUser(user);
         }
@@ -43,7 +51,7 @@ public class PaymentService extends BaseService<Payment> implements IPaymentServ
     @Override
     public List<Payment> getPaymentsByAccount(Serializable id_account) throws ServiceException {
         List<Payment> payments;
-        Account account = Service.getService().getAccountService().get(id_account);
+        Account account = by.it.novik.services.Service.getService().getAccountService().get(id_account);
         try {
             payments = paymentDao.getPaymentsByAccount(account);
         }
@@ -56,7 +64,7 @@ public class PaymentService extends BaseService<Payment> implements IPaymentServ
 
     @Override
     public void makePayment(int idAccountFrom, int idAccountTo, double pay_amount, String description) throws ServiceException {
-        AccountService accountService = Service.getService().getAccountService();
+        AccountService accountService = by.it.novik.services.Service.getService().getAccountService();
         //Чтение счета-источника платежа по id
         Account accountSource = accountService.get(idAccountFrom);
         Double balance = accountSource.getBalance();

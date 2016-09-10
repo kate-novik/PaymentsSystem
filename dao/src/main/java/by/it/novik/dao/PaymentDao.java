@@ -7,13 +7,15 @@ import by.it.novik.util.DaoException;
 import by.it.novik.util.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
  * Created by Kate Novik.
  */
-public class PaymentDao extends Dao<Payment> {
+@Repository("paymentDao")
+public class PaymentDao extends Dao<Payment> implements IPaymentDao{
     public PaymentDao(){}
 
     /**
@@ -24,20 +26,20 @@ public class PaymentDao extends Dao<Payment> {
     public List<Payment> getPaymentsByUser(User user) throws DaoException {
         List<Payment> payments;
         try {
-            session = HibernateUtil.getHibernateUtil().getSession();
+            //session = HibernateUtil.getHibernateUtil().getSession();
             //Открываем транзакцию
-            transaction = session.beginTransaction();
-            Query query = session.getNamedQuery("getPaymentsByUser").setEntity("user",user);
+            //transaction = session.beginTransaction();
+            Query query = getSession().getNamedQuery("getPaymentsByUser").setEntity("user",user);
             payments = query.list();
             log.info("getPaymentsByUser():" + payments);
             //При отсутствии исключения коммитим транзакцию
-            transaction.commit();
-            log.info("getPaymentsByUser (commit):" + payments);
+            //transaction.commit();
+            //log.info("getPaymentsByUser (commit):" + payments);
         }
         catch (HibernateException e) {
             log.error("Error getPaymentsByUser() in Dao" + e);
             //Откатываем транзакцию
-            transaction.rollback();
+            //transaction.rollback();
             throw new DaoException("Error getPaymentsByUser() in Dao.");
         }
         return payments;
@@ -52,20 +54,20 @@ public class PaymentDao extends Dao<Payment> {
     public List<Payment> getPaymentsByAccount(Account account) throws DaoException {
         List<Payment> payments;
         try {
-            session = HibernateUtil.getHibernateUtil().getSession();
+            //session = HibernateUtil.getHibernateUtil().getSession();
             //Открываем транзакцию
-            transaction = session.beginTransaction();
-            Query query = session.getNamedQuery("getPaymentsByAccount").setEntity("account",account);
+            //transaction = session.beginTransaction();
+            Query query = getSession().getNamedQuery("getPaymentsByAccount").setEntity("account",account);
             payments = query.list();
             log.info("getPaymentsByAccount():" + payments);
             //При отсутствии исключения коммитим транзакцию
-            transaction.commit();
-            log.info("getPaymentsByAccount (commit):" + payments);
+            //transaction.commit();
+            //log.info("getPaymentsByAccount (commit):" + payments);
         }
         catch (HibernateException e) {
             log.error("Error getPaymentsByAccount() in Dao" + e);
             //Откатываем транзакцию
-            transaction.rollback();
+            //transaction.rollback();
             throw new DaoException("Error getPaymentsByAccount() in Dao.");
         }
         return payments;
@@ -74,20 +76,20 @@ public class PaymentDao extends Dao<Payment> {
     public List<Payment> getAllPayments() throws DaoException {
         List<Payment> payments;
         try {
-            session = HibernateUtil.getHibernateUtil().getSession();
+            //session = HibernateUtil.getHibernateUtil().getSession();
             //Открываем транзакцию
-            transaction = session.beginTransaction();
-            Query query = session.getNamedQuery("getAllPayments");
+            //transaction = session.beginTransaction();
+            Query query = getSession().getNamedQuery("getAllPayments");
             payments = query.list();
             log.info("getAllPayments():" + payments);
             //При отсутствии исключения коммитим транзакцию
-            transaction.commit();
+            //transaction.commit();
             log.info("getAllPayments (commit):" + payments);
         }
         catch (HibernateException e) {
             log.error("Error getAllPayments() in Dao" + e);
             //Откатываем транзакцию
-            transaction.rollback();
+            //transaction.rollback();
             throw new DaoException("Error getAllPayments() in Dao.");
         }
         return payments;

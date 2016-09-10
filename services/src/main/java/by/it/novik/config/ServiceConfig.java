@@ -1,6 +1,6 @@
 package by.it.novik.config;
 
-import by.it.novik.services.MyUserDetailsService;
+import by.it.novik.services.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -18,5 +18,23 @@ public class ServiceConfig {
         return new MyUserDetailsService();
     }
 
+    @Bean
+    public UserService userService () {
+        return new UserService();
+    }
 
+    @Bean
+    public AccountService accountService () {
+        return new AccountService();
+    }
+
+    @Bean
+    public PaymentService paymentService () {
+        return new PaymentService();
+    }
+
+    @Bean
+    public RoleService roleService() {
+        return new RoleService();
+    }
 }

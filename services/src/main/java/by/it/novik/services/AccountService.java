@@ -6,6 +6,9 @@ import by.it.novik.pojos.User;
 import by.it.novik.util.AccountState;
 import by.it.novik.util.DaoException;
 import by.it.novik.util.ServiceException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.List;
@@ -13,9 +16,14 @@ import java.util.List;
 /**
  * Created by Kate Novik.
  */
+@Service("accountService")
+@Transactional
 public class AccountService extends BaseService<Account> implements IAccountService {
 
+    @Autowired
     private AccountDao accountDao;
+
+    public AccountService(){}
 
     public AccountService(AccountDao accountDao) {
         this.accountDao = accountDao;
@@ -32,7 +40,7 @@ public class AccountService extends BaseService<Account> implements IAccountServ
     public List<Account> getAccountsByUser(Serializable id_user, String orderState) throws ServiceException {
         List<Account> accounts;
         try {
-            User user = Service.getService().getUserService().get(id_user);
+            User user = by.it.novik.services.Service.getService().getUserService().get(id_user);
             accounts = accountDao.getAccountsByUser(user, orderState);
         }
         catch (DaoException d){

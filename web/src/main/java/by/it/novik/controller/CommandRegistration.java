@@ -2,10 +2,13 @@ package by.it.novik.controller;
 
 import by.it.novik.pojos.Address;
 import by.it.novik.pojos.Passport;
+import by.it.novik.pojos.Role;
 import by.it.novik.pojos.User;
 import by.it.novik.services.Service;
 import by.it.novik.util.ServiceException;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
@@ -14,6 +17,8 @@ import java.util.Date;
 
 public class CommandRegistration implements ActionCommand {
     private static Logger log = Logger.getLogger (CommandRegistration.class);
+    @Autowired
+    PasswordEncoder passwordEncoder;
     @Override
     public String execute(HttpServletRequest request) {
         //Стартовая страница регистрации
@@ -85,8 +90,21 @@ public class CommandRegistration implements ActionCommand {
             user.setAddress(address);
             user.setPassport(passport);
 
+            String hashPassword = passwordEncoder.encode(user.getPassword());
+            user.setPassword(hashPassword);
+            Role role = null;
             try {
-                Service.getService().getSecurityService().createUser(user);
+                role = Service.getService().getRoleService().getRoleByName("user");
+            } catch (ServiceException e) {
+                log.error("Error in getting role in CommandRegistration." + e);
+                request.setAttribute(Action.msgMessage, "Error in getting role in CommandRegistration." + e.getMessage());
+                request.setAttribute("type", "danger");
+                page = Action.REGISTRATION.inPage;
+            }
+            user.setRole(role);
+
+            try {
+                Service.getService().getUserService().saveOrUpdate(user);
                     request.setAttribute(Action.msgMessage, "User was created. Enter data for authorization.");
                     request.setAttribute("type", "success");
                     page = Action.REGISTRATION.okPage;
