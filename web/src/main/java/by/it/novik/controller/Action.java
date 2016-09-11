@@ -1,7 +1,7 @@
 package by.it.novik.controller;
 
 
-enum Action {
+public enum Action {
     REGISTRATION {
         {
             this.command = new CommandRegistration();

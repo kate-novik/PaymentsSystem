@@ -4,12 +4,14 @@ import by.it.novik.dao.IDao;
 import by.it.novik.util.DaoException;
 import by.it.novik.util.ServiceException;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.*;
 
 import java.io.Serializable;
 
 /**
  * Created by Kate Novik.
  */
+@org.springframework.stereotype.Service
 public class BaseService<T> implements IService<T> {
     protected static Logger log = Logger.getLogger (BaseService.class);
 

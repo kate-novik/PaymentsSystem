@@ -26,14 +26,6 @@ public class PaymentService extends BaseService<Payment> implements IPaymentServ
     @Autowired
     private PaymentDao paymentDao;
 
-    public PaymentService () {}
-
-
-    public PaymentService(PaymentDao paymentDAO) {
-        super(paymentDAO);
-        this.paymentDao = paymentDAO;
-    }
-
     @Override
     public List<Payment> getPaymentsByUser(Serializable id_user) throws ServiceException {
         List<Payment> payments;

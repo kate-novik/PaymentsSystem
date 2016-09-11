@@ -29,7 +29,7 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach var="elem" items="${listPayments}" varStatus="status">
+            <c:forEach var="elem" items="${payments}" varStatus="status">
             <tr>
                 <td><c:out value="${elem.idPayment}" /></td>
                 <td><c:out value="${elem.fk_Account_Source}" /></td>
