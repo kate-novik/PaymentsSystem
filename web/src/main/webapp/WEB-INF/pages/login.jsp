@@ -30,8 +30,8 @@
             </div>
         </div>
         <div class="form-group">
-        <div class="checkbox col-sm-offset-2 col-sm-10">
-            <label><input type="checkbox" name="remember" value="yes"> Remember me</label>
+        <div id="remember-me" class="checkbox col-sm-offset-2 col-sm-10">
+            <label><input type="checkbox" name="remember-me" value="yes"> Remember me</label>
           </div>
         </div>
        <input type="hidden"

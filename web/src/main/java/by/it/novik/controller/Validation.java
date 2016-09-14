@@ -27,7 +27,7 @@ public class Validation {
      * @param type Тип параметра
      * @return true - данные валидны
      */
-    static boolean validDataFromForm (String data, String type) {
+   public static boolean validDataFromForm (String data, String type) {
         if (data != null && type != null) {
             if (type.equalsIgnoreCase("password") && data.matches(PATTERN_PASSWORD)) {
                 return true;

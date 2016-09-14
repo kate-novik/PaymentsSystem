@@ -1,7 +1,8 @@
 package by.it.novik.config;
 
+
+import org.springframework.orm.hibernate4.support.OpenSessionInViewFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
-import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.Filter;
@@ -35,11 +36,12 @@ public class AppInit extends AbstractAnnotationConfigDispatcherServletInitialize
         CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
         characterEncodingFilter.setEncoding("UTF-8");
         characterEncodingFilter.setForceEncoding(true);
-
+        OpenSessionInViewFilter openSessionInViewFilter = new OpenSessionInViewFilter();
+        openSessionInViewFilter.setSessionFactoryBeanName("sessionFactory");
 
         return new Filter[]{
             characterEncodingFilter,
-
+            openSessionInViewFilter
         };
     }
 }

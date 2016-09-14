@@ -10,7 +10,7 @@
     </div>
     <div class="row">
         <div class="col-sm-6 col-sm-offset-3">
-            <form class="form-horizontal" action="do?command=Refill&id_account=${id_account}" method="POST">
+            <form class="form-horizontal" action="/accounts/${id_account}/refill" method="POST">
                 <div class="form-group">
                     <label class="col-sm-4 control-label"># of account</label>
                     <div class="col-sm-8">

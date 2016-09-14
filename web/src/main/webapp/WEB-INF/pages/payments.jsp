@@ -6,7 +6,7 @@
 <div class="main container">
     <div class="row">
         <div class="pull-right">
-            <p>(<a href="do?command=Profile" type="button" class="btn btn-link">
+            <p>(<a href="/profile" type="button" class="btn btn-link">
             <c:out value="${user.nickname}" /></a>)
             </p>
         </div>
@@ -31,9 +31,9 @@
             <tbody>
             <c:forEach var="elem" items="${payments}" varStatus="status">
             <tr>
-                <td><c:out value="${elem.idPayment}" /></td>
-                <td><c:out value="${elem.fk_Account_Source}" /></td>
-                <td><c:out value="${elem.fk_Account_Destination}" /></td>
+                <td><c:out value="${elem.id}" /></td>
+                <td><c:out value="${elem.accountSource}" /></td>
+                <td><c:out value="${elem.accountDestination}" /></td>
                 <td><c:out value="${elem.description}" /></td>
                 <td><c:out value="${elem.amountPayment}" /></td>
                 <td><c:out value="${elem.payDate}" /></td>

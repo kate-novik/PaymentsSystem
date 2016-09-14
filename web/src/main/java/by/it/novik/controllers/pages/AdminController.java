@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
+
 /**
  * Created by Kate Novik.
  */
@@ -28,7 +30,6 @@ public class AdminController {
     public String login (ModelMap model,
                          @RequestParam(value = "error", required = false) String error,
                          @RequestParam(value = "logout", required = false) String logout) {
-
         if (error != null) {
             model.addAttribute("error", "Invalid username and password!");
         }
@@ -42,7 +43,7 @@ public class AdminController {
 
     //for 403 access denied page
     @RequestMapping(value = "/403", method = RequestMethod.GET)
-    public String accesssDenied(ModelAndView model) {
+    public String accessDenied(ModelAndView model) {
         //check if user is login
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {

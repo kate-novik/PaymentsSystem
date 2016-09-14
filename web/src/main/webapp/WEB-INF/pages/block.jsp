@@ -6,7 +6,7 @@
 <div class="main container">
     <div class="row">
         <div class="pull-right">
-            <a href="do?command=Profile" type="button" class="btn btn-link"><c:out value="${user.nickname}" /></a>
+            <a href="/profile" type="button" class="btn btn-link"><c:out value="${user.nickname}" /></a>
             <a href="do?command=Payments&id_account=${id_account}"class="btn btn-success" type="button"># of account <c:out value="${id_account}" /></a>
         </div>
     </div>
@@ -28,7 +28,7 @@
             <tr>
                 <td>${id_account}</td>
                 <td>
-                        <a href="do?command=Block&id_account=${id_account}" class="btn btn-success" aria-label="Center Align" >
+                        <a href="/accounts/${id_account}/block" class="btn btn-success" aria-label="Center Align" >
                             Block
                         </a>
                     </div>
