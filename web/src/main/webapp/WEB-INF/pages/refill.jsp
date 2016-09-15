@@ -22,9 +22,9 @@
                       <div class="col-sm-8">
                       <select class="form-control" name="selectAccount" id="selectId">
                         <option>Select source account</option>
-                        <c:forEach var="elem" items="${listAccounts}" varStatus="status">
-                        <c:if test="${elem.idAccount!=id_account}">
-                        <option value="${elem.idAccount}"><c:out value="${elem.idAccount}" /></option>
+                        <c:forEach var="elem" items="${accounts}" varStatus="status">
+                        <c:if test="${elem.id!=id_account}">
+                        <option value="${elem.id}"><c:out value="${elem.id}" /></option>
                         </c:if>
                         </c:forEach>
                       </select>

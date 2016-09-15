@@ -1,18 +1,17 @@
 package by.it.novik.controllers.pages;
 
-import by.it.novik.controller.Action;
-import by.it.novik.controller.CommandGetAccounts;
 import by.it.novik.controller.Validation;
-import by.it.novik.pojos.Account;
-import by.it.novik.pojos.Payment;
-import by.it.novik.pojos.User;
+import by.it.novik.pojos.*;
 import by.it.novik.services.AccountService;
 import by.it.novik.services.PaymentService;
-import by.it.novik.services.Service;
+import by.it.novik.services.RoleService;
 import by.it.novik.services.UserService;
 import by.it.novik.util.ServiceException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +22,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,16 +41,21 @@ public class ClientController {
     AccountService accountService;
     @Autowired
     UserService userService;
+    @Autowired
+    RoleService roleService;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @RequestMapping("/")
-    public String home(ModelMap model) {
-        model.addAttribute("message", "Page for users!");
+    public String home(ModelMap model, Principal principal) {
+        model.addAttribute("message", "Hello" + principal.getName());
+        model.addAttribute("type", "info");
         return "accounts";
     }
 
     @RequestMapping("/accounts")
     public String accounts(ModelMap model, HttpServletRequest request, Principal principal) {
-        String page = Action.ACCOUNTS.inPage;
+
         //Получаем из сессии объект user
         String login = principal.getName();
         User user;
@@ -56,10 +63,11 @@ public class ClientController {
             user = userService.findByLogin(login);
         } catch (ServiceException e) {
             log.error("Error in findByLogin" + e);
-            model.addAttribute(Action.msgMessage, "Didn't find user.");
+            model.addAttribute("message", "Didn't find user.");
             model.addAttribute("type","danger");
             return "login";
         }
+        model.addAttribute("user",user);
 
         //Сделать сортировку на фронтенде
         String orderState = request.getParameter("orderState");
@@ -71,23 +79,78 @@ public class ClientController {
                 model.addAttribute("type", "success");
             }
             else {
-                model.addAttribute(Action.msgMessage, "Accounts don't exist.");
+                model.addAttribute("message", "Accounts don't exist.");
                 model.addAttribute("type","info");
             }
         }
         catch (ServiceException e){
             log.error("Error in CommandGetAccounts." + e);
-            model.addAttribute(Action.msgMessage, "Error in CommandGetAccounts.");
+            model.addAttribute("message", "Error getting accounts.");
             model.addAttribute("type","danger");
 
         }
-
         return "accounts";
     }
 
-    @RequestMapping(value = "/accounts/{id}/block", method = RequestMethod.GET)
-    public String block(ModelMap model, @PathVariable Integer id, HttpServletRequest request) {
+    @RequestMapping(value="/createAccount", method = RequestMethod.GET)
+    public String createAccount(ModelMap model, HttpServletRequest request, Principal principal) {
+        //Получаем из сессии объект user
+        String login = principal.getName();
+        User user;
+        try {
+            user = userService.findByLogin(login);
+        } catch (ServiceException e) {
+            log.error("Error in findByLogin" + e);
+            model.addAttribute("message", "Didn't find user.");
+            model.addAttribute("type","danger");
+            return "login";
+        }
+        Account account = new Account();
+        account.setUser(user);
+        try {
+            accountService.saveOrUpdate(account);
+            model.addAttribute("message", "Account # " + account.getId() + " was created.");
+            model.addAttribute("type", "success");
+        }
+        catch (ServiceException e){
+            log.error("Error in CommandCreateAccount. Account wasn't created." + e);
+            model.addAttribute("message", "Account wasn't created.");
+            model.addAttribute("type", "danger");
+        }
+        return "redirect:/accounts";
+    }
+
+    @RequestMapping(value = "/accounts/{id}/getBlock", method = RequestMethod.POST)
+    public String getBlock(ModelMap model, @PathVariable Long id, HttpServletRequest request, Principal principal) {
         request.setAttribute("id_account", id);
+        //Получим зарегестрированного пользователя
+        String login = principal.getName();
+        User user;
+        try {
+            user = userService.findByLogin(login);
+        } catch (ServiceException e) {
+            log.error("Error in findByLogin" + e);
+            model.addAttribute("message", "Didn't find user.");
+            model.addAttribute("type","danger");
+            return "login";
+        }
+        //Флаг наличия аккаунта
+        boolean flag = false;
+        //Проверим принадлежность переданного счета данному пользователю
+        try {
+            flag = checkAccountOfUser(user,id);
+        } catch (ServiceException e) {
+            log.error("Error in getAccountsByUser" + e);
+            model.addAttribute("message", "Didn't find accounts for user.");
+            model.addAttribute("type","danger");
+            return "redirect:/accounts";
+        }
+
+        if (!flag){
+            model.addAttribute("message", "You can't block not your account.");
+            model.addAttribute("type","danger");
+            return "redirect:/accounts";
+        }
         return "block";
     }
 
@@ -97,33 +160,79 @@ public class ClientController {
         try {
             Account account = accountService.get(id);
             accountService.lockingAccount(account);
-            model.addAttribute(Action.msgMessage, "Locking of account #" + id + " was done.");
+            model.addAttribute("message", "Locking of account #" + id + " was done.");
             model.addAttribute("type", "success");
-            return "accounts";
+            return "redirect:/accounts";
         }
         catch (ServiceException e){
             log.error("Error in CommandLocking account. Locking of account #" + id + " wasn't done." + e);
-            model.addAttribute(Action.msgMessage, "Locking of account #" + id + " wasn't done.");
+            model.addAttribute("message", "Locking of account #" + id + " wasn't done.");
             model.addAttribute("type", "danger");
         }
         return "block";
     }
 
-    @RequestMapping("/logout")
-    public String logout(ModelMap model) {
+    @RequestMapping(value = "/getLogout", method = RequestMethod.GET)
+    public String getLogout(ModelMap model) {
         return "logout";
     }
 
-    @RequestMapping(value="/accounts/{id}/pay", method = RequestMethod.GET)
-    public String pay(ModelMap model, @PathVariable Integer id, HttpServletRequest request) {
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logout(HttpServletRequest request, HttpServletResponse response, Authentication auth) {
+        if (auth != null){
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        return "redirect:/login?logout";
+    }
+
+    @RequestMapping(value="/accounts/{id}/getPay", method = RequestMethod.GET)
+    public String getPay(ModelMap model, @PathVariable Long id, HttpServletRequest request, Principal principal) {
         request.setAttribute("id_account", id);
+        //Получим зарегестрированного пользователя
+        String login = principal.getName();
+        User user;
+        try {
+            user = userService.findByLogin(login);
+        } catch (ServiceException e) {
+            log.error("Error in findByLogin" + e);
+            model.addAttribute("message", "Didn't find user.");
+            model.addAttribute("type","danger");
+            return "login";
+        }
+        //Флаг наличия аккаунта
+        boolean flag = false;
+        //Проверим принадлежность переданного счета данному пользователю
+        try {
+            flag = checkAccountOfUser(user,id);
+        } catch (ServiceException e) {
+            log.error("Error in getAccountsByUser" + e);
+            model.addAttribute("message", "Didn't find accounts for user.");
+            model.addAttribute("type","danger");
+            return "redirect:/accounts";
+        }
+
+        if (!flag){
+            model.addAttribute("message", "You can't pay not your account.");
+            model.addAttribute("type","danger");
+            return "redirect:/accounts";
+        }
         return "pay";
     }
 
     @RequestMapping(value="/accounts/{id}/pay", method = RequestMethod.POST)
-    public String pay(ModelMap model, @PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) {
+    public String pay (ModelMap model, @PathVariable Integer id, HttpServletRequest request, Principal principal) {
         request.setAttribute("id_account", id);
-        //Получаем из сессии объект user
+        //Получим зарегестрированного пользователя
+        String login = principal.getName();
+        User user;
+        try {
+            user = userService.findByLogin(login);
+        } catch (ServiceException e) {
+            log.error("Error in findByLogin" + e);
+            model.addAttribute("message", "Didn't find user.");
+            model.addAttribute("type","danger");
+            return "login";
+        }
 
         //Поле суммы в форме пополнения счета
         String destination = request.getParameter("destination");
@@ -131,7 +240,6 @@ public class ClientController {
         String amount = request.getParameter("amount");
         //ID счета-источника платежа получаем из параметра
         //String id = request.getParameter("id_account");
-        Integer id_account = id;
         //Если не введены данные, то возвращаем ту жу страницу
         if (Validation.validDataFromForm(amount, "amount") && Validation.validDataFromForm(destination, "account")
                 && Validation.validDataFromForm(description, "description")) {
@@ -141,27 +249,27 @@ public class ClientController {
             //Приводим сумму платежа к типу Double
             Double pay_amount = Double.parseDouble(amount);
             try {
-                paymentService.makePayment(id_account, id_destination, pay_amount, description);
-                model.addAttribute(Action.msgMessage, "Payment was done.");
+                paymentService.makePayment(id, id_destination, pay_amount, description);
+                model.addAttribute("message", "Payment was done.");
                 model.addAttribute("type", "success");
                 request.setAttribute("pay", "pay");
-                return "payments";
+                return "redirect:/payments";
 
             } catch (ServiceException e) {
                 log.error("Error in CommandPay."+ e);
-                model.addAttribute(Action.msgMessage, "Error in CommandPay.");
+                model.addAttribute("message", "Error in CommandPay.");
                 model.addAttribute("type", "danger");
             }
         }else {
-            model.addAttribute(Action.msgMessage,"Not valid data! Repeat, please, input.");
+            model.addAttribute("message","Not valid data! Repeat, please, input.");
             model.addAttribute("type","danger");
         }
         return "pay";
     }
 
-    @RequestMapping("/payments")
-    public String payments(ModelMap model, HttpServletRequest request, Principal principal) throws ServiceException {
-        String page = "payments";
+    @RequestMapping(value = "/accounts/{id}/payments", method = RequestMethod.GET)
+    public String payments(ModelMap model, @PathVariable Long id, HttpServletRequest request, Principal principal){
+        request.setAttribute("id_account", id);
         //Получаем из сессии объект user
         String login = principal.getName();
         User user;
@@ -169,78 +277,169 @@ public class ClientController {
             user = userService.findByLogin(login);
         } catch (ServiceException e) {
             log.error("Error in findByLogin" + e);
-            model.addAttribute(Action.msgMessage, "Didn't find user.");
+            model.addAttribute("message", "Didn't find user.");
             model.addAttribute("type","danger");
             return "login";
         }
+
+        //Флаг наличия аккаунта
+        boolean flag = false;
+        //Проверим принадлежность переданного счета данному пользователю
+        try {
+            flag = checkAccountOfUser(user,id);
+        } catch (ServiceException e) {
+            log.error("Error in getAccountsByUser" + e);
+            model.addAttribute("message", "Didn't find accounts for user.");
+            model.addAttribute("type","danger");
+            return "redirect:/accounts";
+        }
+
+        if (!flag){
+            model.addAttribute("message", "You can't pay not your account.");
+            model.addAttribute("type","danger");
+            return "redirect:/accounts";
+        }
         //String id_account = request.getParameter("id_account");
         //Integer id_account = (Integer) request.getSession(true).getAttribute("id_account");
-        String id = request.getParameter("id_account");
+        String id_source = request.getParameter("id_account");
 
-        if (id != null){
-            Integer id_account = Integer.parseInt(id);
+        if (id_source != null){
+            Integer id_account = Integer.parseInt(id_source);
             try {
                 List<Payment> listPayments = paymentService.getPaymentsByAccount(id_account);
                 if (!listPayments.isEmpty()) {
                     if (request.getAttribute("pay") == null) {
-                        model.addAttribute(Action.msgMessage, "List of payments for account #" + id_account);
+                        model.addAttribute("message", "List of payments for account #" + id_account);
                         model.addAttribute("type", "success");
                     }
                     model.addAttribute("payments", listPayments);
-                    return page;
+                    return "payments";
                 } else {
-                    model.addAttribute(Action.msgMessage, "Payments don't exist.");
+                    model.addAttribute("message", "Payments don't exist.");
                     model.addAttribute("type", "info");
-                    return page;
+                    return "redirect:/accounts";
                 }
 
             }
             catch (ServiceException e) {
                 log.error("Error in CommandGetPayments."+ e);
-                model.addAttribute(Action.msgMessage, "Error in CommandGetPayments.");
+                model.addAttribute("message", "Error displaying payments.");
                 model.addAttribute("type", "danger");
-                return page;
+                return "redirect:/accounts";
             }
 
-        }
-        try {
-            List<Payment> listPayments = paymentService.getPaymentsByUser(user.getId());
-            if (!listPayments.isEmpty()) {
-                model.addAttribute(Action.msgMessage, "List of payments for user " + user.getLogin());
-                model.addAttribute("type", "success");
-                model.addAttribute("payments", listPayments);
-            } else {
-                model.addAttribute(Action.msgMessage, "Payments don't exist.");
-                model.addAttribute("type", "info");
-            }
-        }
-        catch(ServiceException e){
-            log.error("Error in CommandGetPayments."+ e);
-            model.addAttribute(Action.msgMessage, "Error in CommandGetPayments.");
-            model.addAttribute("type", "danger");
-            return page;
         }
         return "payments";
     }
 
-    @RequestMapping("/profile")
-    public String profile(ModelMap model) {
+
+    @RequestMapping(value = "/payments", method = RequestMethod.GET)
+    public String payments(ModelMap model, Principal principal) {
+        //Получаем из сессии объект user
+        String login = principal.getName();
+        User user;
+        try {
+            user = userService.findByLogin(login);
+        } catch (ServiceException e) {
+            log.error("Error in findByLogin" + e);
+            model.addAttribute("message", "Didn't find user.");
+            model.addAttribute("type", "danger");
+            return "login";
+        }
+        try {
+            List<Payment> listPayments = paymentService.getPaymentsByUser(user.getId());
+            if (!listPayments.isEmpty()) {
+                model.addAttribute("message", "List of payments for user " + user.getLogin());
+                model.addAttribute("type", "success");
+                model.addAttribute("payments", listPayments);
+            } else {
+                model.addAttribute("message", "Payments don't exist.");
+                model.addAttribute("type", "info");
+                return "redirect:/accounts";
+            }
+        }
+        catch(ServiceException e){
+            log.error("Error in CommandGetPayments."+ e);
+            model.addAttribute("message", "Error displaying payments.");
+            model.addAttribute("type", "danger");
+            return "redirect:/accounts";
+        }
+        return "payments";
+    }
+
+    @RequestMapping(value = "/profile", method = RequestMethod.GET)
+    public String profile(ModelMap model, Principal principal) {
+        //Получаем из сессии объект user
+        String login = principal.getName();
+        User user;
+        try {
+            user = userService.findByLogin(login);
+        } catch (ServiceException e) {
+            log.error("Error in findByLogin" + e);
+            model.addAttribute("message", "Didn't find user.");
+            model.addAttribute("type", "danger");
+            return "login";
+        }
+        model.addAttribute("user",user);
         return "profile";
     }
 
-    @RequestMapping(value = "/accounts/{id}/refill", method = RequestMethod.GET)
-    public String refill(ModelMap model, @PathVariable Integer id, HttpServletRequest request) {
+    @RequestMapping(value = "/accounts/{id}/getRefill", method = RequestMethod.POST)
+    public String getRefill(ModelMap model, @PathVariable Long id, HttpServletRequest request, Principal principal)  {
         request.setAttribute("id_account", id);
+        //Получаем из сессии объект user
+        String login = principal.getName();
+        User user;
+        try {
+            user = userService.findByLogin(login);
+        } catch (ServiceException e) {
+            log.error("Error in findByLogin" + e);
+            model.addAttribute("message", "Didn't find user.");
+            model.addAttribute("type","danger");
+            return "login";
+        }
+
+        //Флаг наличия аккаунта
+        boolean flag = false;
+        //Проверим принадлежность переданного счета данному пользователю
+        try {
+            flag = checkAccountOfUser(user,id);
+        } catch (ServiceException e) {
+            log.error("Error in getAccountsByUser" + e);
+            model.addAttribute("message", "Error finding accounts for user.");
+            model.addAttribute("type","danger");
+            return "redirect:/accounts";
+        }
+
+        if (!flag){
+            model.addAttribute("message", "You can't refill not your account.");
+            model.addAttribute("type","danger");
+            return "redirect:/accounts";
+        }
+        //Получим счета пользователя для перевода
+        List <Account> accounts = null;
+        try {
+            accounts = accountService.getAccountsByUser(user.getId(),"ASC");
+        } catch (ServiceException e) {
+            log.error("Error in getAccountsByUser" + e);
+            model.addAttribute("message", "Error finding accounts for user.");
+            model.addAttribute("type","danger");
+            return "redirect:/accounts";
+        }
+        if (accounts!=null && accounts.size()>1){
+        model.addAttribute("accounts", accounts);}
+        else {
+            model.addAttribute("message", "You don't have account for refilling.");
+            model.addAttribute("type","danger");
+            return "redirect:/accounts";
+        }
+
         return "refill";
     }
 
     @RequestMapping(value = "/accounts/{id}/refill", method = RequestMethod.POST)
     public String refill(ModelMap model, @PathVariable Integer id, HttpServletRequest request, HttpServletResponse response ) {
-        //Получаем из сессии объект user
-//        User user= (User) request.getSession(true).getAttribute("user");
-//        if (user==null) {
-//            return Action.LOGIN.inPage;
-//        }
+
         request.setAttribute("id_account",id);
         //Поле суммы в форме пополнения счета
         String amount = request.getParameter("amount");
@@ -258,26 +457,135 @@ public class ClientController {
 
             try {
                 paymentService.makePayment(id_source, id_destination, refill, "Refill account");
-                model.addAttribute(Action.msgMessage, "Balance was refilled.");
+                model.addAttribute("message", "Balance was refilled.");
                 model.addAttribute("type", "success");
-                return "accounts";
+                return "redirect:/accounts";
 
             } catch (ServiceException e) {
                 log.error("Error in CommandRefilling."+ e);
-                model.addAttribute(Action.msgMessage, "Error in CommandRefilling.");
+                model.addAttribute("message", "Error refilling.");
                 model.addAttribute("type", "danger");
+                return "redirect:/accounts";
             }
 
         } else {
-            model.addAttribute(Action.msgMessage,"Not valid data! Repeat, please, input.");
+            model.addAttribute("message","Not valid data! Repeat, please, input.");
             model.addAttribute("type","danger");
         }
         return "refill";
     }
 
-    @RequestMapping("/registration")
-    public String registration(ModelMap model) {
+    @RequestMapping(value = "/getRegistration", method = RequestMethod.POST)
+    public String getRegistration(ModelMap model, Authentication auth) {
+        if (auth != null){
+            model.addAttribute("message","You are already registered.");
+            model.addAttribute("type","danger");
+            return "redirect:/profile";
+        }
         return "reg";
+    }
+
+    @RequestMapping(value = "/registration", method = RequestMethod.POST)
+    public String registration(ModelMap model, HttpServletRequest request) {
+        //Получаем данные из запроса
+        String email = request.getParameter("email");
+        String first_name = request.getParameter("first_name");
+        String middle_name = request.getParameter("middle_name");
+        String last_name = request.getParameter("last_name");
+        String phone = request.getParameter("phone");
+        String password = request.getParameter("password");
+        String city = request.getParameter("city");
+        String street = request.getParameter("street");
+        String flat = request.getParameter("flat");
+        String home = request.getParameter("home");
+        String numberOfPassport = request.getParameter("numberOfPassport");
+        String issued = request.getParameter("issued");
+        String date = request.getParameter("date");
+        String login = request.getParameter("login");
+        //Проверка на заполненность формы данными
+        if (email == null || first_name == null || middle_name == null || last_name == null ||
+                phone == null || password == null || login == null || city == null || street == null ||
+                flat == null || home == null || numberOfPassport == null || issued == null ||
+                date == null) {
+            model.addAttribute("message", "Complete all fields.");
+            model.addAttribute("type", "danger");
+            return "reg";
+        }
+        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateOfPassport = null;
+        try {
+            dateOfPassport = formatDate.parse(date);
+        } catch (ParseException e) {
+            log.error("Error parsing Date in CommandRegistration." + e);
+            model.addAttribute("message", "Error date of passport.");
+            model.addAttribute("type", "danger");
+            return "reg";
+        }
+        //Валидация полей
+        if (Validation.validDataFromForm(password, "password") && Validation.validDataFromForm(login, "login") &&
+                Validation.validDataFromForm(email, "email") && Validation.validDataFromForm(city, "city")
+                && Validation.validDataFromForm(street, "street") && Validation.validDataFromForm(flat, "flat")
+                && Validation.validDataFromForm(home, "home") && Validation.validDataFromForm(numberOfPassport, "numberOfPassport")
+                && Validation.validDataFromForm(issued, "issued") && Validation.validDataFromForm(phone, "phone")
+                && Validation.validDataFromForm(first_name, "first_name") && Validation.validDataFromForm(middle_name, "middle_name")
+                && Validation.validDataFromForm(last_name, "last_name")) {
+            User user = new User();
+            user.setFirstName(first_name);
+            user.setMiddleName(middle_name);
+            user.setLastName(last_name);
+            user.setPhone(phone);
+            user.setEmail(email);
+            user.setLogin(login);
+            user.setPassword(password);
+
+            Address address = new Address();
+            address.setCity(city);
+            address.setStreet(street);
+            address.setHome(home);
+            address.setFlat(flat);
+            address.setUser(user);
+
+            Passport passport = new Passport();
+            passport.setNumber(numberOfPassport);
+            passport.setDateOfIssue(dateOfPassport);
+            passport.setIssued(issued);
+            passport.setUser(user);
+
+            user.setAddress(address);
+            user.setPassport(passport);
+
+            String hashPassword = passwordEncoder.encode(user.getPassword());
+            user.setPassword(hashPassword);
+            Role role;
+            try {
+                role = roleService.getRoleByName("user");
+            } catch (ServiceException e) {
+                log.error("Error in getting role in CommandRegistration." + e);
+                model.addAttribute("message", "Error user's role.");
+                model.addAttribute("type", "danger");
+                return "reg";
+            }
+            user.setRole(role);
+
+            try {
+                userService.saveOrUpdate(user);
+                model.addAttribute("message", "User was created. Enter data for authorization.");
+                model.addAttribute("type", "success");
+
+            }
+            catch (ServiceException e){
+                log.error("Error in CommandRegistration. User wasn't create."+ e);
+                model.addAttribute("message", "User wasn't created. Enter data .");
+                model.addAttribute("type", "danger");
+                return "reg";
+            }
+        }
+        else {
+            model.addAttribute("message","Not valid data! Repeat, please, input.");
+            model.addAttribute("type","danger");
+            return "reg";
+        }
+        return "redirect:/accounts";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -296,5 +604,17 @@ public class ClientController {
         return "login";
     }
 
-
+    private boolean checkAccountOfUser (User user, Long id_account) throws ServiceException {
+        //Проверим принадлежность переданного счета данному пользователю
+        List <Account> accounts = accountService.getAccountsByUser(user.getId(),"ASC");
+        //Флаг наличия аккаунта
+        boolean flag = false;
+        for (Account account : accounts){
+            if (account.getId().equals(id_account)){
+                flag = true;
+                break;
+            }
+        }
+        return flag;
+    }
 }

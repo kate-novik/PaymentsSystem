@@ -11,13 +11,13 @@ import java.util.List;
  */
 public interface IUserService {
 
-    /**
-     * Поиск User по логину и паролю
-     * @param login Логин
-     * @param password Пароль
-     * @return Объект User
-     */
-    User findByLoginAndPass(String login, String password) throws ServiceException;
+//    /**
+//     * Поиск User по логину и паролю
+//     * @param login Логин
+//     * @param password Пароль
+//     * @return Объект User
+//     */
+//    User findByLoginAndPass(String login, String password) throws ServiceException;
 
     /**
      * Поиск User по логину

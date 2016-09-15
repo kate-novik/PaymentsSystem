@@ -21,25 +21,23 @@ public class UserService extends BaseService<User> implements IUserService {
     @Autowired
     private UserDao userDao;
 
-    public UserService () {}
-
-    public UserService(UserDao userDao) {
-        super(userDao);
-        this.userDao = userDao;
+    public UserService () {
+        dao = userDao;
     }
 
-    @Override
-    public User findByLoginAndPass(String login, String password) throws ServiceException {
-        User user;
-        try {
-            user = userDao.findByLoginAndPass(login, password);
-        }
-        catch (DaoException d) {
-            log.error("Error findByLoginAndPass() user in UserService." + d);
-            throw new ServiceException("Error findByLoginAndPass() user in UserService.");
-        }
-        return user;
-    }
+
+//    @Override
+//    public User findByLoginAndPass(String login, String password) throws ServiceException {
+//        User user;
+//        try {
+//            user = userDao.findByLoginAndPass(login, password);
+//        }
+//        catch (DaoException d) {
+//            log.error("Error findByLoginAndPass() user in UserService." + d);
+//            throw new ServiceException("Error findByLoginAndPass() user in UserService.");
+//        }
+//        return user;
+//    }
 
     @Override
     public User findByLogin(String login) throws ServiceException {

@@ -20,10 +20,6 @@ public class BaseService<T> implements IService<T> {
     public BaseService() {
     }
 
-    public BaseService(IDao<T> dao) {
-        this.dao = dao;
-    }
-
     @Override
     public void saveOrUpdate(T object) throws ServiceException {
         try {

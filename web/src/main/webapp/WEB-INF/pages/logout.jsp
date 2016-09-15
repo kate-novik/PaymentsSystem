@@ -10,7 +10,7 @@
 
                 <div class="form-group">
                     <div class="col-sm-offset-9 col-sm-3">
-                        <a href="do?command=Logout&ButtonLogout=2" type="submit" class="btn btn-success">Log Out</a>
+                        <a href="/logout" type="submit" class="btn btn-success">Log Out</a>
                     </div>
                 </div>
 

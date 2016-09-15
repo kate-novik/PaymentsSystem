@@ -45,33 +45,33 @@ public class UserDao extends Dao <User> implements IUserDao {
         return user;
     }
 
-    /**
-     * Поиск User по логину и паролю
-     * @param login Логин
-     * @param password Пароль
-     * @return Объект User
-     */
-    public User findByLoginAndPass (String login, String password) throws DaoException {
-        User user;
-        try {
-            //session = HibernateUtil.getHibernateUtil().getSession();
-            //Открываем транзакцию
-            //transaction = session.beginTransaction();
-            Query query = getSession().getNamedQuery("findByLoginAndPass").setString("login",login).setString("password",password);
-            user = (User) query.uniqueResult();
-            log.info("findByLoginAndPass() user:" + user);
-            //При отсутствии исключения коммитим транзакцию
-            //transaction.commit();
-            //log.info("findByLoginAndPass() user (commit):" + user);
-        }
-        catch (HibernateException e) {
-            log.error("Error findByLoginAndPass() user in Dao" + e);
-            //Откатываем транзакцию
-            //transaction.rollback();
-            throw new DaoException("Error findByLoginAndPass() user in Dao.");
-        }
-        return user;
-    }
+//    /**
+//     * Поиск User по логину и паролю
+//     * @param login Логин
+//     * @param password Пароль
+//     * @return Объект User
+//     */
+//    public User findByLoginAndPass (String login, String password) throws DaoException {
+//        User user;
+//        try {
+//            //session = HibernateUtil.getHibernateUtil().getSession();
+//            //Открываем транзакцию
+//            //transaction = session.beginTransaction();
+//            Query query = getSession().getNamedQuery("findByLoginAndPass").setString("login",login).setString("password",password);
+//            user = (User) query.uniqueResult();
+//            log.info("findByLoginAndPass() user:" + user);
+//            //При отсутствии исключения коммитим транзакцию
+//            //transaction.commit();
+//            //log.info("findByLoginAndPass() user (commit):" + user);
+//        }
+//        catch (HibernateException e) {
+//            log.error("Error findByLoginAndPass() user in Dao" + e);
+//            //Откатываем транзакцию
+//            //transaction.rollback();
+//            throw new DaoException("Error findByLoginAndPass() user in Dao.");
+//        }
+//        return user;
+//    }
 
     public List<User> getAllUsers () throws DaoException {
         List<User> users;

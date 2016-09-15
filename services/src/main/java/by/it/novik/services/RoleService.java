@@ -18,12 +18,10 @@ public class RoleService extends BaseService<Role> implements IRoleService {
     @Autowired
     private RoleDao roleDao;
 
-    public RoleService () {}
-
-    public RoleService(RoleDao roleDao) {
-        super(roleDao);
-        this.roleDao = roleDao;
+    public RoleService () {
+        dao = roleDao;
     }
+
 
     @Override
     public Role getRoleByName(String name) throws ServiceException {

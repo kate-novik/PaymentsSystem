@@ -9,8 +9,8 @@
     <div class="row">
         <div class="pull-right">
             (<a  href="/profile" type="button" class="btn btn-link">
-            <c:out value="${user.nickname}" /></a>)
-            <a href="do?command=New_Account" class="btn btn-success" type="button">Create Account</a>
+            <c:out value="${user.login}" /></a>)
+            <a href="/createAccount" class="btn btn-success" type="button">Create Account</a>
         </div>
     </div>
     <div class="row">
@@ -38,13 +38,13 @@
                 <td>
                     <div class="btn-group">
 
-                        <a href="/accounts/${elem.id}/refill" class="btn btn-default btn-sm" data-toggle="tooltip" title="Refill" aria-label="Left Align">
+                        <a href="/accounts/${elem.id}/getRefill" class="btn btn-default btn-sm" data-toggle="tooltip" title="Refill" aria-label="Left Align">
                             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                         </a>
-                        <a href="/accounts/${elem.id}/pay" class="btn btn-default btn-sm" data-toggle="tooltip" title="Pay" aria-label="Center Align">
+                        <a href="/accounts/${elem.id}/getPay" class="btn btn-default btn-sm" data-toggle="tooltip" title="Pay" aria-label="Center Align">
                             <span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
                         </a>
-                        <a href="/accounts/${elem.id}/block" class="btn btn-default btn-sm" data-toggle="tooltip" title="Block" aria-label="Right Align">
+                        <a href="/accounts/${elem.id}/getBlock" class="btn btn-default btn-sm" data-toggle="tooltip" title="Block" aria-label="Right Align">
                             <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
                         </a>
                         <a href="/accounts/${elem.id}/payments" class="btn btn-default btn-sm" data-toggle="tooltip" title="Payments" aria-label="Justify">

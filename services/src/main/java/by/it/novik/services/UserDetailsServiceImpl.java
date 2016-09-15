@@ -1,10 +1,8 @@
 package by.it.novik.services;
 
-import by.it.novik.dao.CreateDao;
 import by.it.novik.dao.UserDao;
 import by.it.novik.pojos.Role;
 import by.it.novik.util.DaoException;
-import by.it.novik.util.ServiceException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -23,10 +21,10 @@ import java.util.List;
  * Created by Kate Novik.
  */
 @Service
-public class MyUserDetailsService implements UserDetailsService {
-    private static Logger log = Logger.getLogger (MyUserDetailsService.class);
-//    @Autowired
-    private UserDao userDao = CreateDao.getDao().getUserDao();
+public class UserDetailsServiceImpl implements UserDetailsService {
+    private static Logger log = Logger.getLogger (UserDetailsServiceImpl.class);
+    @Autowired
+    private UserDao userDao;
 
     @Transactional
     @Override

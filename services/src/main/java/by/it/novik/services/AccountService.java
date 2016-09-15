@@ -22,12 +22,13 @@ public class AccountService extends BaseService<Account> implements IAccountServ
 
     @Autowired
     private AccountDao accountDao;
+    @Autowired
+    private UserService userService;
 
-    public AccountService(){}
-
-    public AccountService(AccountDao accountDao) {
-        this.accountDao = accountDao;
+    public AccountService(){
+        dao = accountDao;
     }
+
 
     @Override
     public void saveOrUpdate(Account account) throws ServiceException {
@@ -40,7 +41,7 @@ public class AccountService extends BaseService<Account> implements IAccountServ
     public List<Account> getAccountsByUser(Serializable id_user, String orderState) throws ServiceException {
         List<Account> accounts;
         try {
-            User user = by.it.novik.services.Service.getService().getUserService().get(id_user);
+            User user = userService.get(id_user);
             accounts = accountDao.getAccountsByUser(user, orderState);
         }
         catch (DaoException d){

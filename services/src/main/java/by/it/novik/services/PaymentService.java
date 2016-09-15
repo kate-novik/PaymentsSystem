@@ -25,11 +25,19 @@ public class PaymentService extends BaseService<Payment> implements IPaymentServ
 
     @Autowired
     private PaymentDao paymentDao;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private AccountService accountService;
+
+    public PaymentService() {
+        dao = paymentDao;
+    }
 
     @Override
     public List<Payment> getPaymentsByUser(Serializable id_user) throws ServiceException {
         List<Payment> payments;
-        User user = by.it.novik.services.Service.getService().getUserService().get(id_user);
+        User user = userService.get(id_user);
         try {
             payments = paymentDao.getPaymentsByUser(user);
         }
@@ -43,7 +51,7 @@ public class PaymentService extends BaseService<Payment> implements IPaymentServ
     @Override
     public List<Payment> getPaymentsByAccount(Serializable id_account) throws ServiceException {
         List<Payment> payments;
-        Account account = by.it.novik.services.Service.getService().getAccountService().get(id_account);
+        Account account = accountService.get(id_account);
         try {
             payments = paymentDao.getPaymentsByAccount(account);
         }
@@ -56,7 +64,7 @@ public class PaymentService extends BaseService<Payment> implements IPaymentServ
 
     @Override
     public void makePayment(int idAccountFrom, int idAccountTo, double pay_amount, String description) throws ServiceException {
-        AccountService accountService = by.it.novik.services.Service.getService().getAccountService();
+
         //Чтение счета-источника платежа по id
         Account accountSource = accountService.get(idAccountFrom);
         Double balance = accountSource.getBalance();

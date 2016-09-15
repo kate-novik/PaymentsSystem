@@ -19,14 +19,14 @@ import java.util.Set;
 @Table(name = "user")
 @NamedQueries({
         @NamedQuery(name="findByLogin", query= User.QUERY_FIND_BY_LOGIN),
-        @NamedQuery(name="findByLoginAndPass", query= User.QUERY_FIND_BY_LOGIN_AND_PASS),
+        //@NamedQuery(name="findByLoginAndPass", query= User.QUERY_FIND_BY_LOGIN_AND_PASS),
         @NamedQuery(name="getAllUsers", query= User.QUERY_GET_ALL_USERS)
 })
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
     static final String QUERY_FIND_BY_LOGIN = "FROM User u WHERE u.login = :login";
-    static final String QUERY_FIND_BY_LOGIN_AND_PASS = "FROM User u WHERE u.login = :login AND u.password = :password";
+   // static final String QUERY_FIND_BY_LOGIN_AND_PASS = "FROM User u WHERE u.login = :login AND u.password = :password";
     static final String QUERY_GET_ALL_USERS = "FROM User";
 
     private Long id;
@@ -227,7 +227,6 @@ public class User implements Serializable {
                 ",  phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
                 ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
                 '}';
     }
 }

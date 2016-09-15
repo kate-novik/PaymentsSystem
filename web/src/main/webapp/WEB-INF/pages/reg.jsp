@@ -8,7 +8,7 @@
     </div>
     <div class="row">
         <div class="col-sm-6 col-sm-offset-3">
-            <form class="form-horizontal" action="do?command=Registration" method="POST">
+            <form class="form-horizontal" action="/registration" method="POST">
                 <div class="form-group">
                     <label for="first_name" class="col-sm-4 control-label">First name</label>
                     <div class="col-sm-8">

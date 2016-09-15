@@ -2,23 +2,17 @@ package by.it.novik.filters;
 
 
 
-import by.it.novik.dao.CreateDao;
-import by.it.novik.dao.Dao;
 import by.it.novik.pojos.User;
-import by.it.novik.services.Service;
 import by.it.novik.services.UserService;
 import by.it.novik.util.ServiceException;
 import org.apache.log4j.Logger;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
-import javax.servlet.annotation.WebInitParam;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Created by Kate Novik.
@@ -71,26 +65,26 @@ public class FilterCheckSession implements Filter{
                     password = cookie.getValue();
                 }
             }
-            if (login!=null && password!=null) {
-
-                UserService userService = Service.getService().getUserService();
-                //Получаем пользователя с логином и паролем из куки
-                User user = null;
-                try {
-                    user = userService.findByLoginAndPass( login, password);
-                } catch (ServiceException e) {
-                    log.error("Error in FilterCheckSession." + e);
-                }
-
-                if (user != null) {
-                    //Создадим сессию
-                    HttpSession session = request.getSession(true);
-                    //Передадим в сессию объект user
-                    session.setAttribute("user", user);
-                    session.setAttribute("login", user.getLogin());
-                    session.setAttribute("password", user.getPassword());
-                }
-            }
+//            if (login!=null && password!=null) {
+//
+//                UserService userService = Service.getService().getUserService();
+//                //Получаем пользователя с логином и паролем из куки
+//                User user = null;
+//                try {
+//                    user = userService.findByLoginAndPass( login, password);
+//                } catch (ServiceException e) {
+//                    log.error("Error in FilterCheckSession." + e);
+//                }
+//
+//                if (user != null) {
+//                    //Создадим сессию
+//                    HttpSession session = request.getSession(true);
+//                    //Передадим в сессию объект user
+//                    session.setAttribute("user", user);
+//                    session.setAttribute("login", user.getLogin());
+//                    session.setAttribute("password", user.getPassword());
+//                }
+//            }
 //            else {
 //                response.sendRedirect(contextPath + "/" + pageLogin);
 //            }

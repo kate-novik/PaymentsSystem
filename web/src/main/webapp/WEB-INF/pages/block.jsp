@@ -28,10 +28,10 @@
             <tr>
                 <td>${id_account}</td>
                 <td>
-                        <a href="/accounts/${id_account}/block" class="btn btn-success" aria-label="Center Align" >
+                        <a href="/accounts/${id_account}/blocking" class="btn btn-success" aria-label="Center Align" >
                             Block
                         </a>
-                    </div>
+
                 </td>
             </tr>
             </tbody>

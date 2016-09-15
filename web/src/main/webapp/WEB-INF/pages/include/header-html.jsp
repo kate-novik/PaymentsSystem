@@ -19,12 +19,12 @@
         </sec:authorize>
         <span flex></span>
         <sec:authorize access="hasRole('ADMIN') or hasRole('USER')">
-        <md-button aria-label="Logout" ng-href="/logout">
+        <md-button aria-label="Logout" ng-href="/getLogout">
             Logout
         </md-button>
         </sec:authorize>
         <sec:authorize access="isAnonymous()">
-            <md-button aria-label="Registration" ng-href="/registration">
+            <md-button aria-label="Registration" ng-href="/getRegistration">
                 Registration
             </md-button>
         </sec:authorize>

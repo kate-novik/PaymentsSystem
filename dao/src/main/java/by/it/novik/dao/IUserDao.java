@@ -10,6 +10,6 @@ import java.util.List;
  */
 public interface IUserDao {
     User findByLogin (String login) throws DaoException;
-    User findByLoginAndPass (String login, String password) throws DaoException;
+   // User findByLoginAndPass (String login, String password) throws DaoException;
     List<User> getAllUsers () throws DaoException;
 }

@@ -15,7 +15,7 @@ public class ServiceConfig {
 
     @Bean
     public UserDetailsService userDetailsService(){
-        return new MyUserDetailsService();
+        return new UserDetailsServiceImpl();
     }
 
     @Bean
