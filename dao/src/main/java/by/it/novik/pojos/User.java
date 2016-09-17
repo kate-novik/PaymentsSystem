@@ -3,6 +3,7 @@ package by.it.novik.pojos;
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.persistence.CascadeType;
@@ -41,6 +42,7 @@ public class User implements Serializable {
         this.id = id;
     }
 
+    @NotEmpty
     private String firstName;
     @Column(name="first_name", length = 15)
     @Type(type = "string")
@@ -63,6 +65,7 @@ public class User implements Serializable {
         this.middleName = middleName;
     }
 
+    @NotEmpty
     private String lastName;
     @Column(name="last_name", length = 20)
     @Type(type = "string")
@@ -94,7 +97,7 @@ public class User implements Serializable {
         this.address = address;
     }
 
-
+    @NotEmpty
     private String phone;
     @Column(name="phone", length=12)
     @Type(type = "string")
@@ -106,6 +109,7 @@ public class User implements Serializable {
         this.phone = phone;
     }
 
+    @NotEmpty
     private String email;
     @Column(name="email", length=20)
     @Type(type = "string")
@@ -117,6 +121,7 @@ public class User implements Serializable {
         this.email = email;
     }
 
+    @NotEmpty
     private String login;
     @Column(name="login", length=10, unique = true)
     @Type(type = "string")
@@ -128,6 +133,7 @@ public class User implements Serializable {
         this.login = login;
     }
 
+    @NotEmpty
     private String password;
     @Column(name="password", length=50)
 //    @Type(type = "string")

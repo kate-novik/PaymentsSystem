@@ -24,7 +24,7 @@
         </md-button>
         </sec:authorize>
         <sec:authorize access="isAnonymous()">
-            <md-button aria-label="Registration" ng-href="/getRegistration">
+            <md-button aria-label="Registration" ng-href="/registration">
                 Registration
             </md-button>
         </sec:authorize>

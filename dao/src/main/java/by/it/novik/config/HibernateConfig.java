@@ -23,7 +23,7 @@ import java.util.Properties;
 @Configuration
 @EnableAspectJAutoProxy
 @EnableTransactionManagement
-@ComponentScan({ "by.it.novik.config" })
+@ComponentScan({ "by.it.novik.dao" })
 @PropertySource(value = { "classpath:hibernate.properties" })
 public class HibernateConfig {
 
@@ -34,7 +34,7 @@ public class HibernateConfig {
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan(new String[] { "by.it.novik.pojos" });
+        sessionFactory.setPackagesToScan("by.it.novik.pojos");
         sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;
     }
@@ -64,25 +64,5 @@ public class HibernateConfig {
         HibernateTransactionManager txManager = new HibernateTransactionManager();
         txManager.setSessionFactory(s);
         return txManager;
-    }
-
-    @Bean
-    public UserDao userDao() {
-        return new UserDao();
-    }
-
-    @Bean
-    public RoleDao roleDao() {
-        return new RoleDao();
-    }
-
-    @Bean
-    public AccountDao accountDao() {
-        return new AccountDao();
-    }
-
-    @Bean
-    public PaymentDao paymentDao() {
-        return new PaymentDao();
     }
 }

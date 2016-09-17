@@ -5,6 +5,7 @@ import by.it.novik.util.DaoException;
 import by.it.novik.util.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
+import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -22,7 +23,9 @@ public class RoleDao extends Dao <Role> implements IRoleDao {
             //session = HibernateUtil.getHibernateUtil().getSession();
             //Открываем транзакцию
             //transaction = session.beginTransaction();
-            Query query = getSession().getNamedQuery("findByName").setString("role",name);
+            Session session = getSession();
+            Query query = session.getNamedQuery("findByName");
+            query.setString("role",name);
             role = (Role) query.uniqueResult();
             log.info("findByName() role:" + role);
             //При отсутствии исключения коммитим транзакцию
