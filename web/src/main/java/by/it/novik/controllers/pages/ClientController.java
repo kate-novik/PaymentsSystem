@@ -6,6 +6,7 @@ import by.it.novik.services.AccountService;
 import by.it.novik.services.PaymentService;
 import by.it.novik.services.RoleService;
 import by.it.novik.services.UserService;
+import by.it.novik.util.AccountState;
 import by.it.novik.util.ServiceException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,6 +108,8 @@ public class ClientController {
         }
         Account account = new Account();
         account.setUser(user);
+        account.setState(AccountState.WORKING);
+        account.setBalance(0);
         try {
             accountService.saveOrUpdate(account);
             model.addAttribute("message", "Account # " + account.getId() + " was created.");
@@ -475,7 +478,7 @@ public class ClientController {
         return "refill";
     }
 
-    @RequestMapping(value = "/getRegistration", method = RequestMethod.POST)
+    @RequestMapping(value = "/getRegistration", method = RequestMethod.GET)
     public String getRegistration(ModelMap model, Authentication auth) {
         if (auth != null){
             model.addAttribute("message","You are already registered.");

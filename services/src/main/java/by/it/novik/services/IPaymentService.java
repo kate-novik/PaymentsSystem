@@ -39,4 +39,24 @@ public interface IPaymentService {
      * @return Список платежей пользователей
      */
     List<Payment> getAllPayments () throws ServiceException;
+
+    /**
+     * Создание/обновление записи объекта в БД
+     * @param payment Объект для записи/обновления
+     * @throws ServiceException
+     */
+    void saveOrUpdate(Payment payment) throws ServiceException;
+
+    /**
+     * Чтение записи (объекта) из БД
+     * @param id Номер записи
+     * @return Прочтенный объект User
+     */
+    Payment get(Serializable id) throws ServiceException;
+
+    /**
+     * Удаление записи (объекта) из БД по уникальному идентификатору
+     * @param id Номер записи
+     */
+    void delete(Serializable id) throws ServiceException;
 }

@@ -49,4 +49,24 @@ public interface IAccountService {
      * @param id_account Номер счета
      */
     void deleteAccount (Serializable id_account) throws ServiceException;
+
+    /**
+     * Создание/обновление записи объекта в БД
+     * @param account Объект для записи/обновления
+     * @throws ServiceException
+     */
+    void saveOrUpdate(Account account) throws ServiceException;
+
+    /**
+     * Чтение записи (объекта) из БД
+     * @param id Номер записи
+     * @return Прочтенный объект User
+     */
+    Account get(Serializable id) throws ServiceException;
+
+    /**
+     * Удаление записи (объекта) из БД по уникальному идентификатору
+     * @param id Номер записи
+     */
+    void delete(Serializable id) throws ServiceException;
 }

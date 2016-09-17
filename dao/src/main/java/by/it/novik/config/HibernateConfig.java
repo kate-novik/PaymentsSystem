@@ -7,10 +7,7 @@ import by.it.novik.dao.RoleDao;
 import by.it.novik.dao.UserDao;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -24,6 +21,7 @@ import java.util.Properties;
  * Created by Kate Novik.
  */
 @Configuration
+@EnableAspectJAutoProxy
 @EnableTransactionManagement
 @ComponentScan({ "by.it.novik.config" })
 @PropertySource(value = { "classpath:hibernate.properties" })

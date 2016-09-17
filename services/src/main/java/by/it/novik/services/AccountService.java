@@ -6,6 +6,7 @@ import by.it.novik.pojos.User;
 import by.it.novik.util.AccountState;
 import by.it.novik.util.DaoException;
 import by.it.novik.util.ServiceException;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,8 +18,10 @@ import java.util.List;
  * Created by Kate Novik.
  */
 @Service("accountService")
-@Transactional
-public class AccountService extends BaseService<Account> implements IAccountService {
+//@Transactional
+public class AccountService implements IAccountService {
+
+    protected static Logger log = Logger.getLogger (AccountService.class);
 
     @Autowired
     private AccountDao accountDao;
@@ -26,16 +29,9 @@ public class AccountService extends BaseService<Account> implements IAccountServ
     private UserService userService;
 
     public AccountService(){
-        dao = accountDao;
+
     }
 
-
-    @Override
-    public void saveOrUpdate(Account account) throws ServiceException {
-        account.setState(AccountState.WORKING);
-        account.setBalance(0);
-        super.saveOrUpdate(account);
-    }
 
     @Override
     public List<Account> getAccountsByUser(Serializable id_user, String orderState) throws ServiceException {
@@ -81,14 +77,14 @@ public class AccountService extends BaseService<Account> implements IAccountServ
     public void lockingAccount(Account account) throws ServiceException {
         //Меняем поле счета на заблокированное
         account.setState(AccountState.LOCKED);
-        super.saveOrUpdate(account);
+        saveOrUpdate(account);
     }
 
     @Override
     public void unlockingAccount(Account account) throws ServiceException {
         //Меняем поле счета на рабочее
         account.setState(AccountState.WORKING);
-        super.saveOrUpdate(account);
+        saveOrUpdate(account);
     }
 
     @Override
@@ -98,5 +94,40 @@ public class AccountService extends BaseService<Account> implements IAccountServ
         //Устанавливаем статус для аккаунта на удален
         account.setState(AccountState.DELETED);
         saveOrUpdate(account);
+    }
+
+    @Override
+    public void saveOrUpdate(Account account) throws ServiceException {
+        try {
+            accountDao.saveOrUpdate(account);
+        }
+        catch (DaoException d) {
+            log.error("Error saveOrUpdate() account in AccountDao " + d);
+            throw new ServiceException("Error saveOrUpdate() account in AccountDao." );
+        }
+    }
+
+    @Override
+    public Account get(Serializable id) throws ServiceException {
+        Account account;
+        try {
+            account = accountDao.get(id);
+        }
+        catch (DaoException d) {
+            log.error("Error get() account in AccountDao " + d);
+            throw new ServiceException("Error get() account in AccountDao." );
+        }
+        return account;
+    }
+
+    @Override
+    public void delete(Serializable id) throws ServiceException {
+        try {
+            accountDao.delete(id);
+        }
+        catch (DaoException d) {
+            log.error("Error delete() account in AccountDao " + d);
+            throw new ServiceException("Error delete() account in AccountDao.");
+        }
     }
 }

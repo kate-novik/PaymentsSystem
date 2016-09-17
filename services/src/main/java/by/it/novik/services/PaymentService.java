@@ -1,11 +1,14 @@
 package by.it.novik.services;
 
+import by.it.novik.dao.AccountDao;
 import by.it.novik.dao.PaymentDao;
+import by.it.novik.dao.UserDao;
 import by.it.novik.pojos.Account;
 import by.it.novik.pojos.Payment;
 import by.it.novik.pojos.User;
 import by.it.novik.util.DaoException;
 import by.it.novik.util.ServiceException;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,24 +23,32 @@ import java.util.List;
  * Created by Kate Novik.
  */
 @Service("paymentService")
-@Transactional
-public class PaymentService extends BaseService<Payment> implements IPaymentService {
+//@Transactional
+public class PaymentService implements IPaymentService {
+
+    protected static Logger log = Logger.getLogger (PaymentService.class);
 
     @Autowired
     private PaymentDao paymentDao;
     @Autowired
-    private UserService userService;
+    private UserDao userDao;
     @Autowired
-    private AccountService accountService;
+    private AccountDao accountDao;
 
     public PaymentService() {
-        dao = paymentDao;
+
     }
 
     @Override
     public List<Payment> getPaymentsByUser(Serializable id_user) throws ServiceException {
         List<Payment> payments;
-        User user = userService.get(id_user);
+        User user;
+        try {
+            user = userDao.get(id_user);
+        } catch (DaoException e) {
+            log.error("Error get() user in PaymentService." + e);
+            throw new ServiceException("Error get() user in PaymentService.");
+        }
         try {
             payments = paymentDao.getPaymentsByUser(user);
         }
@@ -51,8 +62,9 @@ public class PaymentService extends BaseService<Payment> implements IPaymentServ
     @Override
     public List<Payment> getPaymentsByAccount(Serializable id_account) throws ServiceException {
         List<Payment> payments;
-        Account account = accountService.get(id_account);
+        Account account;
         try {
+            account = accountDao.get(id_account);
             payments = paymentDao.getPaymentsByAccount(account);
         }
         catch (DaoException d){
@@ -66,9 +78,18 @@ public class PaymentService extends BaseService<Payment> implements IPaymentServ
     public void makePayment(int idAccountFrom, int idAccountTo, double pay_amount, String description) throws ServiceException {
 
         //Чтение счета-источника платежа по id
-        Account accountSource = accountService.get(idAccountFrom);
-        Double balance = accountSource.getBalance();
-        Account accountDestination =  accountService.get(idAccountTo);
+        Account accountSource = null;
+        Double balance = null;
+        Account accountDestination = null;
+        try {
+            accountSource = accountDao.get(idAccountFrom);
+            balance = accountSource.getBalance();
+            accountDestination =  accountDao.get(idAccountTo);
+        } catch (DaoException e) {
+            log.error("Error makePayment() in PaymentService." + e);
+            throw new ServiceException("Error makePayment() in PaymentService.");
+        }
+
         //Проверим баланс счета для списывания денег
         if (balance >= pay_amount) {
             if (accountDestination != null) {
@@ -80,8 +101,8 @@ public class PaymentService extends BaseService<Payment> implements IPaymentServ
                 Double destination_amount = accountDestination.getBalance() + pay_amount;
                 accountDestination.setBalance(destination_amount);
                 //Обновляем данные по счетам
-                accountService.saveOrUpdate(accountSource);
-                accountService.saveOrUpdate(accountDestination);
+                accountDao.saveOrUpdate(accountSource);
+                accountDao.saveOrUpdate(accountDestination);
                 //Создание текущей даты и ее форматирование
                 Date date = new Date(System.currentTimeMillis());
                 SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
@@ -95,8 +116,8 @@ public class PaymentService extends BaseService<Payment> implements IPaymentServ
                 payment.setAmountPayment(pay_amount);
                 saveOrUpdate(payment);
 
-                } catch (ServiceException e) {
-                        log.error("Error make payment in PaymentService." + e);
+                } catch (DaoException e) {
+                        log.error("Error makePayment() in PaymentService." + e);
                         throw new ServiceException("Payment wasn't done. Repeat, please, enter.");
 
                 } catch (ParseException e) {
@@ -125,5 +146,40 @@ public class PaymentService extends BaseService<Payment> implements IPaymentServ
             throw new ServiceException("Error getAllPayments() in PaymentsService.");
         }
         return payments;
+    }
+
+    @Override
+    public void saveOrUpdate(Payment payment) throws ServiceException {
+        try {
+            paymentDao.saveOrUpdate(payment);
+        }
+        catch (DaoException d) {
+            log.error("Error saveOrUpdate() payment in PaymentDao " + d);
+            throw new ServiceException("Error saveOrUpdate() payment in PaymentDao." );
+        }
+    }
+
+    @Override
+    public Payment get(Serializable id) throws ServiceException {
+        Payment payment;
+        try {
+            payment = paymentDao.get(id);
+        }
+        catch (DaoException d) {
+            log.error("Error get() payment in PaymentDao " + d);
+            throw new ServiceException("Error get() payment in PaymentDao." );
+        }
+        return payment;
+    }
+
+    @Override
+    public void delete(Serializable id) throws ServiceException {
+        try {
+            paymentDao.delete(id);
+        }
+        catch (DaoException d) {
+            log.error("Error delete() payment in PaymentDao " + d);
+            throw new ServiceException("Error delete() payment in PaymentDao.");
+        }
     }
 }

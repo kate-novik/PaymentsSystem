@@ -4,6 +4,7 @@ package by.it.novik.services;
 import by.it.novik.pojos.User;
 import by.it.novik.util.ServiceException;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -31,4 +32,24 @@ public interface IUserService {
      * @return список объектов User
      */
     List<User> getAllUsers () throws ServiceException;
+
+    /**
+     * Создание/обновление записи объекта в БД
+     * @param user Объект для записи/обновления
+     * @throws ServiceException
+     */
+    void saveOrUpdate(User user) throws ServiceException;
+
+    /**
+     * Чтение записи (объекта) из БД
+     * @param id Номер записи
+     * @return Прочтенный объект User
+     */
+    User get(Serializable id) throws ServiceException;
+
+    /**
+     * Удаление записи (объекта) из БД по уникальному идентификатору
+     * @param id Номер записи
+     */
+    void delete(Serializable id) throws ServiceException;
 }
