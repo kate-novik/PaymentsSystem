@@ -34,7 +34,15 @@ public class Dao <T> implements IDao<T> {
     private SessionFactory sessionFactory;
 
     protected Session getSession(){
-        return sessionFactory.getCurrentSession();
+        Session session;
+        try{
+            session = sessionFactory.getCurrentSession();
+        }
+        catch (HibernateException e)
+        {
+            session = sessionFactory.openSession();
+        }
+        return session;
     }
 
 

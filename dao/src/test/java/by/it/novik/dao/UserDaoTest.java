@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class UserDaoTest {
 
-
+//
 //    private static User user2 = null;
 //    private static Role role = null;
 //    private static Account account = null;
@@ -24,6 +24,7 @@ public class UserDaoTest {
 //    private static UserDao userDao = null;
 //    private static RoleDao roleDao = null;
 //    private static AccountDao accountDao = null;
+//
 //    @Before
 //    public void initialize () {
 //        userDao = CreateDao.getDao().getUserDao();

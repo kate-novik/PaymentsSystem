@@ -21,7 +21,7 @@ import java.util.Properties;
  * Created by Kate Novik.
  */
 @Configuration
-@EnableAspectJAutoProxy
+//@EnableAspectJAutoProxy
 @EnableTransactionManagement
 @ComponentScan({ "by.it.novik.dao" })
 @PropertySource(value = { "classpath:hibernate.properties" })

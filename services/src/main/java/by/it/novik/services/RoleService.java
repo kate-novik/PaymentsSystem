@@ -1,11 +1,15 @@
 package by.it.novik.services;
 
+import by.it.novik.config.ServiceConfig;
 import by.it.novik.dao.RoleDao;
 import by.it.novik.pojos.Role;
+import by.it.novik.pojos.User;
 import by.it.novik.util.DaoException;
 import by.it.novik.util.ServiceException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +29,16 @@ public class RoleService implements IRoleService {
     public RoleService () {
     }
 
+//    public static void main(String[] args) throws ServiceException {
+//        AbstractApplicationContext context = new AnnotationConfigApplicationContext(ServiceConfig.class);
+//
+//        RoleService service = (RoleService) context.getBean("roleService");
+//
+//        Role role = service.getRoleByName("user");
+//        System.out.println(role);
+//
+//        context.close();
+//    }
 
     @Override
     public Role getRoleByName(String name) throws ServiceException {
