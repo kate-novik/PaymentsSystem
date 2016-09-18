@@ -1,7 +1,7 @@
 package by.it.novik.controllers.rest;
 
-import by.it.novik.pojos.Payment;
-import by.it.novik.services.PaymentService;
+import by.it.novik.pojos.Account;
+import by.it.novik.services.AccountService;
 import by.it.novik.util.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,34 +16,34 @@ import java.util.List;
  * Created by Kate Novik.
  */
 @RestController
-@RequestMapping(value = "/api/payments")
-public class PaymentsController {
+@RequestMapping(value = "/api/accounts")
+public class AccountsController {
 
     @Autowired
-    PaymentService paymentService;
+    AccountService accountService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Payment> findAll() throws ServiceException {
-        return paymentService.getAllPayments();
+    public List<Account> findAll() throws ServiceException {
+        return accountService.getAllAccounts();
     }
 
     @RequestMapping(value="/{id}", method = RequestMethod.GET)
-    public Payment findOne(@PathVariable Long id){
-        Payment payment = new Payment();
-        payment.setId(id);
-        return payment;
+    public Account findOne(@PathVariable Long id){
+        Account account = new Account();
+        account.setId(id);
+        return account;
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Payment create(Payment payment){
-        return payment;
+    public Account create(Account account){
+        return account;
     }
 
     @RequestMapping(value="/{id}", method = RequestMethod.PUT)
-    public Payment update(@PathVariable Long id){
-        Payment payment = new Payment();
-        payment.setId(id);
-        return payment;
+    public Account update(@PathVariable Long id){
+        Account account = new Account();
+        account.setId(id);
+        return account;
     }
 
     @RequestMapping(value="/{id}", method = RequestMethod.DELETE)
