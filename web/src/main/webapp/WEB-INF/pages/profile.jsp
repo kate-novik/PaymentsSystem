@@ -4,13 +4,35 @@
 <%@ include file="include/header-html.jsp" %>
 
 <br><br>
-<div class="main container">
-<legend> <h3>Profile</h3></legend>
-<p>Name: <c:out value="${user.lastName}"/>  <c:out value="${user.firstName}" />  <c:out value="${user.middleName}" /></p><br>
-<p>Address: <c:out value="${user.address}" /></p><br>
-<p>Phone: <c:out value="${user.phone}" /></p><br>
-<p>E-mail: <c:out value="${user.email}" /></p><br>
-
+<div class="main container profile">
+    <h3 class="md-display-1">Profile</h3>
+    <md-divider></md-divider>
+    <ul>
+        <li layout="row">
+            <h5 class="md-title" flex="25">Name:</h5>
+            <p class="md-body-1">
+                <c:out value="${user.lastName}"/>  <c:out value="${user.firstName}" />  <c:out value="${user.middleName}"/>
+            </p>
+        </li>
+        <li layout="row">
+            <h5 class="md-title" flex="25">Address:</h5>
+            <p class="md-body-1">
+                <c:out value="${user.address.city}"/>, <c:out value="${user.address.street}"/> <c:out value="${user.address.home}"/> - <c:out value="${user.address.flat}"/>
+            </p>
+        </li>
+        <li layout="row">
+            <h5 class="md-title" flex="25">Phone:</h5>
+            <p class="md-body-1">
+                <c:out value="${user.phone}" />
+            </p>
+        </li>
+        <li layout="row">
+            <h5 class="md-title" flex="25">E-mail:</h5>
+            <p class="md-body-1">
+                <c:out value="${user.email}" />
+            </p>
+        </li>
+    </ul>
 </div>
 
 <%@ include file="include/end-html.jsp" %>

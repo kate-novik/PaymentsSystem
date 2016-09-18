@@ -25,3 +25,7 @@ footer .navbar p {
     bottom: 50px;
     right: 20px;
 }
+
+.profile ul p {
+    margin: 10px 0;
+}
