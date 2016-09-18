@@ -2,11 +2,15 @@ package by.it.novik.services;
 
 
 import by.it.novik.dao.UserDao;
+import by.it.novik.pojos.Address;
+import by.it.novik.pojos.Passport;
+import by.it.novik.pojos.Role;
 import by.it.novik.pojos.User;
 import by.it.novik.util.DaoException;
 import by.it.novik.util.ServiceException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +27,12 @@ public class UserService implements IUserService {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private RoleService roleService;
 
     public UserService () {
 
@@ -77,6 +87,23 @@ public class UserService implements IUserService {
             log.error("Error saveOrUpdate() user in UserDao " + d);
             throw new ServiceException("Error saveOrUpdate() user in UserDao." );
         }
+    }
+
+    @Override
+    public void create(User user, String roleName) throws ServiceException {
+        String hashPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(hashPassword);
+
+        Role role = roleService.getRoleByName(roleName);
+        user.setRole(role);
+        Address address = user.getAddress();
+        Passport passport = user.getPassport();
+        address.setUser(user);
+        passport.setUser(user);
+
+//        passport.
+
+        saveOrUpdate(user);
     }
 
     @Override

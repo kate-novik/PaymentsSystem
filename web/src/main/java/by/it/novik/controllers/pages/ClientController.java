@@ -490,144 +490,27 @@ public class ClientController {
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String registration(@ModelAttribute("registrationForm") @Valid User user, BindingResult result, ModelMap model) {
+    public String registration(@ModelAttribute("registrationForm") @Valid User user,
+                               BindingResult result, ModelMap model) {
         //Проверка на заполненность формы данными
         if (result.hasErrors()) {
-            model.addAttribute("message","Not valid data! Repeat, please, input.");
-            model.addAttribute("type","danger");
+            model.addAttribute("message", "Not valid data! Repeat, please, input.");
+            model.addAttribute("type", "danger");
             return "reg";
         } else {
-            String hashPassword = passwordEncoder.encode(user.getPassword());
-            user.setPassword(hashPassword);
-
-            Role role;
             try {
-                role = roleService.getRoleByName("user");
-            } catch (ServiceException e) {
-                log.error("Error in getting role in CommandRegistration." + e);
-                model.addAttribute("message", "Error user's role.");
-                model.addAttribute("type", "danger");
-                return "reg";
-            }
-            user.setRole(role);
-
-            try {
-                userService.saveOrUpdate(user);
+                userService.create(user, "user");
                 model.addAttribute("message", "User was created. Enter data for authorization.");
                 model.addAttribute("type", "success");
-            }
-            catch (ServiceException e){
-                log.error("Error in CommandRegistration. User wasn't create."+ e);
-                model.addAttribute("message", "User wasn't created. Enter data .");
+            } catch (ServiceException e) {
+                log.error("Error in CommandRegistration. User wasn't create." + e);
+                model.addAttribute("message", "User wasn't create.\n" + e.getMessage());
                 model.addAttribute("type", "danger");
                 return "reg";
             }
-            return "redirect:/accounts";
         }
+        return "redirect:/accounts";
     }
-
-//    @RequestMapping(value = "/registration_old", method = RequestMethod.POST)
-//    public String registration(ModelMap model, HttpServletRequest request) {
-//        //Получаем данные из запроса
-//        String email = request.getParameter("email");
-//        String first_name = request.getParameter("first_name");
-//        String middle_name = request.getParameter("middle_name");
-//        String last_name = request.getParameter("last_name");
-//        String phone = request.getParameter("phone");
-//        String password = request.getParameter("password");
-//        String city = request.getParameter("city");
-//        String street = request.getParameter("street");
-//        String flat = request.getParameter("flat");
-//        String home = request.getParameter("home");
-//        String numberOfPassport = request.getParameter("numberOfPassport");
-//        String issued = request.getParameter("issued");
-//        String date = request.getParameter("date");
-//        String login = request.getParameter("login");
-//        //Проверка на заполненность формы данными
-//        if (email == null || first_name == null || middle_name == null || last_name == null ||
-//                phone == null || password == null || login == null || city == null || street == null ||
-//                flat == null || home == null || numberOfPassport == null || issued == null ||
-//                date == null) {
-//            model.addAttribute("message", "Complete all fields.");
-//            model.addAttribute("type", "danger");
-//            return "reg";
-//        }
-//        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
-//        Date dateOfPassport = null;
-//        try {
-//            dateOfPassport = formatDate.parse(date);
-//        } catch (ParseException e) {
-//            log.error("Error parsing Date in CommandRegistration." + e);
-//            model.addAttribute("message", "Error date of passport.");
-//            model.addAttribute("type", "danger");
-//            return "reg";
-//        }
-//        //Валидация полей
-//        if (Validation.validDataFromForm(password, "password") && Validation.validDataFromForm(login, "login") &&
-//                Validation.validDataFromForm(email, "email") && Validation.validDataFromForm(city, "city")
-//                && Validation.validDataFromForm(street, "street") && Validation.validDataFromForm(flat, "flat")
-//                && Validation.validDataFromForm(home, "home") && Validation.validDataFromForm(numberOfPassport, "numberOfPassport")
-//                && Validation.validDataFromForm(issued, "issued") && Validation.validDataFromForm(phone, "phone")
-//                && Validation.validDataFromForm(first_name, "first_name") && Validation.validDataFromForm(middle_name, "middle_name")
-//                && Validation.validDataFromForm(last_name, "last_name")) {
-//            User user = new User();
-//            user.setFirstName(first_name);
-//            user.setMiddleName(middle_name);
-//            user.setLastName(last_name);
-//            user.setPhone(phone);
-//            user.setEmail(email);
-//            user.setLogin(login);
-//            user.setPassword(password);
-//
-//            Address address = new Address();
-//            address.setCity(city);
-//            address.setStreet(street);
-//            address.setHome(home);
-//            address.setFlat(flat);
-//            address.setUser(user);
-//
-//            Passport passport = new Passport();
-//            passport.setNumber(numberOfPassport);
-//            passport.setDateOfIssue(dateOfPassport);
-//            passport.setIssued(issued);
-//            passport.setUser(user);
-//
-//            user.setAddress(address);
-//            user.setPassport(passport);
-//
-//            String hashPassword = passwordEncoder.encode(user.getPassword());
-//            user.setPassword(hashPassword);
-//            Role role;
-//            try {
-//                role = roleService.getRoleByName("user");
-//            } catch (ServiceException e) {
-//                log.error("Error in getting role in CommandRegistration." + e);
-//                model.addAttribute("message", "Error user's role.");
-//                model.addAttribute("type", "danger");
-//                return "reg";
-//            }
-//            user.setRole(role);
-//
-//            try {
-//                userService.saveOrUpdate(user);
-//                model.addAttribute("message", "User was created. Enter data for authorization.");
-//                model.addAttribute("type", "success");
-//
-//            }
-//            catch (ServiceException e){
-//                log.error("Error in CommandRegistration. User wasn't create."+ e);
-//                model.addAttribute("message", "User wasn't created. Enter data .");
-//                model.addAttribute("type", "danger");
-//                return "reg";
-//            }
-//        }
-//        else {
-//            model.addAttribute("message","Not valid data! Repeat, please, input.");
-//            model.addAttribute("type","danger");
-//            return "reg";
-//        }
-//        return "redirect:/accounts";
-//    }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login (ModelMap model,

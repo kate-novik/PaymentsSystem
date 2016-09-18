@@ -40,6 +40,8 @@ public interface IUserService {
      */
     void saveOrUpdate(User user) throws ServiceException;
 
+    void create(User user, String roleName) throws ServiceException;
+
     /**
      * Чтение записи (объекта) из БД
      * @param id Номер записи

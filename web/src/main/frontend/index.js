@@ -4,6 +4,7 @@
 import angular from 'angular';
 import angularAnimate from 'angular-animate';
 import ngMaterial from 'angular-material';
+import ngMessages from 'angular-messages';
 import 'angular-aria';
 import angularMaterialTable from 'angular-material-data-table';
 
@@ -20,6 +21,7 @@ import 'material-design-icons';
 angular.module('payments', [
     angularAnimate,
     ngMaterial,
+    ngMessages,
     angularMaterialTable
 ]).controller('Controller', ['$scope', $scope => {
     $scope.title = 'Payment system';
