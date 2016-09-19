@@ -1,5 +1,7 @@
 package by.it.novik.controllers.pages;
 
+import by.it.novik.pojos.User;
+import by.it.novik.util.ServiceException;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,6 +27,12 @@ public class AdminController {
         model.addAttribute("message", "Page for admins!");
         return "admin";
     }
+
+    @RequestMapping(value = "/payments", method = RequestMethod.GET)
+    public String profile(ModelMap model) {
+        return "admin/payments";
+    }
+
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login (ModelMap model,

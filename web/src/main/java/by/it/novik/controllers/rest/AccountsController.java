@@ -24,7 +24,8 @@ public class AccountsController {
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Account> findAll() throws ServiceException {
-        return accountService.getAllAccounts();
+        List<Account> list = accountService.getAllAccounts();
+        return new ArrayList<>();
     }
 
     @RequestMapping(value="/{id}", method = RequestMethod.GET)

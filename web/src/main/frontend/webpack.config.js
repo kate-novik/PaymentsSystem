@@ -8,7 +8,8 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 module.exports = {
     context: __dirname,
     entry: {
-        payments: './'
+        payments: './',
+        admin: './admin'
     },
     output: {
         path: __dirname + '/../webapp/resources',
