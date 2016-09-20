@@ -58,8 +58,8 @@
         </table>
 
         <md-table-container>
-            <table md-table ng-model="ctrl.selected">
-                <thead md-head md-order="query.order" md-on-reorder="getDesserts">
+            <table md-table ng-model="ctrl.selected" md-promise="ctrl.loading">
+                <thead md-head md-order="ctrl.query.order" md-on-reorder="ctrl.fetch">
                 <tr md-row>
                     <th md-column md-order-by="nameToLower"><span># of account</span></th>
                     <th md-column md-numeric>Amount</th>
@@ -68,9 +68,9 @@
                 </tr>
                 </thead>
                 <tbody md-body>
-                <tr md-row md-select="dessert" md-select-id="name" md-auto-select ng-repeat="account in ctrl.accounts">
+                <tr md-row md-select="account" md-select-id="id" md-auto-select ng-repeat="account in ctrl.accounts">
                     <td md-cell>{{account.id}}</td>
-                    <td md-cell>{{account.amount}}</td>
+                    <td md-cell>{{account.balance}}</td>
                     <td md-cell>{{account.state}}</td>
                     <td md-cell></td>
                 </tr>
@@ -78,7 +78,13 @@
             </table>
         </md-table-container>
 
-        <md-table-pagination md-limit="ctrl.query.limit" md-limit-options="[5, 10, 15]" md-page="ctrl.query.page" md-total="{{ctrl.accounts.length}}" md-page-select></md-table-pagination>
+        <md-table-pagination md-limit="ctrl.query.limit"
+                             md-limit-options="[5, 10, 15]"
+                             md-page="ctrl.query.page"
+                             md-total="{{ctrl.accounts.length}}"
+                             md-on-paginate="ctrl.fetch"
+                             md-page-select>
+        </md-table-pagination>
 
     </div>
 </div>

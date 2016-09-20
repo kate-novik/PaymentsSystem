@@ -2,6 +2,7 @@ package by.it.novik.pojos;
 
 
 import by.it.novik.util.AccountState;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
@@ -60,6 +61,7 @@ public class Account implements Serializable {
         this.balance = balance;
     }
 
+    @JsonIgnore
     private User user;
     @ManyToOne
     @JoinColumn(name="id_user")

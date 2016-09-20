@@ -35,13 +35,13 @@ public class Dao <T> implements IDao<T> {
 
     public Session getSession(){
         Session session;
-     //   try{
+        try{
             session = sessionFactory.getCurrentSession();
-      //  }
-//        catch (HibernateException e)
-//        {
-//            session = sessionFactory.openSession();
-//        }
+        }
+        catch (HibernateException e)
+        {
+            session = sessionFactory.openSession();
+        }
         return session;
     }
 

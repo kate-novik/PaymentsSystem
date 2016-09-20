@@ -25,8 +25,7 @@ public class AccountsController {
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Account> findAll() throws ServiceException {
-        List<Account> list = accountService.getAllAccounts();
-        return new ArrayList<>();
+        return accountService.getAllAccounts();
     }
 
     @RequestMapping(value="/{id}", method = RequestMethod.GET)
@@ -37,7 +36,8 @@ public class AccountsController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Account create(Account account){
+    public Account create(Account account) throws ServiceException {
+        accountService.saveOrUpdate(account);
         return account;
     }
 
