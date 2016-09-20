@@ -2,10 +2,7 @@ package by.it.novik.controllers.pages;
 
 import by.it.novik.controller.Validation;
 import by.it.novik.pojos.*;
-import by.it.novik.services.AccountService;
-import by.it.novik.services.PaymentService;
-import by.it.novik.services.RoleService;
-import by.it.novik.services.UserService;
+import by.it.novik.services.*;
 import by.it.novik.util.AccountState;
 import by.it.novik.util.ServiceException;
 import org.apache.log4j.Logger;
@@ -37,13 +34,13 @@ public class ClientController {
     private static Logger log = Logger.getLogger (ClientController.class);
 
     @Autowired
-    PaymentService paymentService;
+    IPaymentService paymentService;
     @Autowired
-    AccountService accountService;
+    IAccountService accountService;
     @Autowired
-    UserService userService;
+    IUserService userService;
     @Autowired
-    RoleService roleService;
+    IRoleService roleService;
     @Autowired
     PasswordEncoder passwordEncoder;
 

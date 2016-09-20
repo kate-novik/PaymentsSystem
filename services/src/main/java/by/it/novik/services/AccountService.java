@@ -18,7 +18,7 @@ import java.util.List;
  * Created by Kate Novik.
  */
 @Service("accountService")
-//@Transactional
+@Transactional
 public class AccountService implements IAccountService {
 
     protected static Logger log = Logger.getLogger (AccountService.class);
@@ -26,7 +26,7 @@ public class AccountService implements IAccountService {
     @Autowired
     private AccountDao accountDao;
     @Autowired
-    private UserService userService;
+    private IUserService userService;
 
     public AccountService(){
 

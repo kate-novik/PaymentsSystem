@@ -27,6 +27,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserDetailsService userDetailsService;
     @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
     DataSource dataSource;
 
     @Autowired
@@ -34,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.inMemoryAuthentication().withUser("user").password("user").roles("USER");
         auth.inMemoryAuthentication().withUser("admin").password("admin").roles("ADMIN");
 
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
 
     }
 
@@ -62,12 +64,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .and().exceptionHandling().accessDeniedPage("/403");
 
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        PasswordEncoder encoder = new BCryptPasswordEncoder();
-        return encoder;
     }
 
     @Bean

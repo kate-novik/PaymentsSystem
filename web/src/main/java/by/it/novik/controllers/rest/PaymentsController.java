@@ -1,6 +1,7 @@
 package by.it.novik.controllers.rest;
 
 import by.it.novik.pojos.Payment;
+import by.it.novik.services.IPaymentService;
 import by.it.novik.services.PaymentService;
 import by.it.novik.util.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import java.util.List;
 public class PaymentsController {
 
     @Autowired
-    PaymentService paymentService;
+    IPaymentService paymentService;
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Payment> findAll() throws ServiceException {

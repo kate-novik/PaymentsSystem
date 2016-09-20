@@ -76,7 +76,7 @@
             <div layout-gt-sm="row">
                 <md-input-container class="md-block" flex-gt-sm>
                     <label>Phone</label>
-                    <form:input path="phone" ng-model="city" required="true" ng-pattern="/^[0-9]{12}$/" md-maxlength="12"/>
+                    <form:input path="phone" ng-model="phone" required="true" ng-pattern="/^[0-9]{12}$/" md-maxlength="12"/>
                     <div ng-messages="regForm.phone.$error">
                         <div ng-message="required">Phone is required.</div>
                         <div ng-message="md-maxlength">The phone has to be less than 12 characters long.</div>

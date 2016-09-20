@@ -26,7 +26,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private UserDao userDao;
 
-//    @Transactional
+   @Transactional
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException  {
         by.it.novik.pojos.User user = null;

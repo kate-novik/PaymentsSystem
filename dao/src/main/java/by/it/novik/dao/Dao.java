@@ -33,28 +33,30 @@ public class Dao <T> implements IDao<T> {
     @Autowired
     private SessionFactory sessionFactory;
 
-    protected Session getSession(){
+    public Session getSession(){
         Session session;
-        try{
+     //   try{
             session = sessionFactory.getCurrentSession();
-        }
-        catch (HibernateException e)
-        {
-            session = sessionFactory.openSession();
-        }
+      //  }
+//        catch (HibernateException e)
+//        {
+//            session = sessionFactory.openSession();
+//        }
         return session;
     }
 
 
     public void saveOrUpdate(T t) throws DaoException {
+      //  Transaction transaction = null;
         try {
-//            session = HibernateUtil.getHibernateUtil().getSession();
+       //    Session session = HibernateUtil.getHibernateUtil().getSession();
 //            //Открываем транзакцию
-//            transaction = session.beginTransaction();
+         //   transaction = session.beginTransaction();
             getSession().saveOrUpdate(t);
+           // session.saveOrUpdate(t);
             log.info("saveOrUpdate(t):" + t);
 //            //При отсутствии исключения коммитим транзакцию
-//            transaction.commit();
+         //  transaction.commit();
 //            log.info("saveOrUpdate (commit):" + t);
         }
         catch (HibernateException e) {

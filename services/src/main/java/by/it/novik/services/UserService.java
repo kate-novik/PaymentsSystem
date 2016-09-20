@@ -21,7 +21,7 @@ import java.util.List;
  * Created by Kate Novik.
  */
 @Service("userService")
-//@Transactional
+@Transactional
 public class UserService implements IUserService {
     protected static Logger log = Logger.getLogger (UserService.class);
 
@@ -32,7 +32,7 @@ public class UserService implements IUserService {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private RoleService roleService;
+    private IRoleService roleService;
 
     public UserService () {
 

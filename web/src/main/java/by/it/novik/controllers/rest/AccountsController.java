@@ -2,6 +2,7 @@ package by.it.novik.controllers.rest;
 
 import by.it.novik.pojos.Account;
 import by.it.novik.services.AccountService;
+import by.it.novik.services.IAccountService;
 import by.it.novik.util.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +21,7 @@ import java.util.List;
 public class AccountsController {
 
     @Autowired
-    AccountService accountService;
+    IAccountService accountService;
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Account> findAll() throws ServiceException {

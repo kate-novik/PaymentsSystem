@@ -135,7 +135,7 @@ public class User implements Serializable {
 
     @NotEmpty
     private String password;
-    @Column(name="password", length=50)
+    @Column(name="password")
 //    @Type(type = "string")
     public String getPassword() {
         return password;
