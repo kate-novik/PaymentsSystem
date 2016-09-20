@@ -26,3 +26,7 @@ angular.module('payments', [
 ]).controller('Controller', ['$scope', $scope => {
     $scope.title = 'Payment system';
 }]);
+
+// Controllers
+var controllers = require.context('./controllers', true, /.js$/);
+controllers.keys().forEach(controllers);

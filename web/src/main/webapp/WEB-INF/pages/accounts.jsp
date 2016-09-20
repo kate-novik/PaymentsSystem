@@ -5,7 +5,7 @@
 <%@ include file="include/begin-html.jsp" %>
 <%@ include file="include/header-html.jsp" %>
 
-<div class="main container">
+<div class="main container" ng-controller="AccountsController as ctrl">
     <div class="row">
         <div class="pull-right">
             (<a  href="/profile" type="button" class="btn btn-link">
@@ -56,6 +56,30 @@
             </c:forEach>
             </tbody>
         </table>
+
+        <md-table-container>
+            <table md-table ng-model="ctrl.selected">
+                <thead md-head md-order="query.order" md-on-reorder="getDesserts">
+                <tr md-row>
+                    <th md-column md-order-by="nameToLower"><span># of account</span></th>
+                    <th md-column md-numeric>Amount</th>
+                    <th md-column md-numeric>State</th>
+                    <th md-column md-numeric>Actions</th>
+                </tr>
+                </thead>
+                <tbody md-body>
+                <tr md-row md-select="dessert" md-select-id="name" md-auto-select ng-repeat="account in ctrl.accounts">
+                    <td md-cell>{{account.id}}</td>
+                    <td md-cell>{{account.amount}}</td>
+                    <td md-cell>{{account.state}}</td>
+                    <td md-cell></td>
+                </tr>
+                </tbody>
+            </table>
+        </md-table-container>
+
+        <md-table-pagination md-limit="ctrl.query.limit" md-limit-options="[5, 10, 15]" md-page="ctrl.query.page" md-total="{{ctrl.accounts.length}}" md-page-select></md-table-pagination>
+
     </div>
 </div>
 
