@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * Created by Kate Novik.
  */
 @Configuration
-//@EnableAspectJAutoProxy
 @EnableTransactionManagement
 @ComponentScan("by.it.novik.services")
 @Import({HibernateConfig.class})

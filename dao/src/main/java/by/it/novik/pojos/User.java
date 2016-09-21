@@ -20,14 +20,12 @@ import java.util.Set;
 @Table(name = "user")
 @NamedQueries({
         @NamedQuery(name="findByLogin", query= User.QUERY_FIND_BY_LOGIN),
-        //@NamedQuery(name="findByLoginAndPass", query= User.QUERY_FIND_BY_LOGIN_AND_PASS),
         @NamedQuery(name="getAllUsers", query= User.QUERY_GET_ALL_USERS)
 })
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
     static final String QUERY_FIND_BY_LOGIN = "FROM User u WHERE u.login = :login";
-   // static final String QUERY_FIND_BY_LOGIN_AND_PASS = "FROM User u WHERE u.login = :login AND u.password = :password";
     static final String QUERY_GET_ALL_USERS = "FROM User";
 
     private Long id;
@@ -136,7 +134,6 @@ public class User implements Serializable {
     @NotEmpty
     private String password;
     @Column(name="password")
-//    @Type(type = "string")
     public String getPassword() {
         return password;
     }
@@ -144,17 +141,6 @@ public class User implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
-
-//    private String salt;
-//    @Column(name="salt")
-////    @Type(type = "string")
-//    public String getSalt() {
-//        return salt;
-//    }
-//
-//    public void setSalt(String salt) {
-//        this.salt = salt;
-//    }
 
     private Role role;
     @ManyToOne(cascade = CascadeType.ALL)
@@ -169,7 +155,6 @@ public class User implements Serializable {
 
     private Set<Account> accounts = new HashSet<Account>();
     @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
-    //@Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     @Fetch(FetchMode.SELECT)
     public Set<Account> getAccounts() {
         return accounts;
@@ -195,8 +180,6 @@ public class User implements Serializable {
         if (firstName != null ? !firstName.equals(user.firstName) : user.firstName != null) return false;
         if (middleName != null ? !middleName.equals(user.middleName) : user.middleName != null) return false;
         if (lastName != null ? !lastName.equals(user.lastName) : user.lastName != null) return false;
-        //if (passport != null ? !passport.equals(user.passport) : user.passport != null) return false;
-        //if (address != null ? !address.equals(user.address) : user.address != null) return false;
         if (phone != null ? !phone.equals(user.phone) : user.phone != null) return false;
         if (email != null ? !email.equals(user.email) : user.email != null) return false;
         if (login != null ? !login.equals(user.login) : user.login != null) return false;
@@ -218,8 +201,6 @@ public class User implements Serializable {
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (login != null ? login.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
-       // result = 31 * result + (role != null ? role.hashCode() : 0);
-        //result = 31 * result + (accounts != null ? accounts.hashCode() : 0);
         return result;
     }
 

@@ -23,7 +23,7 @@ import java.util.List;
  * Created by Kate Novik.
  */
 @Service("paymentService")
-//@Transactional
+@Transactional
 public class PaymentService implements IPaymentService {
 
     protected static Logger log = Logger.getLogger (PaymentService.class);

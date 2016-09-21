@@ -1,18 +1,10 @@
 package by.it.novik.config;
 
-
-import by.it.novik.dao.AccountDao;
-import by.it.novik.dao.PaymentDao;
-import by.it.novik.dao.RoleDao;
-import by.it.novik.dao.UserDao;
-import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 
@@ -23,8 +15,6 @@ import java.util.Properties;
  * Created by Kate Novik.
  */
 @Configuration
-//@EnableAspectJAutoProxy
-//@EnableTransactionManagement
 @ComponentScan({ "by.it.novik.dao" })
 @PropertySource(value = { "classpath:hibernate.properties" })
 public class HibernateConfig {
@@ -68,10 +58,4 @@ public class HibernateConfig {
         return txManager;
     }
 
-//    @Bean
-//    public AnnotationTransactionAspect annotationTransactionAspect(){
-//        AnnotationTransactionAspect bean = AnnotationTransactionAspect.aspectOf();
-//        bean.setTransactionManager(transactionManager(sessionFactory().getObject()));
-//        return bean;
-//    }
 }

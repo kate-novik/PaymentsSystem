@@ -32,7 +32,6 @@ public class AccountService implements IAccountService {
 
     }
 
-
     @Override
     public List<Account> getAccountsByUser(Serializable id_user, String orderState) throws ServiceException {
         List<Account> accounts;

@@ -39,19 +39,6 @@ public class UserService implements IUserService {
     }
 
 
-//    @Override
-//    public User findByLoginAndPass(String login, String password) throws ServiceException {
-//        User user;
-//        try {
-//            user = userDao.findByLoginAndPass(login, password);
-//        }
-//        catch (DaoException d) {
-//            log.error("Error findByLoginAndPass() user in UserService." + d);
-//            throw new ServiceException("Error findByLoginAndPass() user in UserService.");
-//        }
-//        return user;
-//    }
-
     @Override
     public User findByLogin(String login) throws ServiceException {
         User user;
@@ -100,8 +87,6 @@ public class UserService implements IUserService {
         Passport passport = user.getPassport();
         address.setUser(user);
         passport.setUser(user);
-
-//        passport.
 
         saveOrUpdate(user);
     }

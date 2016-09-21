@@ -82,7 +82,6 @@ public class RoleService implements IRoleService {
     }
 
     @Override
-    @Transactional
     public Role getRoleByName(String name) throws ServiceException {
         Role role;
         try{

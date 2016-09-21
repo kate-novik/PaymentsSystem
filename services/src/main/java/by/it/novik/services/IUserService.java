@@ -12,16 +12,9 @@ import java.util.List;
  */
 public interface IUserService {
 
-//    /**
-//     * Поиск User по логину и паролю
-//     * @param login Логин
-//     * @param password Пароль
-//     * @return Объект User
-//     */
-//    User findByLoginAndPass(String login, String password) throws ServiceException;
 
     /**
-     * Поиск User по логину
+     * Поиск объекта User по логину
      * @param login Логин
      * @return Объект User
      */
@@ -40,6 +33,12 @@ public interface IUserService {
      */
     void saveOrUpdate(User user) throws ServiceException;
 
+    /**
+     * Создание объекта User
+     * @param user Объект User
+     * @param roleName Название роли
+     * @throws ServiceException
+     */
     void create(User user, String roleName) throws ServiceException;
 
     /**

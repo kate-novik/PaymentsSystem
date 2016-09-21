@@ -19,7 +19,6 @@ import java.io.Serializable;
 })
 public class Role implements Serializable {
     private static final long serialVersionUID = 1L;
-    //Идентификатор роли
 
     static final String QUERY_FIND_BY_NAME = "FROM Role r WHERE r.role = :role";
 
