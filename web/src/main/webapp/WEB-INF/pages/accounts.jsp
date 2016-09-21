@@ -6,7 +6,7 @@
 <%@ include file="include/header-html.jsp" %>
 
 <div class="main container" ng-controller="AccountsController as ctrl">
-    <div class="row">
+    <div class="row" ng-init="ctrl._csrfName=${_csrf.parameterName}; ctrl._csrfToken=${_csrf.token}">
         <div class="pull-right">
             (<a  href="/profile" type="button" class="btn btn-link">
             <c:out value="${user.login}" /></a>)
@@ -19,73 +19,41 @@
         </div>
     </div>
     <div class="row">
-        <table class="table table-bordered table-striped">
-            <thead>
-            <tr>
-                <th># of account</th>
-                <th>Amount</th>
-                <th>State</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach var="elem" items="${accounts}" varStatus="status">
-            <tr>
-                <td><c:out value="${elem.id}" /></td>
-                <td><c:out value="${elem.balance}" /></td>
-                <td><c:out value="${elem.state}" /></td>
-
-                <td>
-                    <div class="btn-group">
-
-                        <a href="/accounts/${elem.id}/getRefill" class="btn btn-default btn-sm" data-toggle="tooltip" title="Refill" aria-label="Left Align">
-                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                        </a>
-                        <a href="/accounts/${elem.id}/getPay" class="btn btn-default btn-sm" data-toggle="tooltip" title="Pay" aria-label="Center Align">
-                            <span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
-                        </a>
-                        <a href="/accounts/${elem.id}/getBlock" class="btn btn-default btn-sm" data-toggle="tooltip" title="Block" aria-label="Right Align">
-                            <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
-                        </a>
-                        <a href="/accounts/${elem.id}/payments" class="btn btn-default btn-sm" data-toggle="tooltip" title="Payments" aria-label="Justify">
-                            <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-                        </a>
-                    </div>
-                </td>
-            </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-
-        <md-table-container>
-            <table md-table ng-model="ctrl.selected" md-promise="ctrl.loading">
-                <thead md-head md-order="ctrl.query.order" md-on-reorder="ctrl.fetch">
-                <tr md-row>
-                    <th md-column md-order-by="nameToLower"><span># of account</span></th>
-                    <th md-column md-numeric>Amount</th>
-                    <th md-column md-numeric>State</th>
-                    <th md-column md-numeric>Actions</th>
-                </tr>
-                </thead>
-                <tbody md-body>
-                <tr md-row md-select="account" md-select-id="id" md-auto-select ng-repeat="account in ctrl.accounts">
-                    <td md-cell>{{account.id}}</td>
-                    <td md-cell>{{account.balance}}</td>
-                    <td md-cell>{{account.state}}</td>
-                    <td md-cell></td>
-                </tr>
-                </tbody>
-            </table>
-        </md-table-container>
-
-        <md-table-pagination md-limit="ctrl.query.limit"
-                             md-limit-options="[5, 10, 15]"
-                             md-page="ctrl.query.page"
-                             md-total="{{ctrl.accounts.length}}"
-                             md-on-paginate="ctrl.fetch"
-                             md-page-select>
-        </md-table-pagination>
-
+        <div flex-xs layout="row">
+            <md-card flex-gt-xs="33" md-theme="dark-blue" md-theme-watch ng-repeat="account in ctrl.accounts">
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-subhead">Остаток на счете</span>
+                        <span class="md-headline">{{account.balance | currency}}</span>
+                    </md-card-title-text>
+                </md-card-title>
+                <md-card-actions layout="row" layout-align="end center">
+                    <md-menu>
+                        <md-button aria-label="Open demo menu"
+                                   ng-click="$mdOpenMenu($event)">Действия</md-button>
+                        <md-menu-content width="4">
+                            <md-menu-item>
+                                <md-button ng-click="ctrl.refill($event, account.id, $index)">
+                                    Пополнение счета
+                                </md-button>
+                            </md-menu-item>
+                            <md-menu-item>
+                                <md-button ng-click="ctrl.pay($event, account.id)">
+                                    Оплата услуг
+                                </md-button>
+                            </md-menu-item>
+                            <md-menu-divider></md-menu-divider>
+                            <md-menu-item>
+                                <md-button ng-click="ctrl.block($event, account.id)">
+                                    Заблокировать
+                                </md-button>
+                            </md-menu-item>
+                        </md-menu-content>
+                    </md-menu>
+                    <md-button>Выписка</md-button>
+                </md-card-actions>
+            </md-card>
+        </div>
     </div>
 </div>
 

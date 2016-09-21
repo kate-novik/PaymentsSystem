@@ -16,6 +16,8 @@ module.exports = {
         filename: 'js/[name].js'
     },
 
+    // devtool: 'eval',
+
     plugins: [
         new webpack.NoErrorsPlugin(),
 

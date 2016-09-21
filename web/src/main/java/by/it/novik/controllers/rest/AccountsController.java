@@ -1,14 +1,12 @@
 package by.it.novik.controllers.rest;
 
+import by.it.novik.dto.Refill;
 import by.it.novik.pojos.Account;
 import by.it.novik.services.AccountService;
 import by.it.novik.services.IAccountService;
 import by.it.novik.util.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,5 +48,22 @@ public class AccountsController {
 
     @RequestMapping(value="/{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable Long id){
+    }
+
+    @RequestMapping(value="/{id}/refill", method = RequestMethod.POST)
+    public Account refill(@PathVariable Long id, Refill refill) throws ServiceException {
+        Account account = accountService.get(id);
+        account.setBalance(account.getBalance() + refill.getAmount());
+        accountService.saveOrUpdate(account);
+        return account;
+    }
+
+    @RequestMapping(value="/{id}/refill", method = RequestMethod.GET)
+    public Account refill(@PathVariable Long id,
+                          @RequestParam Double amount) throws ServiceException {
+        Account account = accountService.get(id);
+        account.setBalance(account.getBalance() + amount);
+        accountService.saveOrUpdate(account);
+        return account;
     }
 }
