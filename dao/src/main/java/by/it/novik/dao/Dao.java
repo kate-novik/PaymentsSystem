@@ -61,11 +61,11 @@ public class Dao <T> implements IDao<T> {
             if (object != null) {
                 //Удаляем объект
                 getSession().delete(object);
+                log.info("delete(id):" + object);
             }
             else {
                 throw new DaoException("Object for deleting don't exist!");
             }
-            log.info("delete(id):" + object);
         } catch (HibernateException e) {
             log.error("Error delete in Dao" + e);
             throw new DaoException("Error delete in Dao.");

@@ -22,6 +22,7 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -46,28 +47,29 @@ public class ClientController {
 
     @RequestMapping("/")
     public String home(ModelMap model, Principal principal) {
-        model.addAttribute("message", "Hello" + principal.getName());
+        //Getting user from session
+        User user = getUserFromSession(principal,model);
+        if (user == null) {
+            return "login";
+        }
+        //Getting role for user in session
+        Role role = user.getRole();
+        model.addAttribute("message", "Hello " + principal.getName());
         model.addAttribute("type", "info");
+        if (role.getRole().equals("admin")){
+            return "admin";
+        }
         return "accounts";
     }
 
     @RequestMapping("/accounts")
     public String accounts(ModelMap model, HttpServletRequest request, Principal principal) {
-
-        //Получаем из сессии объект user
-        String login = principal.getName();
-        User user;
-        try {
-            user = userService.findByLogin(login);
-        } catch (ServiceException e) {
-            log.error("Error in findByLogin" + e);
-            model.addAttribute("message", "Didn't find user.");
-            model.addAttribute("type","danger");
+        //Getting user from session
+        User user = getUserFromSession(principal,model);
+        if (user == null) {
             return "login";
         }
-        model.addAttribute("user",user);
-
-        //Сделать сортировку на фронтенде
+        //Getting order of sorting for list accounts
         String orderState = request.getParameter("orderState");
         try {
             List<Account> listAccounts = accountService.getAccountsByUser(user.getId(),orderState);
@@ -91,16 +93,10 @@ public class ClientController {
     }
 
     @RequestMapping(value="/createAccount", method = RequestMethod.GET)
-    public String createAccount(ModelMap model, HttpServletRequest request, Principal principal) {
-        //Получаем из сессии объект user
-        String login = principal.getName();
-        User user;
-        try {
-            user = userService.findByLogin(login);
-        } catch (ServiceException e) {
-            log.error("Error in findByLogin" + e);
-            model.addAttribute("message", "Didn't find user.");
-            model.addAttribute("type","danger");
+    public String createAccount(ModelMap model, Principal principal) {
+        //Getting user from session
+        User user = getUserFromSession(principal,model);
+        if (user == null) {
             return "login";
         }
         Account account = new Account();
@@ -123,30 +119,13 @@ public class ClientController {
     @RequestMapping(value = "/accounts/{id}/getBlock", method = RequestMethod.POST)
     public String getBlock(ModelMap model, @PathVariable Long id, HttpServletRequest request, Principal principal) {
         request.setAttribute("id_account", id);
-        //Получим зарегестрированного пользователя
-        String login = principal.getName();
-        User user;
-        try {
-            user = userService.findByLogin(login);
-        } catch (ServiceException e) {
-            log.error("Error in findByLogin" + e);
-            model.addAttribute("message", "Didn't find user.");
-            model.addAttribute("type","danger");
+        //Getting user from session
+        User user = getUserFromSession(principal,model);
+        if (user == null) {
             return "login";
         }
-        //Флаг наличия аккаунта
-        boolean flag = false;
-        //Проверим принадлежность переданного счета данному пользователю
-        try {
-            flag = checkAccountOfUser(user,id);
-        } catch (ServiceException e) {
-            log.error("Error in getAccountsByUser" + e);
-            model.addAttribute("message", "Didn't find accounts for user.");
-            model.addAttribute("type","danger");
-            return "redirect:/accounts";
-        }
-
-        if (!flag){
+        //Checking reported ID account
+        if (!checkAccountOfUser(user,id)){
             model.addAttribute("message", "You can't block not your account.");
             model.addAttribute("type","danger");
             return "redirect:/accounts";
@@ -188,31 +167,14 @@ public class ClientController {
     @RequestMapping(value="/accounts/{id}/getPay", method = RequestMethod.GET)
     public String getPay(ModelMap model, @PathVariable Long id, HttpServletRequest request, Principal principal) {
         request.setAttribute("id_account", id);
-        //Получим зарегестрированного пользователя
-        String login = principal.getName();
-        User user;
-        try {
-            user = userService.findByLogin(login);
-        } catch (ServiceException e) {
-            log.error("Error in findByLogin" + e);
-            model.addAttribute("message", "Didn't find user.");
-            model.addAttribute("type","danger");
+        //Getting user from session
+        User user = getUserFromSession(principal,model);
+        if (user == null) {
             return "login";
         }
-        //Флаг наличия аккаунта
-        boolean flag = false;
-        //Проверим принадлежность переданного счета данному пользователю
-        try {
-            flag = checkAccountOfUser(user,id);
-        } catch (ServiceException e) {
-            log.error("Error in getAccountsByUser" + e);
-            model.addAttribute("message", "Didn't find accounts for user.");
-            model.addAttribute("type","danger");
-            return "redirect:/accounts";
-        }
-
-        if (!flag){
-            model.addAttribute("message", "You can't pay not your account.");
+        //Checking reported ID account
+        if (!checkAccountOfUser(user,id)){
+            model.addAttribute("message", "You can't block not your account.");
             model.addAttribute("type","danger");
             return "redirect:/accounts";
         }
@@ -222,15 +184,9 @@ public class ClientController {
     @RequestMapping(value="/accounts/{id}/pay", method = RequestMethod.POST)
     public String pay (ModelMap model, @PathVariable Integer id, HttpServletRequest request, Principal principal) {
         request.setAttribute("id_account", id);
-        //Получим зарегестрированного пользователя
-        String login = principal.getName();
-        User user;
-        try {
-            user = userService.findByLogin(login);
-        } catch (ServiceException e) {
-            log.error("Error in findByLogin" + e);
-            model.addAttribute("message", "Didn't find user.");
-            model.addAttribute("type","danger");
+        //Getting user from session
+        User user = getUserFromSession(principal,model);
+        if (user == null) {
             return "login";
         }
 
@@ -270,39 +226,18 @@ public class ClientController {
     @RequestMapping(value = "/accounts/{id}/payments", method = RequestMethod.GET)
     public String payments(ModelMap model, @PathVariable Long id, HttpServletRequest request, Principal principal){
         request.setAttribute("id_account", id);
-        //Получаем из сессии объект user
-        String login = principal.getName();
-        User user;
-        try {
-            user = userService.findByLogin(login);
-        } catch (ServiceException e) {
-            log.error("Error in findByLogin" + e);
-            model.addAttribute("message", "Didn't find user.");
-            model.addAttribute("type","danger");
+        //Getting user from session
+        User user = getUserFromSession(principal,model);
+        if (user == null) {
             return "login";
         }
-
-        //Флаг наличия аккаунта
-        boolean flag = false;
-        //Проверим принадлежность переданного счета данному пользователю
-        try {
-            flag = checkAccountOfUser(user,id);
-        } catch (ServiceException e) {
-            log.error("Error in getAccountsByUser" + e);
-            model.addAttribute("message", "Didn't find accounts for user.");
+        //Checking reported ID account
+        if (!checkAccountOfUser(user,id)){
+            model.addAttribute("message", "You can't block not your account.");
             model.addAttribute("type","danger");
             return "redirect:/accounts";
         }
-
-        if (!flag){
-            model.addAttribute("message", "You can't pay not your account.");
-            model.addAttribute("type","danger");
-            return "redirect:/accounts";
-        }
-        //String id_account = request.getParameter("id_account");
-        //Integer id_account = (Integer) request.getSession(true).getAttribute("id_account");
         String id_source = request.getParameter("id_account");
-
         if (id_source != null){
             Integer id_account = Integer.parseInt(id_source);
             try {
@@ -335,15 +270,9 @@ public class ClientController {
 
     @RequestMapping(value = "/payments", method = RequestMethod.GET)
     public String payments(ModelMap model, Principal principal) {
-        //Получаем из сессии объект user
-        String login = principal.getName();
-        User user;
-        try {
-            user = userService.findByLogin(login);
-        } catch (ServiceException e) {
-            log.error("Error in findByLogin" + e);
-            model.addAttribute("message", "Didn't find user.");
-            model.addAttribute("type", "danger");
+        //Getting user from session
+        User user = getUserFromSession(principal,model);
+        if (user == null) {
             return "login";
         }
         try {
@@ -369,55 +298,30 @@ public class ClientController {
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public String profile(ModelMap model, Principal principal) {
-        //Получаем из сессии объект user
-        String login = principal.getName();
-        User user;
-        try {
-            user = userService.findByLogin(login);
-        } catch (ServiceException e) {
-            log.error("Error in findByLogin" + e);
-            model.addAttribute("message", "Didn't find user.");
-            model.addAttribute("type", "danger");
+        //Getting user from session
+        User user = getUserFromSession(principal,model);
+        if (user == null) {
             return "login";
         }
-        model.addAttribute("user",user);
         return "profile";
     }
 
     @RequestMapping(value = "/accounts/{id}/getRefill", method = RequestMethod.POST)
     public String getRefill(ModelMap model, @PathVariable Long id, HttpServletRequest request, Principal principal)  {
         request.setAttribute("id_account", id);
-        //Получаем из сессии объект user
-        String login = principal.getName();
-        User user;
-        try {
-            user = userService.findByLogin(login);
-        } catch (ServiceException e) {
-            log.error("Error in findByLogin" + e);
-            model.addAttribute("message", "Didn't find user.");
-            model.addAttribute("type","danger");
+        //Getting user from session
+        User user = getUserFromSession(principal,model);
+        if (user == null) {
             return "login";
         }
-
-        //Флаг наличия аккаунта
-        boolean flag = false;
-        //Проверим принадлежность переданного счета данному пользователю
-        try {
-            flag = checkAccountOfUser(user,id);
-        } catch (ServiceException e) {
-            log.error("Error in getAccountsByUser" + e);
-            model.addAttribute("message", "Error finding accounts for user.");
+        //Checking reported ID account
+        if (!checkAccountOfUser(user,id)){
+            model.addAttribute("message", "You can't block not your account.");
             model.addAttribute("type","danger");
             return "redirect:/accounts";
         }
-
-        if (!flag){
-            model.addAttribute("message", "You can't refill not your account.");
-            model.addAttribute("type","danger");
-            return "redirect:/accounts";
-        }
-        //Получим счета пользователя для перевода
-        List <Account> accounts = null;
+        //Getting accounts of user for refilling
+        List <Account> accounts;
         try {
             accounts = accountService.getAccountsByUser(user.getId(),"ASC");
         } catch (ServiceException e) {
@@ -489,7 +393,7 @@ public class ClientController {
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String registration(@ModelAttribute("registrationForm") @Valid User user,
                                BindingResult result, ModelMap model) {
-        //Проверка на заполненность формы данными
+        //Checking form for errors
         if (result.hasErrors()) {
             model.addAttribute("message", "Not valid data! Repeat, please, input.");
             model.addAttribute("type", "danger");
@@ -525,17 +429,56 @@ public class ClientController {
         return "login";
     }
 
-    private boolean checkAccountOfUser (User user, Long id_account) throws ServiceException {
-        //Проверим принадлежность переданного счета данному пользователю
-        List <Account> accounts = accountService.getAccountsByUser(user.getId(),"ASC");
-        //Флаг наличия аккаунта
+    /**
+     * Checking whether user has this account
+     * @param user Object User
+     * @param id_account Account ID
+     * @return true - user owns this account
+     */
+    private boolean checkAccountOfUser (User user, Long id_account) {
+        List <Account> accounts;
+        try {
+            //Getting list of accounts for this user
+            accounts = accountService.getAccountsByUser(user.getId(),"ASC");
+        } catch (ServiceException e) {
+            log.error("Error in getAccountsByUser" + e);
+            return false;
+        }
+        //Flag of the existence of the account
         boolean flag = false;
-        for (Account account : accounts){
-            if (account.getId().equals(id_account)){
-                flag = true;
-                break;
+        if (accounts.size() != 0) {
+            for (Account account : accounts) {
+                if (account.getId().equals(id_account)) {
+                    flag = true;
+                    break;
+                }
             }
         }
         return flag;
     }
+
+    /**
+     * Getting object User from session
+     * @param principal Object Principal
+     * @param model Object ModelMap
+     * @return Object User
+     */
+    private User getUserFromSession (Principal principal, ModelMap model) {
+        //Getting login
+        String login = principal.getName();
+        User user = null;
+        try {
+            //Searching object User with login
+            user = userService.findByLogin(login);
+        } catch (ServiceException e) {
+            log.error("Error in findByLogin" + e);
+            model.addAttribute("message", "Didn't find user.");
+            model.addAttribute("type","danger");
+        }
+        if (user != null) {
+            model.addAttribute("user", user);
+        }
+        return user;
+    }
+
 }

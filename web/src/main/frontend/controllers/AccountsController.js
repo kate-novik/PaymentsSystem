@@ -42,7 +42,6 @@ class AccountsController {
   }
 
   block(ev, id) {
-      // Appending dialog to document.body to cover sidenav in docs app
       var confirm = this.$mdDialog.confirm()
         .title('Block account')
         .textContent('Are you sure?')
