@@ -26,6 +26,9 @@ public interface IAccountService {
      */
     void lockingAccount(Account account) throws ServiceException;
 
+
+    void lockingAccount(Long account) throws ServiceException;
+
     /**
      * Разблокировка счета
      * @param account Объект Account

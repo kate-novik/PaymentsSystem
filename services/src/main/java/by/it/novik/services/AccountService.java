@@ -80,6 +80,12 @@ public class AccountService implements IAccountService {
     }
 
     @Override
+    public void lockingAccount(Long id) throws ServiceException {
+        Account account = get(id);
+        lockingAccount(account);
+    }
+
+    @Override
     public void unlockingAccount(Account account) throws ServiceException {
         //Меняем поле счета на рабочее
         account.setState(AccountState.WORKING);

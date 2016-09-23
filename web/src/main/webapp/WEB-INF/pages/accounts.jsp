@@ -2,27 +2,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 
-<%@ include file="include/begin-html.jsp" %>
-<%@ include file="include/header-html.jsp" %>
+<%@ include file="include/header.jsp" %>
 
 <div class="main container" ng-controller="AccountsController as ctrl">
-    <div class="row" ng-init="ctrl._csrfName=${_csrf.parameterName}; ctrl._csrfToken=${_csrf.token}">
-        <div class="pull-right">
-            (<a  href="/profile" type="button" class="btn btn-link">
-            <c:out value="${user.login}" /></a>)
-            <a href="/createAccount" class="btn btn-success" type="button">Create Account</a>
-        </div>
-    </div>
     <div class="row">
-        <div class="col-sm-offset-5">
-            <h2>Accounts</h2>
-        </div>
-    </div>
-    <div class="row">
-        <div flex-xs layout="row">
-            <md-card flex-gt-xs="33" md-theme="dark-blue" md-theme-watch ng-repeat="account in ctrl.accounts">
+        <div layout="row" layout-wrap>
+            <md-card flex="23"  ng-repeat="account in ctrl.accounts">
                 <md-card-title>
                     <md-card-title-text>
+                        <span class="md-subhead">({{account.state}})</span>
                         <span class="md-subhead">Остаток на счете</span>
                         <span class="md-headline">{{account.balance | currency}}</span>
                     </md-card-title-text>
@@ -57,4 +45,4 @@
     </div>
 </div>
 
-<%@ include file="include/end-html.jsp" %>
+<%@ include file="include/footer.jsp" %>

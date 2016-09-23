@@ -2,8 +2,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ include file="include/begin-html.jsp" %>
-<%@ include file="include/header-html.jsp" %>
+
+<%@ include file="include/header.jsp" %>
 
 <div class="main container">
     <div class="row">
@@ -140,4 +140,4 @@
     </md-content>
 </div>
 
-<%@ include file="include/end-html.jsp" %>
+<%@ include file="include/footer.jsp" %>

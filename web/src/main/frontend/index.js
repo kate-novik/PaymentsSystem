@@ -7,6 +7,7 @@ import ngMaterial from 'angular-material';
 import ngMessages from 'angular-messages';
 import 'angular-aria';
 import angularMaterialTable from 'angular-material-data-table';
+import 'material-design-icons';
 
 import 'babel-polyfill';
 

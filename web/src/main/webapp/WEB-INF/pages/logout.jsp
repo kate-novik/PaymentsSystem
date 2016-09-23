@@ -1,5 +1,4 @@
-<%@ include file="include/begin-html.jsp" %>
-<%@ include file="include/header-html.jsp" %>
+<%@ include file="include/header.jsp" %>
 
 <div class="main container">
     <div class="row">
@@ -19,4 +18,4 @@
 </div>
 
 
-<%@ include file="include/end-html.jsp" %>
+<%@ include file="include/footer.jsp" %>

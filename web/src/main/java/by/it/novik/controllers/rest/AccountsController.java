@@ -66,4 +66,11 @@ public class AccountsController {
         accountService.saveOrUpdate(account);
         return account;
     }
+
+    @RequestMapping(value="/{id}/lock", method = RequestMethod.GET)
+    public void lock(@PathVariable Long id) throws ServiceException {
+        accountService.lockingAccount(id);
+    }
+
+
 }

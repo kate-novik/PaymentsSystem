@@ -20,7 +20,6 @@ class AccountsController {
       .then(resp => {
         this.accounts = resp.data;
       })
-
   }
 
   refill(ev, idAccount, index) {
@@ -41,7 +40,7 @@ class AccountsController {
     });
   }
 
-  block(ev, id) {
+  block(ev, idAccount, index) {
       var confirm = this.$mdDialog.confirm()
         .title('Block account')
         .textContent('Are you sure?')
@@ -49,11 +48,9 @@ class AccountsController {
         .ok('Block')
         .cancel('Cancel');
 
-    this.$mdDialog.show(confirm).then(function() {
-        $scope.status = 'You decided to get rid of your debt.';
-      }, function() {
-        $scope.status = 'You decided to keep your debt.';
-      });
+    this.$mdDialog.show(confirm).then(() => {
+      return this.$http.get(`/api/accounts/${idAccount}/lock`);
+    });
   }
 }
 
