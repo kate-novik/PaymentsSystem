@@ -1,0 +1,46 @@
+<md-dialog aria-label="">
+    <form ng-cloak name="moneyTransferForm">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Money Transfer</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content" layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Source account</label>
+                        <input ng-value="ctrl.sourceInput" disabled/>
+                    </md-input-container>
+
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Destination account</label>
+                        <md-select ng-model="ctrl.destination" required>
+                            <md-option ng-repeat="acc in ctrl.destAccounts" ng-value="acc">
+                                {{acc.id}} ({{acc.balance | currency}})
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Amount</label>
+                        <input ng-model="ctrl.amount" required/>
+                    </md-input-container>
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="ctrl.cancel('not useful')">
+                Cancel
+            </md-button>
+            <md-button ng-click="ctrl.ok('useful')">
+                OK
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

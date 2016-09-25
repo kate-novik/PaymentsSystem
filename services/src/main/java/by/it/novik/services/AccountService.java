@@ -86,6 +86,24 @@ public class AccountService implements IAccountService {
     }
 
     @Override
+    public Account refill(Long id, Double amount) throws ServiceException {
+        Account account = get(id);
+        account.setBalance(account.getBalance() + amount);
+        saveOrUpdate(account);
+        return account;
+    }
+
+    @Override
+    public void moneyTransfer(Long sourceId, Long destinationId, Double amount) throws ServiceException {
+        Account source = get(sourceId);
+        Account destination = get(destinationId);
+        source.setBalance(source.getBalance() - amount);
+        destination.setBalance(destination.getBalance() + amount);
+        saveOrUpdate(source);
+        saveOrUpdate(destination);
+    }
+
+    @Override
     public void unlockingAccount(Account account) throws ServiceException {
         //Меняем поле счета на рабочее
         account.setState(AccountState.WORKING);

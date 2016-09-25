@@ -1,14 +1,13 @@
 package by.it.novik.controllers.rest;
 
+import by.it.novik.dto.MoneyTransfer;
 import by.it.novik.dto.Refill;
 import by.it.novik.pojos.Account;
-import by.it.novik.services.AccountService;
 import by.it.novik.services.IAccountService;
 import by.it.novik.util.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -50,21 +49,14 @@ public class AccountsController {
     public void delete(@PathVariable Long id){
     }
 
-    @RequestMapping(value="/{id}/refill", method = RequestMethod.POST)
-    public Account refill(@PathVariable Long id, Refill refill) throws ServiceException {
-        Account account = accountService.get(id);
-        account.setBalance(account.getBalance() + refill.getAmount());
-        accountService.saveOrUpdate(account);
-        return account;
+    @RequestMapping(value="/refill", method = RequestMethod.POST)
+    public Account refill(@RequestBody Refill refill) throws ServiceException {
+        return accountService.refill(refill.getIdAccount(), refill.getAmount());
     }
 
-    @RequestMapping(value="/{id}/refill", method = RequestMethod.GET)
-    public Account refill(@PathVariable Long id,
-                          @RequestParam Double amount) throws ServiceException {
-        Account account = accountService.get(id);
-        account.setBalance(account.getBalance() + amount);
-        accountService.saveOrUpdate(account);
-        return account;
+    @RequestMapping(value="/transfer", method = RequestMethod.POST)
+    public void transfer(@RequestBody MoneyTransfer mt) throws ServiceException {
+        accountService.moneyTransfer(mt.getAccountSource(), mt.getAccountDestination(), mt.getAmount());
     }
 
     @RequestMapping(value="/{id}/lock", method = RequestMethod.GET)

@@ -29,6 +29,10 @@ public interface IAccountService {
 
     void lockingAccount(Long account) throws ServiceException;
 
+    Account refill(Long account, Double amount)  throws ServiceException;
+
+    void moneyTransfer(Long source, Long destination, Double amount) throws ServiceException;
+
     /**
      * Разблокировка счета
      * @param account Объект Account

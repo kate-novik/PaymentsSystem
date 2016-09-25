@@ -1,5 +1,7 @@
 import angular from 'angular';
 
+import moneyTransferTmpl from '../templates/money-transfer.html';
+
 class AccountsController {
   /* @ngInject */
   constructor($http, $mdDialog) {
@@ -11,7 +13,6 @@ class AccountsController {
       limit: 5,
       page: 1
     };
-
     this.fetch();
   }
 
@@ -32,12 +33,33 @@ class AccountsController {
       .cancel('Cancel');
 
     this.$mdDialog.show(confirm).then(amount => {
-      return this.$http.get(`/api/accounts/${idAccount}/refill`, {
-        params: {amount}
-      });
+      return this.$http.post(`/api/accounts/refill`, {amount, idAccount});
     }).then(result => {
       this.accounts[index] = result.data;
     });
+  }
+
+  transfer(ev, idAccount, index) {
+    this.$mdDialog.show({
+      controller: 'MoneyTransferController',
+      controllerAs: 'ctrl',
+      bindToController: true,
+      template: moneyTransferTmpl,
+      targetEvent: ev,
+      clickOutsideToClose:true,
+      locals: {
+        modalData: {
+          current: idAccount,
+          accounts: this.accounts
+        }
+      }
+    })
+      .then((result) => {
+        return this.$http.post(`/api/accounts/transfer`, result);
+      })
+      .then(() => {
+        this.fetch();
+      });
   }
 
   block(ev, idAccount, index) {
@@ -50,7 +72,10 @@ class AccountsController {
 
     this.$mdDialog.show(confirm).then(() => {
       return this.$http.get(`/api/accounts/${idAccount}/lock`);
-    });
+    })
+      .then(() => {
+        this.fetch();
+      });
   }
 }
 

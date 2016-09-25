@@ -26,6 +26,11 @@
                                 </md-button>
                             </md-menu-item>
                             <md-menu-item>
+                                <md-button ng-click="ctrl.transfer($event, account.id, $index)">
+                                    Перевод между счетами
+                                </md-button>
+                            </md-menu-item>
+                            <md-menu-item>
                                 <md-button ng-click="ctrl.pay($event, account.id)">
                                     Оплата услуг
                                 </md-button>

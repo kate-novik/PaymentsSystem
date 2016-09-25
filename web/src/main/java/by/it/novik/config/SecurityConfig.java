@@ -60,9 +60,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().rememberMe().rememberMeParameter("remember-me")
                 .tokenRepository(persistentTokenRepository()).tokenValiditySeconds(86400)
                 .and()
-                .csrf()
-                .and().exceptionHandling().accessDeniedPage("/403");
-
+                .exceptionHandling().accessDeniedPage("/403")
+                .and()
+                .csrf().disable();
     }
 
     @Bean
