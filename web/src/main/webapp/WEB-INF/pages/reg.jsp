@@ -103,7 +103,8 @@
                 </md-input-container>
 
                 <md-input-container class="md-block" flex-gt-sm>
-                    <md-datepicker path="passport.dateOfIssue" ng-model="dateOfIssue" md-placeholder="Date of issued" required></md-datepicker>
+                    <form:input type="hidden" path="passport.dateOfIssue" ng-model="dateOfIssue" ng-value="dateOfIssue"/>
+                    <md-datepicker ng-model="dateOfIssue" md-placeholder="Date of issued" required></md-datepicker>
                 </md-input-container>
 
                 <md-input-container class="md-block" flex-gt-sm>
