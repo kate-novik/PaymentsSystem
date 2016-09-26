@@ -1,8 +1,9 @@
 package by.it.novik.dao;
 
-import by.it.novik.pojos.Account;
-import by.it.novik.pojos.User;
+import by.it.novik.entities.Account;
+import by.it.novik.entities.User;
 import by.it.novik.util.DaoException;
+import by.it.novik.valueObjects.AccountsFilter;
 
 import java.util.List;
 
@@ -15,10 +16,12 @@ public interface IAccountDao {
      * Получение список счетов пользователя
      * @param user Объект пользователя
      * @param orderState Порядок сортировки счетов
+     * @param pageSize Количество элементов на странице
+     * @param firstItem Позиция первого элемента для вывода
      * @return Список счетов пользователя
      * @throws DaoException
      */
-    List<Account> getAccountsByUser (User user, String orderState) throws DaoException;
+    List<Account> getAccountsByUser (User user, String orderState, int pageSize, int firstItem) throws DaoException;
 
     /**
      * Получение списка счетов всех пользователей
@@ -33,4 +36,11 @@ public interface IAccountDao {
      * @throws DaoException
      */
     List<Account> getLockedAccounts () throws DaoException;
+
+    /**
+     * Getting total count of accounts with filter
+     * @param accountsFilter Object AccountsFilter
+     * @return total count of accounts
+     */
+    Integer getTotalCountOfAccounts (AccountsFilter accountsFilter);
 }

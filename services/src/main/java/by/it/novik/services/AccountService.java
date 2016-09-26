@@ -1,11 +1,12 @@
 package by.it.novik.services;
 
 import by.it.novik.dao.AccountDao;
-import by.it.novik.pojos.Account;
-import by.it.novik.pojos.User;
+import by.it.novik.entities.Account;
+import by.it.novik.entities.User;
 import by.it.novik.util.AccountState;
 import by.it.novik.util.DaoException;
 import by.it.novik.util.ServiceException;
+import by.it.novik.valueObjects.AccountsFilter;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,15 +34,15 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public List<Account> getAccountsByUser(Serializable id_user, String orderState) throws ServiceException {
+    public List<Account> getAccountsByUser(Serializable id_user, String orderState, int pageSize, int firstItem) throws ServiceException {
         List<Account> accounts;
         try {
             User user = userService.get(id_user);
-            accounts = accountDao.getAccountsByUser(user, orderState);
+            accounts = accountDao.getAccountsByUser(user, orderState, pageSize, firstItem);
         }
         catch (DaoException d){
             log.error("Error getAccountsByUser() in AccountService." + d);
-            throw new ServiceException("Error getAccountsByUser() in AccountService.");
+            throw new ServiceException("Error in getting accounts.");
         }
         return accounts;
     }
@@ -54,7 +55,7 @@ public class AccountService implements IAccountService {
         }
         catch (DaoException d){
             log.error("Error getAllAccounts() in AccountService." + d);
-            throw new ServiceException("Error getAllAccounts() in AccountService.");
+            throw new ServiceException("Error in getting accounts.");
         }
         return accounts;
     }
@@ -67,7 +68,7 @@ public class AccountService implements IAccountService {
         }
         catch (DaoException d){
             log.error("Error getLockedAccounts() in AccountService." + d);
-            throw new ServiceException("Error getLockedAccounts() in AccountService.");
+            throw new ServiceException("Error in getting locked accounts..");
         }
         return accounts;
     }
@@ -126,7 +127,7 @@ public class AccountService implements IAccountService {
         }
         catch (DaoException d) {
             log.error("Error saveOrUpdate() account in AccountDao " + d);
-            throw new ServiceException("Error saveOrUpdate() account in AccountDao." );
+            throw new ServiceException("Account wasn't created/updated." );
         }
     }
 
@@ -138,7 +139,7 @@ public class AccountService implements IAccountService {
         }
         catch (DaoException d) {
             log.error("Error get() account in AccountDao " + d);
-            throw new ServiceException("Error get() account in AccountDao." );
+            throw new ServiceException("Error in getting account." );
         }
         return account;
     }
@@ -150,7 +151,12 @@ public class AccountService implements IAccountService {
         }
         catch (DaoException d) {
             log.error("Error delete() account in AccountDao " + d);
-            throw new ServiceException("Error delete() account in AccountDao.");
+            throw new ServiceException("Error in deleting account.");
         }
+    }
+
+    @Override
+    public Integer getTotalCountOfAccounts (AccountsFilter accountsFilter){
+        return accountDao.getTotalCountOfAccounts(accountsFilter);
     }
 }

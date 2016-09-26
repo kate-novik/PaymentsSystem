@@ -3,9 +3,9 @@ package by.it.novik.services;
 import by.it.novik.dao.AccountDao;
 import by.it.novik.dao.PaymentDao;
 import by.it.novik.dao.UserDao;
-import by.it.novik.pojos.Account;
-import by.it.novik.pojos.Payment;
-import by.it.novik.pojos.User;
+import by.it.novik.entities.Account;
+import by.it.novik.entities.Payment;
+import by.it.novik.entities.User;
 import by.it.novik.util.DaoException;
 import by.it.novik.util.ServiceException;
 import org.apache.log4j.Logger;
@@ -47,14 +47,14 @@ public class PaymentService implements IPaymentService {
             user = userDao.get(id_user);
         } catch (DaoException e) {
             log.error("Error get() user in PaymentService." + e);
-            throw new ServiceException("Error get() user in PaymentService.");
+            throw new ServiceException("Error in getting user.");
         }
         try {
             payments = paymentDao.getPaymentsByUser(user);
         }
         catch (DaoException d){
             log.error("Error getPaymentsByUser() in PaymentService." + d);
-            throw new ServiceException("Error getPaymentsByUser() in PaymentService.");
+            throw new ServiceException("Error in getting payments.");
         }
         return payments;
     }
@@ -69,7 +69,7 @@ public class PaymentService implements IPaymentService {
         }
         catch (DaoException d){
             log.error("Error getPaymentsByAccount() in PaymentService." + d);
-            throw new ServiceException("Error getPaymentsByAccount() in PaymentService.");
+            throw new ServiceException("Error in getting payments.");
         }
         return payments;
     }
@@ -78,8 +78,8 @@ public class PaymentService implements IPaymentService {
     public void makePayment(int idAccountFrom, int idAccountTo, double pay_amount, String description) throws ServiceException {
 
         //Чтение счета-источника платежа по id
-        Account accountSource = null;
-        Double balance = null;
+        Account accountSource;
+        Double balance;
         Account accountDestination = null;
         try {
             accountSource = accountDao.get(idAccountFrom);
@@ -87,7 +87,7 @@ public class PaymentService implements IPaymentService {
             accountDestination =  accountDao.get(idAccountTo);
         } catch (DaoException e) {
             log.error("Error makePayment() in PaymentService." + e);
-            throw new ServiceException("Error makePayment() in PaymentService.");
+            throw new ServiceException("Error in making payment.");
         }
 
         //Проверим баланс счета для списывания денег
@@ -122,7 +122,7 @@ public class PaymentService implements IPaymentService {
 
                 } catch (ParseException e) {
                     log.error("Error parsing Date in PaymentService."+ e);
-                    throw new ServiceException("Error parsing Date in PaymentService.");
+                    throw new ServiceException("Error date of payment.");
                 }
             }
             else {
@@ -143,7 +143,7 @@ public class PaymentService implements IPaymentService {
         }
         catch (DaoException d) {
             log.error("Error getAllPayments() in PaymentService." + d);
-            throw new ServiceException("Error getAllPayments() in PaymentsService.");
+            throw new ServiceException("Error in getting payments.");
         }
         return payments;
     }
@@ -155,7 +155,7 @@ public class PaymentService implements IPaymentService {
         }
         catch (DaoException d) {
             log.error("Error saveOrUpdate() payment in PaymentDao " + d);
-            throw new ServiceException("Error saveOrUpdate() payment in PaymentDao." );
+            throw new ServiceException("Error save/update payment." );
         }
     }
 
@@ -167,7 +167,7 @@ public class PaymentService implements IPaymentService {
         }
         catch (DaoException d) {
             log.error("Error get() payment in PaymentDao " + d);
-            throw new ServiceException("Error get() payment in PaymentDao." );
+            throw new ServiceException("Error in getting payment." );
         }
         return payment;
     }
@@ -179,7 +179,7 @@ public class PaymentService implements IPaymentService {
         }
         catch (DaoException d) {
             log.error("Error delete() payment in PaymentDao " + d);
-            throw new ServiceException("Error delete() payment in PaymentDao.");
+            throw new ServiceException("Error in deleting payment.");
         }
     }
 }

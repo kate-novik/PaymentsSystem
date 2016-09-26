@@ -1,7 +1,7 @@
 package by.it.novik.services;
 
 import by.it.novik.dao.UserDao;
-import by.it.novik.pojos.Role;
+import by.it.novik.entities.Role;
 import by.it.novik.util.DaoException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
    @Transactional
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException  {
-        by.it.novik.pojos.User user = null;
+        by.it.novik.entities.User user = null;
         try {
             user = userDao.findByLogin(username);
         } catch (DaoException e) {
@@ -41,9 +41,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return buildUserForAuthentication(user, authorities);
     }
 
-    // Converts by.it.novik.pojos.User user to
+    // Converts by.it.novik.entities.User user to
     // org.springframework.security.core.userdetails.User
-    private User buildUserForAuthentication(by.it.novik.pojos.User user,
+    private User buildUserForAuthentication(by.it.novik.entities.User user,
                                             List<GrantedAuthority> authorities) {
         return new User(user.getLogin(), user.getPassword(), authorities);
     }

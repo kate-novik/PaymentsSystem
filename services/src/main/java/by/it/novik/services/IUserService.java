@@ -1,7 +1,7 @@
 package by.it.novik.services;
 
 
-import by.it.novik.pojos.User;
+import by.it.novik.entities.User;
 import by.it.novik.util.ServiceException;
 
 import java.io.Serializable;

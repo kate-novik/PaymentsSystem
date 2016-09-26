@@ -1,13 +1,19 @@
 package by.it.novik.controllers.rest;
 
+import by.it.novik.controller.Pagination;
+import by.it.novik.valueObjects.AccountsFilter;
 import by.it.novik.dto.MoneyTransfer;
 import by.it.novik.dto.Refill;
-import by.it.novik.pojos.Account;
+import by.it.novik.entities.Account;
+import by.it.novik.entities.User;
 import by.it.novik.services.IAccountService;
+import by.it.novik.services.IUserService;
 import by.it.novik.util.ServiceException;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -17,12 +23,31 @@ import java.util.List;
 @RequestMapping(value = "/api/accounts")
 public class AccountsController {
 
+
+    private static Logger log = Logger.getLogger (AccountsController.class);
+
     @Autowired
     IAccountService accountService;
+    @Autowired
+    IUserService userService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Account> findAll() throws ServiceException {
-        return accountService.getAllAccounts();
+    public List<Account> findAll(HttpSession session,
+                                 @RequestBody AccountsFilter accountsFilter,
+                                 @RequestParam (value = "pageNumber", required = false, defaultValue = "1") Integer pageNumber ,
+                                 @RequestParam (value = "pageSize", required = false, defaultValue = "10") Integer pageSize,
+                                 @RequestParam (value = "orderState", required = false, defaultValue = "ASC") String orderState
+    ) throws ServiceException {
+        //Getting user from session
+        User user = (User)session.getAttribute("user");
+        Integer totalCountAccounts = accountService.getTotalCountOfAccounts(accountsFilter);
+        if (totalCountAccounts == null) {
+        return null;
+        }
+        Pagination.checkPage(pageNumber,pageSize,totalCountAccounts);
+        pageNumber = Pagination.pageResult;
+        pageSize = Pagination.item_per_page_result;
+        return accountService.getAccountsByUser(user.getId(),orderState, pageSize, Pagination.firstItem);
     }
 
     @RequestMapping(value="/{id}", method = RequestMethod.GET)
@@ -63,6 +88,34 @@ public class AccountsController {
     public void lock(@PathVariable Long id) throws ServiceException {
         accountService.lockingAccount(id);
     }
+
+//    /**
+//     * Checking whether user has this account
+//     * @param user Object User
+//     * @param id_account Account ID
+//     * @return true - user owns this account
+//     */
+//    private boolean checkAccountOfUser (User user, Long id_account) {
+//        List <Account> accounts;
+//        try {
+//            //Getting list of accounts for this user
+//            accounts = accountService.getAccountsByUser(user.getId(),"ASC");
+//        } catch (ServiceException e) {
+//            log.error("Error in getAccountsByUser" + e);
+//            return false;
+//        }
+//        //Flag of the existence of the account
+//        boolean flag = false;
+//        if (accounts.size() != 0) {
+//            for (Account account : accounts) {
+//                if (account.getId().equals(id_account)) {
+//                    flag = true;
+//                    break;
+//                }
+//            }
+//        }
+//        return flag;
+//    }
 
 
 }

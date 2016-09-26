@@ -1,6 +1,6 @@
 package by.it.novik.dao;
 
-import by.it.novik.pojos.Role;
+import by.it.novik.entities.Role;
 import by.it.novik.util.DaoException;
 
 /**

@@ -1,8 +1,9 @@
 package by.it.novik.services;
 
 
-import by.it.novik.pojos.Account;
+import by.it.novik.entities.Account;
 import by.it.novik.util.ServiceException;
+import by.it.novik.valueObjects.AccountsFilter;
 
 import java.io.Serializable;
 import java.util.List;
@@ -16,9 +17,11 @@ public interface IAccountService {
      * Получение списка счетов пользователя
      * @param id_user id пользователя
      * @param orderState порядок сортировки по состоянию счета
+     * @param pageSize Количество элементов на странице
+     * @param firstItem Позиция первого элемента для вывода
      * @return список счетов пользователя
      */
-    List<Account> getAccountsByUser(Serializable id_user, String orderState) throws ServiceException;
+    List<Account> getAccountsByUser(Serializable id_user, String orderState, int pageSize, int firstItem) throws ServiceException;
 
     /**
      * Блокировка счета
@@ -76,4 +79,11 @@ public interface IAccountService {
      * @param id Номер записи
      */
     void delete(Serializable id) throws ServiceException;
+
+    /**
+     * Getting total count of accounts with filter
+     * @param accountsFilter Object AccountsFilter
+     * @return total count of accounts
+     */
+    Integer getTotalCountOfAccounts (AccountsFilter accountsFilter);
 }

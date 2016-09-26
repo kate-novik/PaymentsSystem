@@ -1,8 +1,8 @@
 package by.it.novik.dao;
 
-import by.it.novik.pojos.Account;
-import by.it.novik.pojos.Payment;
-import by.it.novik.pojos.User;
+import by.it.novik.entities.Account;
+import by.it.novik.entities.Payment;
+import by.it.novik.entities.User;
 import by.it.novik.util.DaoException;
 
 import java.util.List;

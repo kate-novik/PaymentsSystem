@@ -1,10 +1,9 @@
 package by.it.novik.dao;
 
-import by.it.novik.pojos.Account;
-import by.it.novik.pojos.Payment;
-import by.it.novik.pojos.User;
+import by.it.novik.entities.Account;
+import by.it.novik.entities.Payment;
+import by.it.novik.entities.User;
 import by.it.novik.util.DaoException;
-import by.it.novik.util.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
@@ -59,6 +58,7 @@ public class PaymentDao extends Dao<Payment> implements IPaymentDao{
         }
         catch (HibernateException e) {
             log.error("Error getAllPayments() in Dao" + e);
+
             throw new DaoException("Error getAllPayments() in Dao.");
         }
         return payments;

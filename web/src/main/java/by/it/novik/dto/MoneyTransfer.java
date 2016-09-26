@@ -9,6 +9,9 @@ public class MoneyTransfer {
     private Long accountDestination;
     private Double amount;
 
+    public MoneyTransfer() {
+    }
+
     public Long getAccountSource() {
         return accountSource;
     }

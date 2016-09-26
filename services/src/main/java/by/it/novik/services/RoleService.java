@@ -2,13 +2,10 @@ package by.it.novik.services;
 
 import by.it.novik.config.ServiceConfig;
 import by.it.novik.dao.RoleDao;
-import by.it.novik.dao.UserDao;
-import by.it.novik.pojos.*;
-import by.it.novik.util.AccountState;
+import by.it.novik.entities.*;
 import by.it.novik.util.DaoException;
 import by.it.novik.util.ServiceException;
 import org.apache.log4j.Logger;
-import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
@@ -88,7 +85,7 @@ public class RoleService implements IRoleService {
             role = roleDao.getRoleByName(name);
         } catch (DaoException e) {
             log.error("Error getRoleByName() user in RoleService." + e);
-            throw new ServiceException("Error getRoleByName() user in RoleService.");
+            throw new ServiceException("Error in getting role.");
         }
         return role;
     }
@@ -100,7 +97,7 @@ public class RoleService implements IRoleService {
         }
         catch (DaoException d) {
             log.error("Error saveOrUpdate() role in RoleDao " + d);
-            throw new ServiceException("Error saveOrUpdate() role in RoleDao." );
+            throw new ServiceException("Error save/update() role." );
         }
     }
 
@@ -112,7 +109,7 @@ public class RoleService implements IRoleService {
         }
         catch (DaoException d) {
             log.error("Error get() role in RoleDao " + d);
-            throw new ServiceException("Error get() role in RoleDao." );
+            throw new ServiceException("Error in getting role." );
         }
         return user;
     }
@@ -124,7 +121,7 @@ public class RoleService implements IRoleService {
         }
         catch (DaoException d) {
             log.error("Error delete() role in RoleDao " + d);
-            throw new ServiceException("Error delete() role in RoleDao.");
+            throw new ServiceException("Error in deleting role.");
         }
     }
 }

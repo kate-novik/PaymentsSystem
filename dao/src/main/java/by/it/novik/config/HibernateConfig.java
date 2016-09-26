@@ -26,7 +26,7 @@ public class HibernateConfig {
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan("by.it.novik.pojos");
+        sessionFactory.setPackagesToScan("by.it.novik.entities");
         sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;
     }

@@ -1,8 +1,7 @@
 package by.it.novik.controllers.rest;
 
-import by.it.novik.pojos.User;
+import by.it.novik.entities.User;
 import by.it.novik.services.IUserService;
-import by.it.novik.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

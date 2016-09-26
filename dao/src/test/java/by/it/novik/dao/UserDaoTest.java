@@ -1,15 +1,5 @@
 package by.it.novik.dao;
 
-import by.it.novik.pojos.*;
-import by.it.novik.util.AccountState;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.sql.Date;
-import java.util.List;
-
 /**
  * Created by Kate Novik.
  */

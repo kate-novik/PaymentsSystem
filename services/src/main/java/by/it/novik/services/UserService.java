@@ -2,10 +2,10 @@ package by.it.novik.services;
 
 
 import by.it.novik.dao.UserDao;
-import by.it.novik.pojos.Address;
-import by.it.novik.pojos.Passport;
-import by.it.novik.pojos.Role;
-import by.it.novik.pojos.User;
+import by.it.novik.entities.Address;
+import by.it.novik.entities.Passport;
+import by.it.novik.entities.Role;
+import by.it.novik.entities.User;
 import by.it.novik.util.DaoException;
 import by.it.novik.util.ServiceException;
 import org.apache.log4j.Logger;
@@ -47,7 +47,7 @@ public class UserService implements IUserService {
         }
         catch (DaoException d) {
             log.error("Error findByLogin() user in UserService." + d);
-            throw new ServiceException("Error findByLogin() user in UserService.");
+            throw new ServiceException("Error in finding user.");
         }
         return user;
     }
@@ -60,7 +60,7 @@ public class UserService implements IUserService {
         }
         catch (DaoException d) {
             log.error("Error getAllUsers() in UserService." + d);
-            throw new ServiceException("Error getAllUsers() in UserService.");
+            throw new ServiceException("Error in getting users.");
         }
         return users;
     }
@@ -72,7 +72,7 @@ public class UserService implements IUserService {
         }
         catch (DaoException d) {
             log.error("Error saveOrUpdate() user in UserDao " + d);
-            throw new ServiceException("Error saveOrUpdate() user in UserDao." );
+            throw new ServiceException("Error save/update() user." );
         }
     }
 
@@ -99,7 +99,7 @@ public class UserService implements IUserService {
         }
         catch (DaoException d) {
             log.error("Error get() user in UserDao " + d);
-            throw new ServiceException("Error get() user in UserDao." );
+            throw new ServiceException("Error in getting user." );
         }
         return user;
     }
@@ -111,7 +111,7 @@ public class UserService implements IUserService {
         }
         catch (DaoException d) {
             log.error("Error delete() user in UserDao " + d);
-            throw new ServiceException("Error delete() user in UserDao.");
+            throw new ServiceException("Error in deleting user.");
         }
     }
 }

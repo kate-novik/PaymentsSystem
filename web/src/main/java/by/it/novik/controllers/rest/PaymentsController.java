@@ -1,8 +1,7 @@
 package by.it.novik.controllers.rest;
 
-import by.it.novik.pojos.Payment;
+import by.it.novik.entities.Payment;
 import by.it.novik.services.IPaymentService;
-import by.it.novik.services.PaymentService;
 import by.it.novik.util.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

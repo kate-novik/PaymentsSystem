@@ -1,8 +1,5 @@
 package by.it.novik.controllers.pages;
 
-import by.it.novik.pojos.User;
-import by.it.novik.util.ServiceException;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.security.Principal;
-
 /**
  * Created by Kate Novik.
  */
@@ -23,8 +18,7 @@ import java.security.Principal;
 @RequestMapping("/admin")
 public class AdminController {
 
-    @RequestMapping("/admin")
-    @Secured("admin")
+    @RequestMapping("/")
     public String adminPage (ModelMap model) {
         model.addAttribute("message", "Page for admins!");
         return "admin";

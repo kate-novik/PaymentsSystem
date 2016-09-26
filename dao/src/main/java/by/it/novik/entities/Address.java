@@ -1,4 +1,4 @@
-package by.it.novik.pojos;
+package by.it.novik.entities;
 
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.Parameter;

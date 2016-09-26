@@ -1,15 +1,18 @@
 package by.it.novik.dao;
 
-import by.it.novik.pojos.Account;
-import by.it.novik.pojos.User;
-import by.it.novik.util.AccountState;
+import by.it.novik.entities.Account;
+import by.it.novik.entities.User;
 import by.it.novik.util.DaoException;
-import by.it.novik.util.HibernateUtil;
+import by.it.novik.valueObjects.AccountsFilter;
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.LogicalExpression;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -22,7 +25,7 @@ public class AccountDao extends Dao <Account> implements IAccountDao {
     }
 
     @Override
-    public List<Account> getAccountsByUser (User user, String orderState) throws DaoException {
+    public List<Account> getAccountsByUser (User user, String orderState, int pageSize, int firstItem) throws DaoException {
         List<Account> accounts;
         //Определяем порядок сортировки счетов по умолчанию
         if (orderState == null) {
@@ -30,7 +33,7 @@ public class AccountDao extends Dao <Account> implements IAccountDao {
         }
         try {
             Query query = getSession().getNamedQuery("getAccountsByUser").setEntity("user",user)
-                    .setString("orderState",orderState);
+                    .setString("orderState",orderState).setInteger("pageSize",pageSize).setInteger("firstItem",firstItem);
             accounts = query.list();
             log.info("getAccountsByUser():" + accounts);
         }
@@ -70,5 +73,18 @@ public class AccountDao extends Dao <Account> implements IAccountDao {
         }
         return accounts;
 
+    }
+
+    @Override
+    public Integer getTotalCountOfAccounts(AccountsFilter accountsFilter) {
+        Criteria criteria = getSession().createCriteria(Account.class);
+        Criterion balance = Restrictions.between("balance",accountsFilter.getMinBalance(),accountsFilter.getMaxBalance());
+        Criterion state = Restrictions.eq("state", accountsFilter.getState());
+        LogicalExpression andExp = Restrictions.and(balance,state);
+        criteria.add(andExp);
+        //To get total row count
+        criteria.setProjection(Projections.rowCount());
+        Integer countAccounts = (Integer)criteria.uniqueResult();
+        return countAccounts;
     }
 }
