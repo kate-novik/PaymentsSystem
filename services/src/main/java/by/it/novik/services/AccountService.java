@@ -34,6 +34,16 @@ public class AccountService implements IAccountService {
     }
 
     @Override
+    public Account create(User user) throws ServiceException {
+        Account account = new Account();
+        account.setUser(user);
+        account.setState(AccountState.WORKING);
+        account.setBalance(0);
+        saveOrUpdate(account);
+        return account;
+    }
+
+    @Override
     public List<Account> getAccountsByUser(Serializable id_user, String orderState, int pageSize, int firstItem) throws ServiceException {
         List<Account> accounts;
         try {

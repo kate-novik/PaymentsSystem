@@ -7,6 +7,11 @@
 <div class="main container" ng-controller="AccountsController as ctrl">
     <div class="row">
         <div layout="row" layout-wrap>
+            <h3>My accounts</h3>
+            <span flex></span>
+            <md-button ng-click="ctrl.create()">Создать аккаунт</md-button>
+        </div>
+        <div layout="row" layout-wrap>
             <md-card flex="23"  ng-repeat="account in ctrl.accounts">
                 <md-card-title>
                     <md-card-title-text>

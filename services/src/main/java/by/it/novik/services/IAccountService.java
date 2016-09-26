@@ -2,6 +2,7 @@ package by.it.novik.services;
 
 
 import by.it.novik.entities.Account;
+import by.it.novik.entities.User;
 import by.it.novik.util.ServiceException;
 import by.it.novik.valueObjects.AccountsFilter;
 
@@ -12,6 +13,8 @@ import java.util.List;
  * Created by Kate Novik.
  */
 public interface IAccountService {
+
+    Account create(User user) throws ServiceException;
 
     /**
      * Получение списка счетов пользователя

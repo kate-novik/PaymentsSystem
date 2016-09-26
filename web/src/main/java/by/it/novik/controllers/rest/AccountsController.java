@@ -33,17 +33,18 @@ public class AccountsController {
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Account> findAll(HttpSession session,
-                                 @RequestBody AccountsFilter accountsFilter,
+//                                 @RequestBody AccountsFilter accountsFilter,
                                  @RequestParam (value = "pageNumber", required = false, defaultValue = "1") Integer pageNumber ,
                                  @RequestParam (value = "pageSize", required = false, defaultValue = "10") Integer pageSize,
                                  @RequestParam (value = "orderState", required = false, defaultValue = "ASC") String orderState
     ) throws ServiceException {
         //Getting user from session
         User user = (User)session.getAttribute("user");
-        Integer totalCountAccounts = accountService.getTotalCountOfAccounts(accountsFilter);
-        if (totalCountAccounts == null) {
-        return null;
-        }
+//        Integer totalCountAccounts = accountService.getTotalCountOfAccounts(accountsFilter);
+        Integer totalCountAccounts = 10; // hard code value
+//        if (totalCountAccounts == null) {
+//            return null;
+//        }
         Pagination.checkPage(pageNumber,pageSize,totalCountAccounts);
         pageNumber = Pagination.pageResult;
         pageSize = Pagination.item_per_page_result;
@@ -58,9 +59,9 @@ public class AccountsController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Account create(Account account) throws ServiceException {
-        accountService.saveOrUpdate(account);
-        return account;
+    public Account create(HttpSession session) throws ServiceException {
+        User user = (User)session.getAttribute("user");
+        return accountService.create(user);
     }
 
     @RequestMapping(value="/{id}", method = RequestMethod.PUT)

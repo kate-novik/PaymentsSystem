@@ -44,12 +44,12 @@ public class ClientController {
     @RequestMapping("/")
     public String home(ModelMap model, Principal principal, HttpSession session) throws ServiceException {
         //Getting user from session
-        User user = getUserFromSession(principal,model);
+        User user = getUserFromSession(principal, model);
         if (user == null) {
             return "login";
         }
         else {
-            session.setAttribute("user",user);
+            session.setAttribute("user", user);
         }
         //Getting role for user in session
         Role role = user.getRole();
@@ -82,7 +82,7 @@ public class ClientController {
 //            model.addAttribute("message", "Account wasn't created.");
 //            model.addAttribute("type", "danger");
 //        }
-        return "redirect:/accounts";
+        return "redirect:/";
     }
 
     @RequestMapping(value = "/getLogout", method = RequestMethod.GET)
@@ -139,7 +139,7 @@ public class ClientController {
                 return "reg";
             }
         }
-        return "redirect:/accounts";
+        return "redirect:/";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)

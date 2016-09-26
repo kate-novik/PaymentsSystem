@@ -4,10 +4,11 @@ import moneyTransferTmpl from '../templates/money-transfer.html';
 
 class AccountsController {
   /* @ngInject */
-  constructor($http, $mdDialog) {
+  constructor($http, $mdDialog, $mdToast) {
 
     this.$http = $http;
     this.$mdDialog = $mdDialog;
+    this.$mdToast = $mdToast;
     this.query = {
       order: 'id',
       limit: 5,
@@ -21,6 +22,18 @@ class AccountsController {
       .then(resp => {
         this.accounts = resp.data;
       })
+  }
+
+  create() {
+    return this.$http.post(`/api/accounts`).then(() => {
+      this.$mdToast.show(
+        this.$mdToast.simple()
+          .textContent('Account was created!')
+          .position('right bottom')
+          .hideDelay(3000)
+      );
+      this.fetch();
+    });
   }
 
   refill(ev, idAccount, index) {
