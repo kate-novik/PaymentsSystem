@@ -33,7 +33,9 @@ public class AccountDao extends Dao <Account> implements IAccountDao {
         }
         try {
             Query query = getSession().getNamedQuery("getAccountsByUser").setEntity("user",user)
-                    .setString("orderState",orderState).setInteger("pageSize",pageSize).setInteger("firstItem",firstItem);
+                    .setString("orderState",orderState);
+            query.setFirstResult(firstItem);
+            query.setMaxResults(pageSize);
             accounts = query.list();
             log.info("getAccountsByUser():" + accounts);
         }
