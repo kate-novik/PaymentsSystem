@@ -5,6 +5,7 @@ import by.it.novik.entities.Payment;
 import by.it.novik.util.ServiceException;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,15 +15,23 @@ public interface IPaymentService {
     /**
      * Получение списка платежей пользователя
      * @param id_user id пользователя
+     * @param orderState порядок сортировки по состоянию счета
+     * @param pageSize Количество элементов на странице
+     * @param firstItem Позиция первого элемента для вывода
      * @return список платежей пользователя
      */
-    List<Payment> getPaymentsByUser(Serializable id_user) throws ServiceException;
+    List<Payment> getPaymentsByUser(Serializable id_user, String orderState, Integer pageSize, Integer firstItem)
+            throws ServiceException;
     /**
      * Получение списка платежей пользователя
      * @param id_account id счета
+     * @param orderState порядок сортировки по состоянию счета
+     * @param pageSize Количество элементов на странице
+     * @param firstItem Позиция первого элемента для вывода
      * @return список платежей пользователя
      */
-    List<Payment> getPaymentsByAccount (Serializable id_account) throws ServiceException;
+    List<Payment> getPaymentsByAccount (Serializable id_account, String orderState, Integer pageSize, Integer firstItem)
+            throws ServiceException;
 
     /**
      * Сделать платежку
@@ -36,9 +45,12 @@ public interface IPaymentService {
 
     /**
      * Получение списка платежей всех пользователей
+     * @param orderState порядок сортировки по состоянию счета
+     * @param pageSize Количество элементов на странице
+     * @param firstItem Позиция первого элемента для вывода
      * @return Список платежей пользователей
      */
-    List<Payment> getAllPayments () throws ServiceException;
+    List<Payment> getAllPayments (String orderState, Integer pageSize, Integer firstItem) throws ServiceException;
 
     /**
      * Создание/обновление записи объекта в БД
@@ -59,4 +71,13 @@ public interface IPaymentService {
      * @param id Номер записи
      */
     void delete(Serializable id) throws ServiceException;
+
+    /**
+     * Getting total count of payments with filter
+     * @param payDate Object Date of payment
+     * @param minAmountPayment min amount of payment
+     * @param maxAmountPayment max amount of payment
+     * @return total count of payments
+     */
+    Integer getTotalCountOfPayments(Date payDate, double minAmountPayment, double maxAmountPayment);
 }

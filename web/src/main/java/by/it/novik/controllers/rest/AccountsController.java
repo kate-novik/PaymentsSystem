@@ -40,7 +40,7 @@ public class AccountsController {
     ) throws ServiceException {
         //Getting user from session
         User user = (User)session.getAttribute("user");
-//        Integer totalCountAccounts = accountService.getTotalCountOfAccounts(accountsFilter);
+//        Integer totalCountAccounts = accountService.getTotalCountOfPayments(accountsFilter);
         Integer totalCountAccounts = 10; // hard code value
 //        if (totalCountAccounts == null) {
 //            return null;

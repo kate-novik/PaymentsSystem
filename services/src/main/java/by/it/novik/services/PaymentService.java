@@ -40,17 +40,13 @@ public class PaymentService implements IPaymentService {
     }
 
     @Override
-    public List<Payment> getPaymentsByUser(Serializable id_user) throws ServiceException {
+    public List<Payment> getPaymentsByUser(Serializable id_user, String orderState, Integer pageSize, Integer firstItem)
+            throws ServiceException {
         List<Payment> payments;
         User user;
         try {
             user = userDao.get(id_user);
-        } catch (DaoException e) {
-            log.error("Error get() user in PaymentService." + e);
-            throw new ServiceException("Error in getting user.");
-        }
-        try {
-            payments = paymentDao.getPaymentsByUser(user);
+            payments = paymentDao.getPaymentsByUser(user, orderState, pageSize, firstItem);
         }
         catch (DaoException d){
             log.error("Error getPaymentsByUser() in PaymentService." + d);
@@ -60,12 +56,13 @@ public class PaymentService implements IPaymentService {
     }
 
     @Override
-    public List<Payment> getPaymentsByAccount(Serializable id_account) throws ServiceException {
+    public List<Payment> getPaymentsByAccount(Serializable id_account, String orderState, Integer pageSize, Integer firstItem)
+            throws ServiceException {
         List<Payment> payments;
         Account account;
         try {
             account = accountDao.get(id_account);
-            payments = paymentDao.getPaymentsByAccount(account);
+            payments = paymentDao.getPaymentsByAccount(account, orderState, pageSize, firstItem);
         }
         catch (DaoException d){
             log.error("Error getPaymentsByAccount() in PaymentService." + d);
@@ -136,10 +133,10 @@ public class PaymentService implements IPaymentService {
     }
 
     @Override
-    public List<Payment> getAllPayments() throws ServiceException {
+    public List<Payment> getAllPayments(String orderState, Integer pageSize, Integer firstItem) throws ServiceException {
         List<Payment> payments;
         try {
-            payments = paymentDao.getAllPayments();
+            payments = paymentDao.getAllPayments(orderState, pageSize, firstItem);
         }
         catch (DaoException d) {
             log.error("Error getAllPayments() in PaymentService." + d);
@@ -181,5 +178,10 @@ public class PaymentService implements IPaymentService {
             log.error("Error delete() payment in PaymentDao " + d);
             throw new ServiceException("Error in deleting payment.");
         }
+    }
+
+    @Override
+    public Integer getTotalCountOfPayments(Date payDate, double minAmountPayment, double maxAmountPayment) {
+        return paymentDao.getTotalCountOfPayments(payDate, minAmountPayment, maxAmountPayment);
     }
 }

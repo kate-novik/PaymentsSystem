@@ -24,7 +24,7 @@ public interface IAccountService {
      * @param firstItem Позиция первого элемента для вывода
      * @return список счетов пользователя
      */
-    List<Account> getAccountsByUser(Serializable id_user, String orderState, int pageSize, int firstItem) throws ServiceException;
+    List<Account> getAccountsByUser(Serializable id_user, String orderState, Integer pageSize, Integer firstItem) throws ServiceException;
 
     /**
      * Блокировка счета

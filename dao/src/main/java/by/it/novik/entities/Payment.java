@@ -23,9 +23,9 @@ import java.util.Date;
 public class Payment {
     private static final long serialVersionUID = 1L;
 
-    static final String QUERY_GET_PAYMENTS_BY_USER = "SELECT p FROM Payment p JOIN p.accountSource a WHERE a.user= :user";
-    static final String QUERY_GET_PAYMENTS_BY_ACCOUNT = "FROM Payment p WHERE p.accountSource = :account";
-    static final String QUERY_GET_ALL_PAYMENTS = "FROM Payment";
+    static final String QUERY_GET_PAYMENTS_BY_USER = "SELECT p FROM Payment p JOIN p.accountSource a WHERE a.user= :user ORDER BY :orderState";
+    static final String QUERY_GET_PAYMENTS_BY_ACCOUNT = "FROM Payment p WHERE p.accountSource = :account ORDER BY :orderState";
+    static final String QUERY_GET_ALL_PAYMENTS = "FROM Payment ORDER BY :orderState";
 
     private Long id;
     @Id

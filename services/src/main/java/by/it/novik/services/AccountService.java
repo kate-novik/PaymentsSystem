@@ -44,7 +44,7 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public List<Account> getAccountsByUser(Serializable id_user, String orderState, int pageSize, int firstItem) throws ServiceException {
+    public List<Account> getAccountsByUser(Serializable id_user, String orderState, Integer pageSize, Integer firstItem) throws ServiceException {
         List<Account> accounts;
         try {
             User user = userService.get(id_user);

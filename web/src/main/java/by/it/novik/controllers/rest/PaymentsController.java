@@ -1,14 +1,15 @@
 package by.it.novik.controllers.rest;
 
+import by.it.novik.controller.Pagination;
 import by.it.novik.entities.Payment;
+import by.it.novik.entities.User;
 import by.it.novik.services.IPaymentService;
 import by.it.novik.util.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,8 +23,24 @@ public class PaymentsController {
     IPaymentService paymentService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Payment> findAll() throws ServiceException {
-        return paymentService.getAllPayments();
+    public List<Payment> findAll(
+            HttpSession session,
+            @RequestParam(value = "payDate", required = false) Date payDate,
+            @RequestParam(value = "minAmountPayment", required = false, defaultValue = "0") double minAmountPayment,
+            @RequestParam(value = "maxAmountPayment", required = false, defaultValue = "0") double maxAmountPayment,
+            @RequestParam(value = "pageNumber", required = false, defaultValue = "1") Integer pageNumber ,
+            @RequestParam (value = "pageSize", required = false, defaultValue = "10") Integer pageSize,
+            @RequestParam (value = "orderState", required = false, defaultValue = "ASC") String orderState
+    ) throws ServiceException {
+        Integer totalCountPayments = paymentService.getTotalCountOfPayments(payDate, minAmountPayment, maxAmountPayment);
+        //Integer totalCountAccounts = 10; // hard code value
+//        if (totalCountAccounts == null) {
+//            return null;
+//        }
+        Pagination.checkPage(pageNumber,pageSize,totalCountPayments);
+        pageNumber = Pagination.pageResult;
+        pageSize = Pagination.item_per_page_result;
+        return paymentService.getAllPayments(orderState, pageSize, Pagination.firstItem);
     }
 
     @RequestMapping(value="/{id}", method = RequestMethod.GET)

@@ -21,7 +21,7 @@ public interface IAccountDao {
      * @return Список счетов пользователя
      * @throws DaoException
      */
-    List<Account> getAccountsByUser (User user, String orderState, int pageSize, int firstItem) throws DaoException;
+    List<Account> getAccountsByUser (User user, String orderState, Integer pageSize, Integer firstItem) throws DaoException;
 
     /**
      * Получение списка счетов всех пользователей
