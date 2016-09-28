@@ -45,7 +45,7 @@ public class PaymentsController {
         Pagination.checkPage(pageNumber,pageSize,totalCountPayments);
         pageNumber = Pagination.pageResult;
         pageSize = Pagination.item_per_page_result;
-        return paymentService.getAllPayments(orderState, pageSize, Pagination.firstItem);
+        return paymentService.getAllPayments(orderState, pageSize, Pagination.firstItem, paymentsFilter);
     }
 
     @RequestMapping(value="/{id}", method = RequestMethod.GET)

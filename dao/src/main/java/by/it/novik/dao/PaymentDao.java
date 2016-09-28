@@ -8,10 +8,7 @@ import by.it.novik.valueObjects.PaymentsFilter;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.LogicalExpression;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
@@ -71,23 +68,33 @@ public class PaymentDao extends Dao<Payment> implements IPaymentDao{
     }
 
     @Override
-    public List<Payment> getAllPayments(String orderState, Integer pageSize, Integer firstItem) throws DaoException {
+    public List<Payment> getAllPayments(String orderState, Integer pageSize, Integer firstItem, PaymentsFilter paymentsFilter)
+            throws DaoException {
         List<Payment> payments;
         //Order for sorting by default
-        if (orderState == null) {
-            orderState = "ASC";
+        Criteria criteria = getCriteriaOfFilter(paymentsFilter);
+        //Order for sorting
+        if (orderState == null || orderState.equals("ASC")) {
+            criteria.addOrder(Order.asc("id"));
         }
+        else if (orderState.equals("DESC")) {
+            criteria.addOrder(Order.desc("id"));
+        }
+
+        criteria.setFirstResult(firstItem);
+        criteria.setMaxResults(pageSize);
+
         try {
-            Query query = getSession().getNamedQuery("getAllPayments")
-                    .setString("orderState",orderState);
-            query.setFirstResult(firstItem);
-            query.setMaxResults(pageSize);
-            payments = query.list();
+            payments = criteria.list();
+//            Query query = getSession().getNamedQuery("getAllPayments")
+//                    .setString("orderState",orderState);
+//            query.setFirstResult(firstItem);
+//            query.setMaxResults(pageSize);
+//            payments = query.list();
             log.info("getAllPayments():" + payments);
         }
         catch (HibernateException e) {
             log.error("Error getAllPayments() in Dao" + e);
-
             throw new DaoException("Error getAllPayments() in Dao.");
         }
         return payments;
@@ -95,6 +102,18 @@ public class PaymentDao extends Dao<Payment> implements IPaymentDao{
 
     @Override
     public Integer getTotalCountOfPayments(PaymentsFilter paymentsFilter) {
+        Criteria criteria = getCriteriaOfFilter(paymentsFilter);
+        //To get total row count
+        criteria.setProjection(Projections.rowCount());
+        return (Integer)criteria.uniqueResult();
+    }
+
+    /**
+     * Getting Object Criteria depending on the filter values
+     * @param paymentsFilter Object PaymentsFilter
+     * @return Object Criteria
+     */
+    private Criteria getCriteriaOfFilter (PaymentsFilter paymentsFilter){
         Date payDate = paymentsFilter.getPayDate();
         double minAmountPayment = paymentsFilter.getMinAmountPayment();
         double maxAmountPayment = paymentsFilter.getMaxAmountPayment();
@@ -130,8 +149,6 @@ public class PaymentDao extends Dao<Payment> implements IPaymentDao{
             LogicalExpression andExp = Restrictions.and(amount,date);
             criteria.add(andExp);
         }
-        //To get total row count
-        criteria.setProjection(Projections.rowCount());
-        return (Integer)criteria.uniqueResult();
+        return criteria;
     }
 }

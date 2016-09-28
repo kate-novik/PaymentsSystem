@@ -44,10 +44,12 @@ public interface IPaymentDao {
      * @param orderState порядок сортировки по состоянию счета
      * @param pageSize Количество элементов на странице
      * @param firstItem Позиция первого элемента для вывода
+     * @param paymentsFilter Object paymentsFilter
      * @return Список объектов Payments
      * @throws DaoException
      */
-    List<Payment> getAllPayments(String orderState, Integer pageSize, Integer firstItem) throws DaoException;
+    List<Payment> getAllPayments(String orderState, Integer pageSize, Integer firstItem, PaymentsFilter paymentsFilter)
+            throws DaoException;
 
     /**
      * Getting total count of payments with filter

@@ -78,7 +78,7 @@ public class PaymentService implements IPaymentService {
         //Чтение счета-источника платежа по id
         Account accountSource;
         Double balance;
-        Account accountDestination = null;
+        Account accountDestination;
         try {
             accountSource = accountDao.get(idAccountFrom);
             balance = accountSource.getBalance();
@@ -134,10 +134,10 @@ public class PaymentService implements IPaymentService {
     }
 
     @Override
-    public List<Payment> getAllPayments(String orderState, Integer pageSize, Integer firstItem) throws ServiceException {
+    public List<Payment> getAllPayments(String orderState, Integer pageSize, Integer firstItem, PaymentsFilter paymentsFilter) throws ServiceException {
         List<Payment> payments;
         try {
-            payments = paymentDao.getAllPayments(orderState, pageSize, firstItem);
+            payments = paymentDao.getAllPayments(orderState, pageSize, firstItem, paymentsFilter);
         }
         catch (DaoException d) {
             log.error("Error getAllPayments() in PaymentService." + d);

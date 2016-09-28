@@ -49,9 +49,11 @@ public interface IPaymentService {
      * @param orderState порядок сортировки по состоянию счета
      * @param pageSize Количество элементов на странице
      * @param firstItem Позиция первого элемента для вывода
+     * @param paymentsFilter Object paymentsFilter
      * @return Список платежей пользователей
      */
-    List<Payment> getAllPayments (String orderState, Integer pageSize, Integer firstItem) throws ServiceException;
+    List<Payment> getAllPayments (String orderState, Integer pageSize, Integer firstItem, PaymentsFilter paymentsFilter)
+            throws ServiceException;
 
     /**
      * Создание/обновление записи объекта в БД
