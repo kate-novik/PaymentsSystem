@@ -51,10 +51,8 @@ public interface IPaymentDao {
 
     /**
      * Getting total count of payments with filter
-     * @param payDate Object Date of payment
-     * @param minAmountPayment min amount of payment
-     * @param maxAmountPayment max amount of payment
+     * @param paymentsFilter Object PaymentsFilter with filters
      * @return total count of payments
      */
-    Integer getTotalCountOfPayments(Date payDate, double minAmountPayment, double maxAmountPayment);
+    Integer getTotalCountOfPayments(PaymentsFilter paymentsFilter);
 }

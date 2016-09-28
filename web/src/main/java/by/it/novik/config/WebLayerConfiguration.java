@@ -29,7 +29,7 @@ public class WebLayerConfiguration extends WebMvcConfigurerAdapter {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+        registry.addResourceHandler("/WEB-INF/resources/**").addResourceLocations("/WEB-INF/resources/");
     }
 
     @Bean
@@ -46,7 +46,7 @@ public class WebLayerConfiguration extends WebMvcConfigurerAdapter {
     @Bean
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        messageSource.setBasename("/i18/message");
+        messageSource.setBasename("/WEB-INF/resources/i18/message");
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
     }

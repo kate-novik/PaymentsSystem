@@ -2,10 +2,12 @@ package by.it.novik.entities;
 
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.Parameter;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 
 /**
@@ -31,6 +33,8 @@ public class Address implements Serializable{
         this.id = id;
     }
 
+    @NotEmpty
+    @Pattern(regexp = "^[a-zA-Zа-яА-ЯёЁ\\s]{2,20}$")
     private String city;
     @Column(name="city", length = 15)
     @Type(type = "string")
@@ -41,6 +45,8 @@ public class Address implements Serializable{
         this.city = city;
     }
 
+    @NotEmpty
+    @Pattern(regexp = "^[1-9a-zA-Zа-яА-ЯёЁ\\s]{2,20}$")
     private String street;
     @Column(name="street", length = 20)
     @Type(type = "string")
@@ -51,6 +57,8 @@ public class Address implements Serializable{
         this.street = street;
     }
 
+    @NotEmpty
+    @Pattern(regexp = "^[01-9a-zA-Zа-яА-ЯёЁ\\s]{1,7}$")
     private String home;
     @Column(name="home", length = 7)
     @Type(type = "string")
@@ -61,6 +69,7 @@ public class Address implements Serializable{
         this.home = home;
     }
 
+    @Pattern(regexp = "^[01-9a-zA-Zа-яА-ЯёЁ\\s]{1,7}$")
     private String flat;
     @Column(name="flat", length = 5)
     @Type(type = "string")

@@ -8,6 +8,7 @@ import by.it.novik.entities.Payment;
 import by.it.novik.entities.User;
 import by.it.novik.util.DaoException;
 import by.it.novik.util.ServiceException;
+import by.it.novik.valueObjects.PaymentsFilter;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -181,7 +182,7 @@ public class PaymentService implements IPaymentService {
     }
 
     @Override
-    public Integer getTotalCountOfPayments(Date payDate, double minAmountPayment, double maxAmountPayment) {
-        return paymentDao.getTotalCountOfPayments(payDate, minAmountPayment, maxAmountPayment);
+    public Integer getTotalCountOfPayments(PaymentsFilter paymentsFilter) {
+        return paymentDao.getTotalCountOfPayments(paymentsFilter);
     }
 }

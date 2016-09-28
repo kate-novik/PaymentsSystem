@@ -94,12 +94,42 @@ public class PaymentDao extends Dao<Payment> implements IPaymentDao{
     }
 
     @Override
-    public Integer getTotalCountOfPayments(Date payDate, double minAmountPayment, double maxAmountPayment) {
+    public Integer getTotalCountOfPayments(PaymentsFilter paymentsFilter) {
+        Date payDate = paymentsFilter.getPayDate();
+        double minAmountPayment = paymentsFilter.getMinAmountPayment();
+        double maxAmountPayment = paymentsFilter.getMaxAmountPayment();
         Criteria criteria = getSession().createCriteria(Payment.class);
-        Criterion amount = Restrictions.between("amountPayment",minAmountPayment,maxAmountPayment);
-        Criterion date = Restrictions.eq("payDate", payDate);
-        LogicalExpression andExp = Restrictions.and(amount,date);
-        criteria.add(andExp);
+        //To check existing filters
+        if (payDate != null && minAmountPayment != 0 && maxAmountPayment != 0) {
+            Criterion amount = Restrictions.between("amountPayment",minAmountPayment,maxAmountPayment);
+            Criterion date = Restrictions.eq("payDate", payDate);
+            LogicalExpression andExp = Restrictions.and(amount,date);
+            criteria.add(andExp);
+        }
+        else if (payDate != null && minAmountPayment == 0 && maxAmountPayment == 0){
+            criteria.add(Restrictions.eq("payDate", payDate));
+        }
+        else if (payDate == null && minAmountPayment != 0 && maxAmountPayment != 0){
+            criteria.add(Restrictions.between("amountPayment",minAmountPayment,maxAmountPayment));
+        }
+        else if (payDate == null && minAmountPayment == 0 && maxAmountPayment != 0){
+            criteria.add(Restrictions.eq("amountPayment", maxAmountPayment));
+        }
+        else if (payDate == null && minAmountPayment != 0 && maxAmountPayment == 0){
+            criteria.add(Restrictions.eq("amountPayment", minAmountPayment));
+        }
+        else if (payDate != null && minAmountPayment != 0 && maxAmountPayment == 0){
+            Criterion amount = Restrictions.eq("amountPayment", minAmountPayment);
+            Criterion date = Restrictions.eq("payDate", payDate);
+            LogicalExpression andExp = Restrictions.and(amount,date);
+            criteria.add(andExp);
+        }
+        else if (payDate != null && minAmountPayment == 0 && maxAmountPayment != 0){
+            Criterion amount = Restrictions.eq("amountPayment", maxAmountPayment);
+            Criterion date = Restrictions.eq("payDate", payDate);
+            LogicalExpression andExp = Restrictions.and(amount,date);
+            criteria.add(andExp);
+        }
         //To get total row count
         criteria.setProjection(Projections.rowCount());
         return (Integer)criteria.uniqueResult();

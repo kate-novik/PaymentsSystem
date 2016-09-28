@@ -2,10 +2,12 @@ package by.it.novik.entities;
 
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.Parameter;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -32,6 +34,8 @@ public class Passport implements Serializable {
         this.id = id;
     }
 
+    @NotEmpty
+    @Pattern(regexp = "^[01-9a-zA-Z]{9,12}$")
     private String number;
     @Column(name="number", length = 15)
     @Type(type = "string")
@@ -52,6 +56,8 @@ public class Passport implements Serializable {
         this.dateOfIssue = dateOfIssue;
     }
 
+    @NotEmpty
+    @Pattern(regexp = "^[a-zA-Zа-яА-ЯёЁ\\s]{11,30}$")
     private String issued;
     @Column(name="issued", length = 50)
     @Type(type = "string")

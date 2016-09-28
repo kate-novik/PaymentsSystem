@@ -3,6 +3,7 @@ package by.it.novik.services;
 
 import by.it.novik.entities.Payment;
 import by.it.novik.util.ServiceException;
+import by.it.novik.valueObjects.PaymentsFilter;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -74,10 +75,8 @@ public interface IPaymentService {
 
     /**
      * Getting total count of payments with filter
-     * @param payDate Object Date of payment
-     * @param minAmountPayment min amount of payment
-     * @param maxAmountPayment max amount of payment
+     * @param paymentsFilter Object PaymentsFilter with filters
      * @return total count of payments
      */
-    Integer getTotalCountOfPayments(Date payDate, double minAmountPayment, double maxAmountPayment);
+    Integer getTotalCountOfPayments(PaymentsFilter paymentsFilter);
 }

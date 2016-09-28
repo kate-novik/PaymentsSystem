@@ -5,6 +5,7 @@ import by.it.novik.entities.Payment;
 import by.it.novik.entities.User;
 import by.it.novik.services.IPaymentService;
 import by.it.novik.util.ServiceException;
+import by.it.novik.valueObjects.PaymentsFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +33,11 @@ public class PaymentsController {
             @RequestParam (value = "pageSize", required = false, defaultValue = "10") Integer pageSize,
             @RequestParam (value = "orderState", required = false, defaultValue = "ASC") String orderState
     ) throws ServiceException {
-        Integer totalCountPayments = paymentService.getTotalCountOfPayments(payDate, minAmountPayment, maxAmountPayment);
+        PaymentsFilter paymentsFilter = new PaymentsFilter();
+        paymentsFilter.setPayDate(payDate);
+        paymentsFilter.setMinAmountPayment(minAmountPayment);
+        paymentsFilter.setMaxAmountPayment(maxAmountPayment);
+        Integer totalCountPayments = paymentService.getTotalCountOfPayments(paymentsFilter);
         //Integer totalCountAccounts = 10; // hard code value
 //        if (totalCountAccounts == null) {
 //            return null;

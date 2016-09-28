@@ -20,7 +20,7 @@
             <a ng-href="/">{{title}}</a>
         </h3>
         <span flex></span>
-        <sec:authorize access="hasRole('USER')">
+        <sec:authorize access="isAuthenticated()">
             <md-button aria-label="Profile" ng-href="/profile">
                 <md-icon md-svg-src="account box"></md-icon>
                 <c:out value="${user.login}" />
@@ -34,5 +34,6 @@
                 Registration
             </md-button>
         </sec:authorize>
+        <a href="?myLocale=en">En</a>|<a href="?myLocale=ru">Ru</a>
     </div>
 </md-toolbar>

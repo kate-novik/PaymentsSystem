@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -41,6 +42,7 @@ public class User implements Serializable {
     }
 
     @NotEmpty
+    @Pattern(regexp = "^[a-zA-Zа-яА-ЯёЁ]{3,15}$")
     private String firstName;
     @Column(name="first_name", length = 15)
     @Type(type = "string")
@@ -52,6 +54,7 @@ public class User implements Serializable {
         this.firstName = firstName;
     }
 
+    @Pattern(regexp = "^[a-zA-Zа-яА-ЯёЁ]{3,15}$")
     private String middleName;
     @Column(name="middle_name", length = 15)
     @Type(type = "string")
@@ -64,6 +67,7 @@ public class User implements Serializable {
     }
 
     @NotEmpty
+    @Pattern(regexp = "^[a-zA-Zа-яА-ЯёЁ]{3,15}$")
     private String lastName;
     @Column(name="last_name", length = 20)
     @Type(type = "string")
@@ -96,6 +100,7 @@ public class User implements Serializable {
     }
 
     @NotEmpty
+    @Pattern(regexp = "^\\d{3}\\d{2}\\d{3}\\d{2}\\d{2}$")
     private String phone;
     @Column(name="phone", length=12)
     @Type(type = "string")
@@ -108,6 +113,7 @@ public class User implements Serializable {
     }
 
     @NotEmpty
+    @Pattern(regexp = "^([a-z0-9_-]+\\.)*[a-z0-9_-]+@[a-z0-9_-]+(\\.[a-z0-9_-]+)*\\.[a-z]{2,6}$")
     private String email;
     @Column(name="email", length=20)
     @Type(type = "string")
@@ -120,6 +126,7 @@ public class User implements Serializable {
     }
 
     @NotEmpty
+    @Pattern(regexp = "^[1-9a-zA-Z]{3,10}$")
     private String login;
     @Column(name="login", length=10, unique = true)
     @Type(type = "string")
