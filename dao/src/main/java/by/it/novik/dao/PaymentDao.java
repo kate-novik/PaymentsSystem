@@ -46,18 +46,30 @@ public class PaymentDao extends Dao<Payment> implements IPaymentDao{
     }
 
     @Override
-    public List<Payment> getPaymentsByAccount(Account account, String orderState, Integer pageSize, Integer firstItem) throws DaoException {
+    public List<Payment> getPaymentsByAccount(Account account, String orderState, Integer pageSize, Integer firstItem
+            , PaymentsFilter paymentsFilter) throws DaoException {
         List<Payment> payments;
         //Order for sorting by default
-        if (orderState == null) {
-            orderState = "ASC";
+        Criteria criteria = getCriteriaOfFilter(paymentsFilter);
+        criteria.add(Restrictions.eq("accountSource",account));
+        //Order for sorting
+        if (orderState == null || orderState.equals("ASC")) {
+            criteria.addOrder(Order.asc("id"));
         }
+        else if (orderState.equals("DESC")) {
+            criteria.addOrder(Order.desc("id"));
+        }
+
+        criteria.setFirstResult(firstItem);
+        criteria.setMaxResults(pageSize);
+
         try {
-            Query query = getSession().getNamedQuery("getPaymentsByAccount").setEntity("account",account)
-                    .setString("orderState",orderState);
-            query.setFirstResult(firstItem);
-            query.setMaxResults(pageSize);
-            payments = query.list();
+            payments = criteria.list();
+//            Query query = getSession().getNamedQuery("getPaymentsByAccount").setEntity("account",account)
+//                    .setString("orderState",orderState);
+//            query.setFirstResult(firstItem);
+//            query.setMaxResults(pageSize);
+//            payments = query.list();
             log.info("getPaymentsByAccount():" + payments);
         }
         catch (HibernateException e) {
@@ -103,6 +115,15 @@ public class PaymentDao extends Dao<Payment> implements IPaymentDao{
     @Override
     public Integer getTotalCountOfPayments(PaymentsFilter paymentsFilter) {
         Criteria criteria = getCriteriaOfFilter(paymentsFilter);
+        //To get total row count
+        criteria.setProjection(Projections.rowCount());
+        return (Integer)criteria.uniqueResult();
+    }
+
+    @Override
+    public Integer getTotalCountOfPayments (PaymentsFilter paymentsFilter, Account account) {
+        Criteria criteria = getCriteriaOfFilter(paymentsFilter);
+        criteria.add(Restrictions.eq("accountSource",account));
         //To get total row count
         criteria.setProjection(Projections.rowCount());
         return (Integer)criteria.uniqueResult();

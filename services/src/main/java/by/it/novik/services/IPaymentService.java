@@ -29,10 +29,11 @@ public interface IPaymentService {
      * @param orderState порядок сортировки по состоянию счета
      * @param pageSize Количество элементов на странице
      * @param firstItem Позиция первого элемента для вывода
+     * @param paymentsFilter Object paymentsFilter
      * @return список платежей пользователя
      */
-    List<Payment> getPaymentsByAccount (Serializable id_account, String orderState, Integer pageSize, Integer firstItem)
-            throws ServiceException;
+    List<Payment> getPaymentsByAccount (Serializable id_account, String orderState, Integer pageSize, Integer firstItem,
+                                        PaymentsFilter paymentsFilter) throws ServiceException;
 
     /**
      * Сделать платежку
@@ -81,4 +82,12 @@ public interface IPaymentService {
      * @return total count of payments
      */
     Integer getTotalCountOfPayments(PaymentsFilter paymentsFilter);
+
+    /**
+     * Getting total count of payments with filter
+     * @param paymentsFilter Object PaymentsFilter with filters
+     * @param idAccount ID account
+     * @return total count of payments
+     */
+    Integer getTotalCountOfPayments(PaymentsFilter paymentsFilter, Long idAccount) throws ServiceException;
 }

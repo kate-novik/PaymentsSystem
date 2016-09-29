@@ -57,13 +57,13 @@ public class PaymentService implements IPaymentService {
     }
 
     @Override
-    public List<Payment> getPaymentsByAccount(Serializable id_account, String orderState, Integer pageSize, Integer firstItem)
-            throws ServiceException {
+    public List<Payment> getPaymentsByAccount(Serializable id_account, String orderState, Integer pageSize,
+                                              Integer firstItem, PaymentsFilter paymentsFilter) throws ServiceException {
         List<Payment> payments;
         Account account;
         try {
             account = accountDao.get(id_account);
-            payments = paymentDao.getPaymentsByAccount(account, orderState, pageSize, firstItem);
+            payments = paymentDao.getPaymentsByAccount(account, orderState, pageSize, firstItem, paymentsFilter);
         }
         catch (DaoException d){
             log.error("Error getPaymentsByAccount() in PaymentService." + d);
@@ -184,5 +184,17 @@ public class PaymentService implements IPaymentService {
     @Override
     public Integer getTotalCountOfPayments(PaymentsFilter paymentsFilter) {
         return paymentDao.getTotalCountOfPayments(paymentsFilter);
+    }
+
+    @Override
+    public Integer getTotalCountOfPayments(PaymentsFilter paymentsFilter, Long idAccount) throws ServiceException {
+        Account account = null;
+        try {
+            account = accountDao.get(idAccount);
+        } catch (DaoException e) {
+            log.error("Error get account in PaymentDao " + e);
+            throw new ServiceException("Error in getting account.");
+        }
+        return paymentDao.getTotalCountOfPayments(paymentsFilter,account);
     }
 }

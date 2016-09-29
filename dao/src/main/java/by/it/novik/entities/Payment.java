@@ -16,15 +16,15 @@ import java.util.Date;
 @Entity
 @Table(name = "payment")
 @NamedQueries({
-        @NamedQuery(name="getPaymentsByUser", query= Payment.QUERY_GET_PAYMENTS_BY_USER),
-        @NamedQuery(name="getPaymentsByAccount", query= Payment.QUERY_GET_PAYMENTS_BY_ACCOUNT)
+        @NamedQuery(name="getPaymentsByUser", query= Payment.QUERY_GET_PAYMENTS_BY_USER)
+        //@NamedQuery(name="getPaymentsByAccount", query= Payment.QUERY_GET_PAYMENTS_BY_ACCOUNT)
        // @NamedQuery(name="getAllPayments", query= Payment.QUERY_GET_ALL_PAYMENTS)
 })
 public class Payment {
     private static final long serialVersionUID = 1L;
 
-    static final String QUERY_GET_PAYMENTS_BY_USER = "SELECT p FROM Payment p JOIN account a WHERE a.user= :user ORDER BY :orderState";
-    static final String QUERY_GET_PAYMENTS_BY_ACCOUNT = "FROM Payment p WHERE p.accountSource = :account ORDER BY :orderState";
+    static final String QUERY_GET_PAYMENTS_BY_USER = "SELECT p FROM Payment p JOIN p.accountSource a WHERE a.user= :user ORDER BY :orderState";
+    //static final String QUERY_GET_PAYMENTS_BY_ACCOUNT = "FROM Payment p WHERE p.accountSource = :account ORDER BY :orderState";
    // static final String QUERY_GET_ALL_PAYMENTS = "FROM Payment ORDER BY :orderState";
 
     private Long id;
