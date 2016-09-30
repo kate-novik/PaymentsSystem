@@ -6,6 +6,7 @@ import by.it.novik.util.AccountState;
 import by.it.novik.util.ServiceException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -14,6 +15,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,6 +24,7 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Created by Kate Novik.
@@ -41,9 +44,11 @@ public class ClientController {
     IRoleService roleService;
     @Autowired
     PasswordEncoder passwordEncoder;
+    @Autowired
+    MessageSource messageSource;
 
     @RequestMapping("/")
-    public String home(ModelMap model, Principal principal, HttpSession session) throws ServiceException {
+    public String home(ModelMap model, Principal principal, HttpSession session, RedirectAttributes redirectAttr) throws ServiceException {
         //Getting user from session
         User user = getUserFromSession(principal, model);
         if (user == null) {
@@ -54,8 +59,11 @@ public class ClientController {
         }
         //Getting role for user in session
         Role role = user.getRole();
-        model.addAttribute("message", "Hello " + principal.getName());
-        model.addAttribute("type", "info");
+        Map <String, ?> mapAttr = redirectAttr.getFlashAttributes();
+        if (!mapAttr.isEmpty()) {
+            model.addAttribute("message", mapAttr.get("message"));
+            model.addAttribute("type", mapAttr.get("type"));
+        }
         if (role.getRole().equals("admin")){
             return "admin";
         }
@@ -63,7 +71,7 @@ public class ClientController {
     }
 
     @RequestMapping(value="/createAccount", method = RequestMethod.GET)
-    public String createAccount(ModelMap model, Principal principal) throws ServiceException {
+    public String createAccount(ModelMap model, Principal principal, RedirectAttributes redirectAttr, Locale locale) throws ServiceException {
         //Getting user from session
         User user = getUserFromSession(principal,model);
         if (user == null) {
@@ -73,10 +81,12 @@ public class ClientController {
         account.setUser(user);
         account.setState(AccountState.WORKING);
         account.setBalance(0);
+
 //        try {
             accountService.saveOrUpdate(account);
-            model.addAttribute("message", "Account # " + account.getId() + " was created.");
-            model.addAttribute("type", "success");
+            String name =  messageSource.getMessage("name.account", null, locale);
+            redirectAttr.addFlashAttribute("message", messageSource.getMessage("message.isCreated", new Object[] {name}, locale));
+        redirectAttr.addFlashAttribute("type","success");
 //        }
 //        catch (ServiceException e){
 //            log.error("Error in CommandCreateAccount. Account wasn't created." + e);
@@ -100,20 +110,25 @@ public class ClientController {
     }
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
-    public String profile(ModelMap model, Principal principal) throws ServiceException {
+    public String profile(ModelMap model, Principal principal, RedirectAttributes redirectAttr) throws ServiceException {
         //Getting user from session
         User user = getUserFromSession(principal,model);
         if (user == null) {
             return "login";
         }
+        Map <String, ?> mapAttr = redirectAttr.getFlashAttributes();
+        if (!mapAttr.isEmpty()) {
+            model.addAttribute("message", mapAttr.get("message"));
+            model.addAttribute("type", mapAttr.get("type"));
+        }
         return "profile";
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
-    public String getRegistration(ModelMap model, Authentication auth) {
+    public String getRegistration(ModelMap model, Authentication auth, RedirectAttributes redirectAttr, Locale locale) {
         if (auth != null){
-            model.addAttribute("message","You are already registered.");
-            model.addAttribute("type","danger");
+            redirectAttr.addFlashAttribute("message",messageSource.getMessage("message.isReg", null, locale));
+            redirectAttr.addFlashAttribute("type","danger");
             return "redirect:/profile";
         }
         model.addAttribute("registrationForm", new User());
@@ -122,20 +137,20 @@ public class ClientController {
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String registration(@ModelAttribute("registrationForm") @Valid User user,
-                               BindingResult result, ModelMap model) {
+                               BindingResult result, ModelMap model, RedirectAttributes redirectAttr, Locale locale) {
         //Checking form for errors
         if (result.hasErrors()) {
-            model.addAttribute("message", "Not valid data! Repeat, please, input.");
+            model.addAttribute("message", messageSource.getMessage("message.validData", null, locale));
             model.addAttribute("type", "danger");
             return "reg";
         } else {
             try {
                 userService.create(user, "user");
-                model.addAttribute("message", "User was created. Enter data for authorization.");
-                model.addAttribute("type", "success");
+                redirectAttr.addFlashAttribute("message", messageSource.getMessage("message.validReg", null, locale));
+                redirectAttr.addFlashAttribute("type", "success");
             } catch (ServiceException e) {
                 log.error("Error in CommandRegistration. User wasn't create." + e);
-                model.addAttribute("message", "User wasn't create.\n" + e.getMessage());
+                model.addAttribute("message", messageSource.getMessage(e.getMessage(), null, locale));
                 model.addAttribute("type", "danger");
                 return "reg";
             }

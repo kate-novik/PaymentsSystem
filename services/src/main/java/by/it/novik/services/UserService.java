@@ -72,7 +72,7 @@ public class UserService implements IUserService {
         }
         catch (DaoException d) {
             log.error("Error saveOrUpdate() user in UserDao " + d);
-            throw new ServiceException("Error save/update() user." );
+            throw new ServiceException("message.commonError" );
         }
     }
 

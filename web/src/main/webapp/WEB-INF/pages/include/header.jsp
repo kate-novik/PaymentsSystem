@@ -35,6 +35,6 @@
                 <spring:message code="reg.name"/>
             </md-button>
         </sec:authorize>
-        <a href="?myLocale=en"><spring:message code="locale.en"/></a>|<a href="?myLocale=ru"><spring:message code="locale.ru"/></a>
+        <a href="?myLocale=en">En</a>|<a href="?myLocale=ru">Ru</a>
     </div>
 </md-toolbar>
