@@ -22,13 +22,13 @@ import java.util.List;
  */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-    private static Logger log = Logger.getLogger (UserDetailsServiceImpl.class);
+    private static Logger log = Logger.getLogger(UserDetailsServiceImpl.class);
     @Autowired
     private UserDao userDao;
 
-   @Transactional
+    @Transactional
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException  {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         by.it.novik.entities.User user = null;
         try {
             user = userDao.findByLogin(username);

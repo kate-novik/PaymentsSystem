@@ -1,12 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Cache-Control" content="no-cache">
     <meta http-equiv=Content-Type content="text/html;charset=UTF-8">
-    <title>System of payments</title>
+    <title>Payments system</title>
     <link rel="stylesheet" href="resources/styles/bootstrap.css">
     <link rel="stylesheet" href="resources/styles/style.css">
     <script src="resources/js/payments.js"> </script>
@@ -26,14 +27,14 @@
                 <c:out value="${user.login}" />
             </md-button>
             <md-button aria-label="Logout" ng-href="/getLogout">
-                Logout
+                <spring:message code="logout.logout"/>
             </md-button>
         </sec:authorize>
         <sec:authorize access="isAnonymous()">
             <md-button aria-label="Registration" ng-href="/registration">
-                Registration
+                <spring:message code="reg.name"/>
             </md-button>
         </sec:authorize>
-        <a href="?myLocale=en">En</a>|<a href="?myLocale=ru">Ru</a>
+        <a href="?myLocale=en"><spring:message code="locale.en"/></a>|<a href="?myLocale=ru"><spring:message code="locale.ru"/></a>
     </div>
 </md-toolbar>

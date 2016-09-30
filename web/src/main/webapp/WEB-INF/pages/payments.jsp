@@ -7,7 +7,7 @@
     <div class="row">
         <div class="pull-right">
             <p>(<a href="/profile" type="button" class="btn btn-link">
-            <c:out value="${user.nickname}" /></a>)
+            <c:out value="${user.login}" /></a>)
             </p>
         </div>
     </div>
