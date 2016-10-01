@@ -85,7 +85,7 @@ public class RoleService implements IRoleService {
             role = roleDao.getRoleByName(name);
         } catch (DaoException e) {
             log.error("Error getRoleByName() user in RoleService." + e);
-            throw new ServiceException("Error in getting role.");
+            throw new ServiceException("Error in getting role in RoleService.");
         }
         return role;
     }
@@ -97,7 +97,7 @@ public class RoleService implements IRoleService {
         }
         catch (DaoException d) {
             log.error("Error saveOrUpdate() role in RoleDao " + d);
-            throw new ServiceException("Error save/update() role." );
+            throw new ServiceException("Error save/update() role in RoleService." );
         }
     }
 
@@ -109,7 +109,7 @@ public class RoleService implements IRoleService {
         }
         catch (DaoException d) {
             log.error("Error get() role in RoleDao " + d);
-            throw new ServiceException("Error in getting role." );
+            throw new ServiceException("Error in getting role in RoleService." );
         }
         return user;
     }
@@ -121,7 +121,7 @@ public class RoleService implements IRoleService {
         }
         catch (DaoException d) {
             log.error("Error delete() role in RoleDao " + d);
-            throw new ServiceException("Error in deleting role.");
+            throw new ServiceException("Error in deleting role in RoleService.");
         }
     }
 }

@@ -51,7 +51,7 @@ public class PaymentService implements IPaymentService {
         }
         catch (DaoException d){
             log.error("Error getPaymentsByUser() in PaymentService." + d);
-            throw new ServiceException("Error in getting payments.");
+            throw new ServiceException("Error in getting payments in PaymentService.");
         }
         return payments;
     }
@@ -67,7 +67,7 @@ public class PaymentService implements IPaymentService {
         }
         catch (DaoException d){
             log.error("Error getPaymentsByAccount() in PaymentService." + d);
-            throw new ServiceException("Error in getting payments.");
+            throw new ServiceException("Error in getting payments in PaymentService.");
         }
         return payments;
     }
@@ -85,7 +85,7 @@ public class PaymentService implements IPaymentService {
             accountDestination =  accountDao.get(idAccountTo);
         } catch (DaoException e) {
             log.error("Error makePayment() in PaymentService." + e);
-            throw new ServiceException("Error in making payment.");
+            throw new ServiceException("Error in making payment in PaymentService.");
         }
 
         //Проверим баланс счета для списывания денег
@@ -129,7 +129,7 @@ public class PaymentService implements IPaymentService {
             }
         } else {
             log.error("Error make payment in PaymentService. Few funds in the account_source.");
-            throw new ServiceException("Few funds in the account_source. Refill your account.") ;
+            throw new ServiceException("Few funds in the account source. Refill your account.") ;
         }
     }
 
@@ -141,7 +141,7 @@ public class PaymentService implements IPaymentService {
         }
         catch (DaoException d) {
             log.error("Error getAllPayments() in PaymentService." + d);
-            throw new ServiceException("Error in getting payments.");
+            throw new ServiceException("Error in getting payments in PaymentService.");
         }
         return payments;
     }
@@ -153,7 +153,7 @@ public class PaymentService implements IPaymentService {
         }
         catch (DaoException d) {
             log.error("Error saveOrUpdate() payment in PaymentDao " + d);
-            throw new ServiceException("Error save/update payment." );
+            throw new ServiceException("Error save/update payment in PaymentService." );
         }
     }
 
@@ -165,7 +165,7 @@ public class PaymentService implements IPaymentService {
         }
         catch (DaoException d) {
             log.error("Error get() payment in PaymentDao " + d);
-            throw new ServiceException("Error in getting payment." );
+            throw new ServiceException("Error in getting payment in PaymentService." );
         }
         return payment;
     }
@@ -177,7 +177,7 @@ public class PaymentService implements IPaymentService {
         }
         catch (DaoException d) {
             log.error("Error delete() payment in PaymentDao " + d);
-            throw new ServiceException("Error in deleting payment.");
+            throw new ServiceException("Error in deleting payment in PaymentService.");
         }
     }
 
@@ -193,7 +193,7 @@ public class PaymentService implements IPaymentService {
             account = accountDao.get(idAccount);
         } catch (DaoException e) {
             log.error("Error get account in PaymentDao " + e);
-            throw new ServiceException("Error in getting account.");
+            throw new ServiceException("Error in getting account in PaymentService.");
         }
         return paymentDao.getTotalCountOfPayments(paymentsFilter,account);
     }

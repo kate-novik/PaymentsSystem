@@ -47,7 +47,7 @@ public class UserService implements IUserService {
         }
         catch (DaoException d) {
             log.error("Error findByLogin() user in UserService." + d);
-            throw new ServiceException("Error in finding user.");
+            throw new ServiceException("Error in finding user in UserService.");
         }
         return user;
     }
@@ -60,7 +60,7 @@ public class UserService implements IUserService {
         }
         catch (DaoException d) {
             log.error("Error getAllUsers() in UserService." + d);
-            throw new ServiceException("Error in getting users.");
+            throw new ServiceException("Error in getting users in UserService.");
         }
         return users;
     }
@@ -71,8 +71,8 @@ public class UserService implements IUserService {
             userDao.saveOrUpdate(user);
         }
         catch (DaoException d) {
-            log.error("Error saveOrUpdate() user in UserDao " + d);
-            throw new ServiceException("message.commonError" );
+            log.error("Error saveOrUpdate() user in UserService " + d);
+            throw new ServiceException("Error saveOrUpdate() user in UserService.");
         }
     }
 
@@ -99,7 +99,7 @@ public class UserService implements IUserService {
         }
         catch (DaoException d) {
             log.error("Error get() user in UserDao " + d);
-            throw new ServiceException("Error in getting user." );
+            throw new ServiceException("Error in getting user in UserService." );
         }
         return user;
     }
@@ -111,7 +111,7 @@ public class UserService implements IUserService {
         }
         catch (DaoException d) {
             log.error("Error delete() user in UserDao " + d);
-            throw new ServiceException("Error in deleting user.");
+            throw new ServiceException("Error in deleting user in UserService.");
         }
     }
 }

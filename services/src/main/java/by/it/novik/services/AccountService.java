@@ -52,7 +52,7 @@ public class AccountService implements IAccountService {
         }
         catch (DaoException d){
             log.error("Error getAccountsByUser() in AccountService." + d);
-            throw new ServiceException("Error in getting accounts.");
+            throw new ServiceException("Error in getting accounts in AccountService.");
         }
         return accounts;
     }
@@ -65,7 +65,7 @@ public class AccountService implements IAccountService {
         }
         catch (DaoException d){
             log.error("Error getAllAccounts() in AccountService." + d);
-            throw new ServiceException("Error in getting accounts.");
+            throw new ServiceException("Error in getting accounts in AccountService.");
         }
         return accounts;
     }
@@ -78,7 +78,7 @@ public class AccountService implements IAccountService {
         }
         catch (DaoException d){
             log.error("Error getLockedAccounts() in AccountService." + d);
-            throw new ServiceException("Error in getting locked accounts..");
+            throw new ServiceException("Error in getting locked accounts in AccountService.");
         }
         return accounts;
     }
@@ -149,7 +149,7 @@ public class AccountService implements IAccountService {
         }
         catch (DaoException d) {
             log.error("Error get() account in AccountDao " + d);
-            throw new ServiceException("Error in getting account." );
+            throw new ServiceException("Error in getting account in AccountService." );
         }
         return account;
     }
@@ -161,7 +161,7 @@ public class AccountService implements IAccountService {
         }
         catch (DaoException d) {
             log.error("Error delete() account in AccountDao " + d);
-            throw new ServiceException("Error in deleting account.");
+            throw new ServiceException("Error in deleting account in AccountService.");
         }
     }
 

@@ -86,7 +86,7 @@ public class ClientController {
             accountService.saveOrUpdate(account);
             String name =  messageSource.getMessage("name.account", null, locale);
             redirectAttr.addFlashAttribute("message", messageSource.getMessage("message.isCreated", new Object[] {name}, locale));
-        redirectAttr.addFlashAttribute("type","success");
+            redirectAttr.addFlashAttribute("type","success");
 //        }
 //        catch (ServiceException e){
 //            log.error("Error in CommandCreateAccount. Account wasn't created." + e);
@@ -150,7 +150,7 @@ public class ClientController {
                 redirectAttr.addFlashAttribute("type", "success");
             } catch (ServiceException e) {
                 log.error("Error in CommandRegistration. User wasn't create." + e);
-                model.addAttribute("message", messageSource.getMessage(e.getMessage(), null, locale));
+                model.addAttribute("message", messageSource.getMessage("message.commonError", null, locale));
                 model.addAttribute("type", "danger");
                 return "reg";
             }
@@ -161,7 +161,8 @@ public class ClientController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login (ModelMap model,
             @RequestParam(value = "error", required = false) String error,
-            @RequestParam(value = "logout", required = false) String logout) {
+            @RequestParam(value = "logout", required = false) String logout,
+            RedirectAttributes redirectAttr) {
 
         if (error != null) {
             model.addAttribute("error", "Invalid username and password!");
@@ -169,6 +170,12 @@ public class ClientController {
 
         if (logout != null) {
             model.addAttribute("msg", "You've been logged out successfully.");
+        }
+
+        Map <String, ?> mapAttr = redirectAttr.getFlashAttributes();
+        if (!mapAttr.isEmpty()) {
+            model.addAttribute("message", mapAttr.get("message"));
+            model.addAttribute("type", mapAttr.get("type"));
         }
 
         return "login";
@@ -232,10 +239,11 @@ public class ClientController {
      * @return Object ModelAndView with message of error
      */
     @ExceptionHandler(ServiceException.class)
-    public ModelAndView handleServiceException(ServiceException e){
+    public ModelAndView handleServiceException(ServiceException e, Locale locale){
         log.error(e);
         ModelAndView model = new ModelAndView("error");
-        model.addObject("message",e.getMessage());
+        model.addObject("message",messageSource.getMessage("message.errorService", null, locale));
+        model.addObject("type", "danger");
         return model;
     }
 
@@ -245,11 +253,11 @@ public class ClientController {
      * @return Object ModelAndView with message of error
      */
     @ExceptionHandler(Exception.class)
-    public ModelAndView handleAllException(Exception e){
+    public ModelAndView handleAllException(Exception e, Locale locale){
         log.error(e);
         ModelAndView model = new ModelAndView("error");
-        model.addObject("message","Error in application.");
+        model.addObject("message",messageSource.getMessage("message.errorApp", null, locale));
+        model.addObject("type", "danger");
         return model;
     }
-
 }
