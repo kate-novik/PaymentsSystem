@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 
-<%@ include file="include/header.jsp" %>
+<%@ include file="client/parts/header.jsp" %>
 
 <div class="main container">
     <div class="row">
@@ -23,4 +23,4 @@
     </div>
 </div>
 
-<%@ include file="include/footer.jsp" %>
+<%@ include file="client/parts/footer.jsp" %>

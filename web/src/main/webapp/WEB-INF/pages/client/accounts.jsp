@@ -3,7 +3,7 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<%@ include file="include/header.jsp" %>
+<%@ include file="parts/header.jsp" %>
 
 <div class="main container" ng-controller="AccountsController as ctrl">
     <div class="row">
@@ -54,4 +54,4 @@
     </div>
 </div>
 
-<%@ include file="include/footer.jsp" %>
+<%@ include file="parts/footer.jsp" %>

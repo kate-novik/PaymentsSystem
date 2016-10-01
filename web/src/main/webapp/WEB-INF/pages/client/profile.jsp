@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-<%@ include file="include/header.jsp" %>
+<%@ include file="parts/header.jsp" %>
 
 <br><br>
 <div class="main container profile">
@@ -36,4 +36,4 @@
     </ul>
 </div>
 
-<%@ include file="include/footer.jsp" %>
+<%@ include file="parts/footer.jsp" %>

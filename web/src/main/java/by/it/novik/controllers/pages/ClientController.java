@@ -47,29 +47,6 @@ public class ClientController {
     @Autowired
     MessageSource messageSource;
 
-    @RequestMapping("/")
-    public String home(ModelMap model, Principal principal, HttpSession session, RedirectAttributes redirectAttr) throws ServiceException {
-        //Getting user from session
-        User user = getUserFromSession(principal, model);
-        if (user == null) {
-            return "login";
-        }
-        else {
-            session.setAttribute("user", user);
-        }
-        //Getting role for user in session
-        Role role = user.getRole();
-        Map <String, ?> mapAttr = redirectAttr.getFlashAttributes();
-        if (!mapAttr.isEmpty()) {
-            model.addAttribute("message", mapAttr.get("message"));
-            model.addAttribute("type", mapAttr.get("type"));
-        }
-        if (role.getRole().equals("admin")){
-            return "admin";
-        }
-        return "accounts";
-    }
-
     @RequestMapping(value="/createAccount", method = RequestMethod.GET)
     public String createAccount(ModelMap model, Principal principal, RedirectAttributes redirectAttr, Locale locale) throws ServiceException {
         //Getting user from session
@@ -121,7 +98,7 @@ public class ClientController {
             model.addAttribute("message", mapAttr.get("message"));
             model.addAttribute("type", mapAttr.get("type"));
         }
-        return "profile";
+        return "client/profile";
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
@@ -132,7 +109,7 @@ public class ClientController {
             return "redirect:/profile";
         }
         model.addAttribute("registrationForm", new User());
-        return "reg";
+        return "client/reg";
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
@@ -142,7 +119,7 @@ public class ClientController {
         if (result.hasErrors()) {
             model.addAttribute("message", messageSource.getMessage("message.validData", null, locale));
             model.addAttribute("type", "danger");
-            return "reg";
+            return "client/reg";
         } else {
             try {
                 userService.create(user, "user");
@@ -152,7 +129,7 @@ public class ClientController {
                 log.error("Error in CommandRegistration. User wasn't create." + e);
                 model.addAttribute("message", messageSource.getMessage("message.commonError", null, locale));
                 model.addAttribute("type", "danger");
-                return "reg";
+                return "client/reg";
             }
         }
         return "redirect:/";
