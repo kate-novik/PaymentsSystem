@@ -1,6 +1,9 @@
 package by.it.novik.controllers.rest;
 
 import by.it.novik.controller.Pagination;
+import by.it.novik.dto.PagingTransfer;
+import by.it.novik.entities.Payment;
+import by.it.novik.services.IPaymentService;
 import by.it.novik.valueObjects.AccountsFilter;
 import by.it.novik.dto.MoneyTransfer;
 import by.it.novik.dto.Refill;
@@ -9,11 +12,13 @@ import by.it.novik.entities.User;
 import by.it.novik.services.IAccountService;
 import by.it.novik.services.IUserService;
 import by.it.novik.util.ServiceException;
+import by.it.novik.valueObjects.PaymentsFilter;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,6 +34,8 @@ public class AccountsController {
     @Autowired
     IAccountService accountService;
     @Autowired
+    IPaymentService paymentService;
+    @Autowired
     IUserService userService;
 
     @RequestMapping(method = RequestMethod.GET)
@@ -41,7 +48,7 @@ public class AccountsController {
         //Getting user from session
         User user = (User)session.getAttribute("user");
 //        Integer totalCountAccounts = accountService.getTotalCountOfPayments(accountsFilter);
-        Integer totalCountAccounts = 10; // hard code value
+        long totalCountAccounts = 10; // hard code value
 //        if (totalCountAccounts == null) {
 //            return null;
 //        }
@@ -82,7 +89,7 @@ public class AccountsController {
 
     @RequestMapping(value="/transfer", method = RequestMethod.POST)
     public void transfer(@RequestBody MoneyTransfer mt) throws ServiceException {
-        accountService.moneyTransfer(mt.getAccountSource(), mt.getAccountDestination(), mt.getAmount());
+        paymentService.makePayment(mt.getAccountSource(), mt.getAccountDestination(), mt.getAmount(), "Money transfer");
     }
 
     @RequestMapping(value="/{id}/lock", method = RequestMethod.GET)
@@ -93,6 +100,33 @@ public class AccountsController {
     @RequestMapping(value="/{id}/unlock", method = RequestMethod.GET)
     public void unlock(@PathVariable Long id) throws ServiceException {
         accountService.unlockingAccount(id);
+    }
+
+    @RequestMapping(value="/{id}/payments", method = RequestMethod.GET)
+    public PagingTransfer findPaymentsByAccount(
+            @PathVariable Long id,
+            @RequestParam(value = "payDate", required = false) Date payDate,
+            @RequestParam(value = "minAmountPayment", required = false, defaultValue = "0") double minAmountPayment,
+            @RequestParam(value = "maxAmountPayment", required = false, defaultValue = "0") double maxAmountPayment,
+            @RequestParam(value = "pageNumber", required = false, defaultValue = "1") Integer pageNumber ,
+            @RequestParam (value = "pageSize", required = false, defaultValue = "10") Integer pageSize,
+            @RequestParam (value = "orderState", required = false, defaultValue = "ASC") String orderState
+    ) throws ServiceException {
+        PaymentsFilter paymentsFilter = new PaymentsFilter();
+        paymentsFilter.setPayDate(payDate);
+        paymentsFilter.setMinAmountPayment(minAmountPayment);
+        paymentsFilter.setMaxAmountPayment(maxAmountPayment);
+
+        Long totalCountPayments = paymentService.getTotalCountOfPayments(paymentsFilter,id);
+        Pagination.checkPage(pageNumber,pageSize,totalCountPayments);
+        pageSize = Pagination.item_per_page_result;
+        List<Payment> payments = paymentService.getPaymentsByAccount(id, orderState, pageSize, Pagination.firstItem, paymentsFilter);
+        PagingTransfer pagingTransfer = new PagingTransfer();
+        pagingTransfer.setPage(Pagination.pageResult);
+        pagingTransfer.setItem_per_page(pageSize);
+        pagingTransfer.setPayments(payments);
+        pagingTransfer.setTotalCountItems(totalCountPayments);
+        return pagingTransfer;
     }
 
 //    /**

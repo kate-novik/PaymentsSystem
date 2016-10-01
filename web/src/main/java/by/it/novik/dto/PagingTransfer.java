@@ -10,7 +10,7 @@ import java.util.List;
 public class PagingTransfer {
     private int page;
     private int item_per_page;
-    private int totalCountItems;
+    private long totalCountItems;
     private List<Payment> payments;
 
     public PagingTransfer() {
@@ -32,11 +32,11 @@ public class PagingTransfer {
         this.item_per_page = item_per_page;
     }
 
-    public int getTotalCountItems() {
+    public long getTotalCountItems() {
         return totalCountItems;
     }
 
-    public void setTotalCountItems(int totalCountItems) {
+    public void setTotalCountItems(long totalCountItems) {
         this.totalCountItems = totalCountItems;
     }
 

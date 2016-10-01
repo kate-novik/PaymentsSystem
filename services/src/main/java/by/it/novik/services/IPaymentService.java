@@ -43,7 +43,7 @@ public interface IPaymentService {
      * @param description Описание платежа
      * @throws Exception
      */
-    void makePayment(int idAccountFrom, int idAccountTo, double pay_amount, String description) throws ServiceException;
+    void makePayment(Long idAccountFrom, Long idAccountTo, Double pay_amount, String description) throws ServiceException;
 
     /**
      * Получение списка платежей всех пользователей
@@ -89,5 +89,5 @@ public interface IPaymentService {
      * @param idAccount ID account
      * @return total count of payments
      */
-    Integer getTotalCountOfPayments(PaymentsFilter paymentsFilter, Long idAccount) throws ServiceException;
+    Long getTotalCountOfPayments(PaymentsFilter paymentsFilter, Long idAccount) throws ServiceException;
 }

@@ -66,5 +66,5 @@ public interface IPaymentDao {
      * @param account Object Account
      * @return total count of payments
      */
-    Integer getTotalCountOfPayments(PaymentsFilter paymentsFilter, Account account);
+    Long getTotalCountOfPayments(PaymentsFilter paymentsFilter, Account account);
 }

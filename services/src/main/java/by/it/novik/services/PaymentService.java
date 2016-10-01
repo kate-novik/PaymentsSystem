@@ -73,7 +73,7 @@ public class PaymentService implements IPaymentService {
     }
 
     @Override
-    public void makePayment(int idAccountFrom, int idAccountTo, double pay_amount, String description) throws ServiceException {
+    public void makePayment(Long idAccountFrom, Long idAccountTo, Double pay_amount, String description) throws ServiceException {
 
         //Чтение счета-источника платежа по id
         Account accountSource;
@@ -187,7 +187,7 @@ public class PaymentService implements IPaymentService {
     }
 
     @Override
-    public Integer getTotalCountOfPayments(PaymentsFilter paymentsFilter, Long idAccount) throws ServiceException {
+    public Long getTotalCountOfPayments(PaymentsFilter paymentsFilter, Long idAccount) throws ServiceException {
         Account account = null;
         try {
             account = accountDao.get(idAccount);

@@ -114,12 +114,12 @@ public class PaymentDao extends Dao<Payment> implements IPaymentDao {
     }
 
     @Override
-    public Integer getTotalCountOfPayments(PaymentsFilter paymentsFilter, Account account) {
+    public Long getTotalCountOfPayments(PaymentsFilter paymentsFilter, Account account) {
         Criteria criteria = getCriteriaOfFilter(paymentsFilter);
         criteria.add(Restrictions.eq("accountSource", account));
         //To get total row count
         criteria.setProjection(Projections.rowCount());
-        return (Integer) criteria.uniqueResult();
+        return (Long) criteria.uniqueResult();
     }
 
     /**

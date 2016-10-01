@@ -10,9 +10,9 @@ public class Pagination {
     public static int item_per_page_result;
     public static int firstItem;
 
-    public static void  checkPage (int page, int item_per_page, int totalCountItems) {
-        int totalCountPage = totalCountItems/item_per_page;
-        if (page>1 && page<=totalCountPage){
+    public static void  checkPage (int page, int item_per_page, Long totalCountItems) {
+        long totalCountPage = totalCountItems / item_per_page;
+        if (page>1 && page <= totalCountPage){
             pageResult = page;
             item_per_page_result = item_per_page;
         }

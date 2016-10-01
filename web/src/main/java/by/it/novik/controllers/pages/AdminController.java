@@ -21,7 +21,7 @@ public class AdminController {
     @RequestMapping("/")
     public String adminPage (ModelMap model) {
         model.addAttribute("message", "Page for admins!");
-        return "admin";
+        return "admin/dashboard";
     }
 
     @RequestMapping(value = "/payments", method = RequestMethod.GET)
