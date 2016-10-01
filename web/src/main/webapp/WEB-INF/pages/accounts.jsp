@@ -27,24 +27,22 @@
                                    ng-click="$mdOpenMenu($event)"><spring:message code="account.leftMenu"/></md-button>
                         <md-menu-content width="4">
                             <md-menu-item>
-                                <md-button ng-click="ctrl.refill($event, account.id, $index)">
-                                    <spring:message code="account.refill"/>
-                                </md-button>
-                            </md-menu-item>
-                            <md-menu-item>
-                                <md-button ng-click="ctrl.transfer($event, account.id, $index)">
+                                <md-button ng-disabled="ctrl.isLocked(account)" ng-click="ctrl.transfer($event, account.id, $index)">
                                     <spring:message code="account.transfer"/>
                                 </md-button>
                             </md-menu-item>
                             <md-menu-item>
-                                <md-button ng-click="ctrl.pay($event, account.id)">
+                                <md-button ng-disabled="ctrl.isLocked(account)" ng-click="ctrl.pay($event, account.id)">
                                     <spring:message code="account.pay"/>
                                 </md-button>
                             </md-menu-item>
                             <md-menu-divider></md-menu-divider>
                             <md-menu-item>
-                                <md-button ng-click="ctrl.block($event, account.id)">
+                                <md-button ng-click="ctrl.block($event, account.id)" ng-if="!ctrl.isLocked(account)">
                                     <spring:message code="account.lock"/>
+                                </md-button>
+                                <md-button ng-click="ctrl.unblock($event, account.id)" ng-if="ctrl.isLocked(account)">
+                                    Разблокировать
                                 </md-button>
                             </md-menu-item>
                         </md-menu-content>

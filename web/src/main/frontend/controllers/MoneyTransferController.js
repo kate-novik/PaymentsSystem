@@ -21,11 +21,13 @@ class MoneyTransferController {
   }
 
   ok() {
-    this.$mdDialog.hide({
-      accountSource: this.source.id,
-      accountDestination: this.destination.id,
-      amount: this.amount
-    });
+    if (this.amount > 0 && this.source.balance > this.amount) {
+      this.$mdDialog.hide({
+        accountSource: this.source.id,
+        accountDestination: this.destination.id,
+        amount: this.amount
+      });
+    }
   }
 }
 

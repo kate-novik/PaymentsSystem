@@ -46,6 +46,13 @@ public interface IAccountService {
     void unlockingAccount(Account account) throws ServiceException;
 
     /**
+     *
+     * @param account Id of account
+     * @throws ServiceException
+     */
+    void unlockingAccount(Long account) throws ServiceException;
+
+    /**
      * Получение списка всех счетов
      * @return Список счетов
      */

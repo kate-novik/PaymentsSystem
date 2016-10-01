@@ -90,6 +90,11 @@ public class AccountsController {
         accountService.lockingAccount(id);
     }
 
+    @RequestMapping(value="/{id}/unlock", method = RequestMethod.GET)
+    public void unlock(@PathVariable Long id) throws ServiceException {
+        accountService.unlockingAccount(id);
+    }
+
 //    /**
 //     * Checking whether user has this account
 //     * @param user Object User

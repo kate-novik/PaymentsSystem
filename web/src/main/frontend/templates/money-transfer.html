@@ -19,16 +19,22 @@
 
                     <md-input-container class="md-block" flex-gt-sm>
                         <label>Destination account</label>
-                        <md-select ng-model="ctrl.destination" required>
+                        <md-select ng-model="ctrl.destination" name="destination" required>
                             <md-option ng-repeat="acc in ctrl.destAccounts" ng-value="acc">
                                 {{acc.id}} ({{acc.balance | currency}})
                             </md-option>
                         </md-select>
+                        <div ng-messages="moneyTransferForm.destination.$error">
+                            <div ng-message="required">Destination is required</div>
+                        </div>
                     </md-input-container>
 
-                    <md-input-container class="md-block" flex-gt-sm>
+                    <md-input-container class="md-block" flex-gt-sm md-is-error="ctrl.amount > ctrl.source.balance">
                         <label>Amount</label>
-                        <input ng-model="ctrl.amount" required/>
+                        <input ng-model="ctrl.amount" name="amount"  required/>
+                        <div class="md-input-message-animation" ng-if="ctrl.amount > ctrl.source.balance" style="opacity: 1; margin-top: 0px;">
+                            <div>Недостаточно средств</div>
+                        </div>
                     </md-input-container>
             </div>
         </md-dialog-content>

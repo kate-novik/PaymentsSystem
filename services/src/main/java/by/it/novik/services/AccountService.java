@@ -122,6 +122,12 @@ public class AccountService implements IAccountService {
     }
 
     @Override
+    public void unlockingAccount(Long id) throws ServiceException {
+        Account account = get(id);
+        unlockingAccount(account);
+    }
+
+    @Override
     public void deleteAccount(Serializable id_account) throws ServiceException {
         //Получаем объект из базы данных по id и типу класса
         Account account = get(id_account);

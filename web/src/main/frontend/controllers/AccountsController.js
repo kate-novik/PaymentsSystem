@@ -75,6 +75,10 @@ class AccountsController {
       });
   }
 
+  isLocked (account) {
+    return account.state === 'LOCKED';
+  }
+
   block(ev, idAccount, index) {
       var confirm = this.$mdDialog.confirm()
         .title('Block account')
@@ -89,6 +93,22 @@ class AccountsController {
       .then(() => {
         this.fetch();
       });
+  }
+
+  unblock(ev, idAccount, index) {
+    var confirm = this.$mdDialog.confirm()
+        .title('Unlock account')
+        .textContent('Are you sure?')
+        .targetEvent(ev)
+        .ok('Unlock')
+        .cancel('Cancel');
+
+    this.$mdDialog.show(confirm).then(() => {
+      return this.$http.get(`/api/accounts/${idAccount}/unlock`);
+    })
+        .then(() => {
+          this.fetch();
+        });
   }
 }
 
