@@ -4,16 +4,22 @@ import moneyTransferTmpl from '../templates/money-transfer.html';
 
 class AccountsController {
   /* @ngInject */
-  constructor($http, $mdDialog, $mdToast) {
+  constructor($scope, $http, $mdDialog, $mdToast) {
 
     this.$http = $http;
     this.$mdDialog = $mdDialog;
     this.$mdToast = $mdToast;
-    this.query = {
-      order: 'id',
-      limit: 5,
-      page: 1
+    this.$scope = $scope;
+
+    $scope.fetch = (page, limit) => {
+      let params = {};
+
+      $http.get('/api/accounts', {params})
+        .then(resp => {
+          this.accounts = resp.data;
+        });
     };
+
     this.fetch();
   }
 

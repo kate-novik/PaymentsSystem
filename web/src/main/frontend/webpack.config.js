@@ -16,18 +16,18 @@ module.exports = {
         filename: 'js/[name].js'
     },
 
-    // devtool: 'eval',
+    devtool: 'eval',
 
     plugins: [
         new webpack.NoErrorsPlugin(),
 
-        new CleanWebpackPlugin(['../webapp/resources/js']),
-
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            }
-        })
+        // new CleanWebpackPlugin(['../webapp/resources/js']),
+        //
+        // new webpack.optimize.UglifyJsPlugin({
+        //     compress: {
+        //         warnings: false
+        //     }
+        // })
     ],
 
     module: {

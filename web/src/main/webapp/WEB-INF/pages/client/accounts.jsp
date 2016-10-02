@@ -62,7 +62,7 @@
             </div>
             <div>
                 <md-table-container>
-                    <table md-table ng-model="pc.selected" md-promise="pc.loading">
+                    <table md-table md-promise="pc.loading">
                         <thead md-head md-order="pc.query.order" md-on-reorder="pc.fetch">
                         <tr md-row>
                             <th md-column md-order-by="nameToLower"><span># of payment</span></th>
@@ -73,7 +73,7 @@
                         </tr>
                         </thead>
                         <tbody md-body>
-                        <tr md-row md-select="id" md-select-id="id" md-auto-select ng-repeat="payment in pc.payments">
+                        <tr md-row ng-repeat="payment in pc.payments">
                             <td md-cell>{{payment.id}}</td>
                             <td md-cell>{{payment.description}}</td>
                             <td md-cell>{{payment.payDate}}</td>
@@ -87,11 +87,11 @@
                 <md-table-pagination md-limit="pc.query.limit"
                                      md-limit-options="[5, 10, 15]"
                                      md-page="pc.query.page"
-                                     md-total="{{pc.payments.length}}"
-                                     md-on-paginate="pc.fetch"
-                                     md-page-select>
+                                     md-total="{{pc.total}}"
+                                     md-on-paginate="fetch">
                 </md-table-pagination>
             </div>
+            TOTAL - {{pc.total}}
         </div>
     </div>
 </div>
