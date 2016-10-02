@@ -6,10 +6,10 @@ import by.it.novik.util.AccountState;
  * Created by Kate Novik.
  */
 public class AccountsFilter {
+
     private AccountState state;
     private double MinBalance;
     private double MaxBalance;
-
 
     public AccountsFilter() {
     }

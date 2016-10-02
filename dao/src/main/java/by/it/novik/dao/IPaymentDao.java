@@ -4,10 +4,7 @@ import by.it.novik.entities.Account;
 import by.it.novik.entities.Payment;
 import by.it.novik.entities.User;
 import by.it.novik.util.DaoException;
-import by.it.novik.valueObjects.AccountsFilter;
 import by.it.novik.valueObjects.PaymentsFilter;
-
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -16,25 +13,25 @@ import java.util.List;
 public interface IPaymentDao {
 
     /**
-     * Получение списка платежей пользователя
-     * @param user Объект User
-     * @return Список объектов Payments
-     * @param orderState порядок сортировки по состоянию счета
-     * @param pageSize Количество элементов на странице
-     * @param firstItem Позиция первого элемента для вывода
+     * To get list of payments by user
+     * @param user Object User
+     * @param orderState Order of sorting payments
+     * @param pageSize Size of elements on page
+     * @param firstItem Position of first element for output
+     * @return List of objects Payments
      * @throws DaoException
      */
     List<Payment> getPaymentsByUser(User user, String orderState, Integer pageSize, Integer firstItem)
             throws DaoException;
 
     /**
-     * Получение списка платежей счета
-     * @param account Объект Account
-     * @param orderState порядок сортировки по состоянию счета
-     * @param pageSize Количество элементов на странице
-     * @param firstItem Позиция первого элемента для вывода
+     * To get list of payments by account
+     * @param account Object Account
+     * @param orderState Order of sorting payments
+     * @param pageSize Size of elements on page
+     * @param firstItem Position of first element for output
      * @param paymentsFilter Object paymentsFilter
-     * @return Список объектов Payments
+     * @return List of objects Payments
      * @throws DaoException
      */
     List<Payment> getPaymentsByAccount(Account account, String orderState, Integer pageSize, Integer firstItem
@@ -42,12 +39,12 @@ public interface IPaymentDao {
             throws DaoException;
 
     /**
-     * Получение списка всех платежей
-     * @param orderState порядок сортировки по состоянию счета
-     * @param pageSize Количество элементов на странице
-     * @param firstItem Позиция первого элемента для вывода
+     * To get list of all payments
+     * @param orderState Order of sorting payments
+     * @param pageSize Size of elements on page
+     * @param firstItem Position of first element for output
      * @param paymentsFilter Object paymentsFilter
-     * @return Список объектов Payments
+     * @return List of objects Payments
      * @throws DaoException
      */
     List<Payment> getAllPayments(String orderState, Integer pageSize, Integer firstItem, PaymentsFilter paymentsFilter)

@@ -9,21 +9,21 @@ import java.io.Serializable;
  */
 public interface IDao <T> {
     /**
-     * Сохранение или изменение существующего объекта в базе данных
-     * @param t Объект для сохранения/изменения
+     * To Save or update object in data base
+     * @param t Object for saving
      */
     void saveOrUpdate(T t) throws DaoException;
 
     /**
-     * Удаление объекта из базы данных
-     * @param id Идентификатор объекта для удаления
+     * To delete object from data base
+     * @param id Object's id
      */
     void delete(Serializable id) throws DaoException;
 
     /**
-     * Получение объекта из базы данных по идентификатору объекта
-     * @param id Идентификатор объекта
-     * @return Загруженный объект
+     * To get object from data base with id
+     * @param id Object's id
+     * @return Getting object
      */
     T get(Serializable id) throws DaoException;
 

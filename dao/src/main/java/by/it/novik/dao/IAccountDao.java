@@ -4,7 +4,6 @@ import by.it.novik.entities.Account;
 import by.it.novik.entities.User;
 import by.it.novik.util.DaoException;
 import by.it.novik.valueObjects.AccountsFilter;
-
 import java.util.List;
 
 /**
@@ -13,26 +12,26 @@ import java.util.List;
 public interface IAccountDao {
 
     /**
-     * Получение список счетов пользователя
-     * @param user Объект пользователя
-     * @param orderState Порядок сортировки счетов
-     * @param pageSize Количество элементов на странице
-     * @param firstItem Позиция первого элемента для вывода
-     * @return Список счетов пользователя
+     * To get list of accounts by user
+     * @param user Object User
+     * @param orderState Order of sorting accounts
+     * @param pageSize Size of elements on page
+     * @param firstItem Position of first element for output
+     * @return List of accounts users
      * @throws DaoException
      */
     List<Account> getAccountsByUser (User user, String orderState, Integer pageSize, Integer firstItem) throws DaoException;
 
     /**
-     * Получение списка счетов всех пользователей
-     * @return Список счетов всех пользователей
+     * To get list of accounts all users
+     * @return List of accounts all users
      * @throws DaoException
      */
     List<Account> getAllAccounts () throws DaoException;
 
     /**
-     * Получение заблокированных счетов пользователей
-     * @return Список заблокированных счетов
+     * To get list of locked accounts all users
+     * @return List of locked accounts all users
      * @throws DaoException
      */
     List<Account> getLockedAccounts () throws DaoException;
@@ -40,7 +39,7 @@ public interface IAccountDao {
     /**
      * Getting total count of accounts with filter
      * @param accountsFilter Object AccountsFilter
-     * @return total count of accounts
+     * @return Total count of accounts
      */
     Integer getTotalCountOfAccounts (AccountsFilter accountsFilter);
 }

@@ -11,16 +11,16 @@ import java.util.List;
 public interface IUserDao {
 
     /**
-     * Поиск пользователя по логину
-     * @param login Логин
-     * @return Объект User
+     * To find user by login
+     * @param login User's login
+     * @return Object User
      * @throws DaoException
      */
     User findByLogin (String login) throws DaoException;
 
     /**
-     * Получение списка пользователей
-     * @return Список объектов User
+     * To get list of users
+     * @return List of Users
      * @throws DaoException
      */
     List<User> getAllUsers () throws DaoException;

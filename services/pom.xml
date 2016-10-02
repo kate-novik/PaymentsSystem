@@ -75,6 +75,13 @@
       <artifactId>aspectjweaver</artifactId>
       <version>${aspect.version}</version>
     </dependency>
+    <!--For testing-->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <version>${spring.version}</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
   <build>
     <plugins>

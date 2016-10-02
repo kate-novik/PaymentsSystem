@@ -14,7 +14,7 @@ import java.lang.reflect.ParameterizedType;
  */
 public class Dao <T> implements IDao<T> {
     private final Class<T> persistentClass;
-    //Поле объекта логгера
+    //The field of logger
     protected static Logger log = Logger.getLogger(Dao.class);
 
 
@@ -56,10 +56,10 @@ public class Dao <T> implements IDao<T> {
     @Override
     public void delete(Serializable id) throws DaoException {
         try {
-            //Получаем объект из базы данных по id и типу класса
+            //To get object from data base with id and type of class
             T object = (T) getSession().get(persistentClass,id);
             if (object != null) {
-                //Удаляем объект
+                //Deleting object
                 getSession().delete(object);
                 log.info("delete(id):" + object);
             }
@@ -76,7 +76,6 @@ public class Dao <T> implements IDao<T> {
     @SuppressWarnings("unchecked")
     @Override
     public T get(Serializable id) throws DaoException {
-        //Создаем ссылку на полученный объект из БД
         T object;
         try {
             object = (T) getSession().get(persistentClass, id);

@@ -9,9 +9,9 @@ import by.it.novik.util.DaoException;
 public interface IRoleDao {
 
     /**
-     * Получение объекта Role по названию роли
-     * @param name Название роли
-     * @return Объект Role
+     * To get object Role by name
+     * @param name Roles name
+     * @return Object role
      * @throws DaoException
      */
     Role getRoleByName (String name) throws DaoException;

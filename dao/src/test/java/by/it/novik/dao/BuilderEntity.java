@@ -65,4 +65,10 @@ public class BuilderEntity {
         payment.setAccountDestination(user.getAccounts().iterator().next());
         return payment;
     }
+
+    public static Role buildRole () {
+        Role role = new Role();
+        role.setRole("user");
+        return role;
+    }
 }

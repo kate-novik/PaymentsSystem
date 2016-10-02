@@ -51,7 +51,7 @@ public class UserDaoTest {
     }
 
     @Test
-    public void checkLoadAddressTest() throws Exception {
+    public void checkLoadAddressTest() throws DaoException {
         user.setLogin("cvb");
         userDao.saveOrUpdate(user);
         userDao.getSession().flush();
@@ -62,7 +62,7 @@ public class UserDaoTest {
     }
 
     @Test
-    public void checkLoadPassportTest() throws Exception {
+    public void checkLoadPassportTest() throws DaoException {
         user.setLogin("qws");
         userDao.saveOrUpdate(user);
         userDao.getSession().flush();
@@ -73,7 +73,7 @@ public class UserDaoTest {
     }
 
     @Test
-    public void findByLoginTest() throws Exception {
+    public void findByLoginTest() throws DaoException {
         user.setLogin("nmk");
         userDao.saveOrUpdate(user);
         userDao.getSession().evict(user);
@@ -82,7 +82,7 @@ public class UserDaoTest {
     }
 
     @Test
-    public void getAllUsersTest() throws Exception {
+    public void getAllUsersTest() throws DaoException {
         user.setLogin("asx");
         userDao.saveOrUpdate(user);
         userDao.getSession().evict(user);

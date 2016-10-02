@@ -25,9 +25,10 @@ public class AccountDao extends Dao <Account> implements IAccountDao {
     }
 
     @Override
-    public List<Account> getAccountsByUser (User user, String orderState, Integer pageSize, Integer firstItem) throws DaoException {
+    public List<Account> getAccountsByUser (User user, String orderState, Integer pageSize, Integer firstItem)
+            throws DaoException {
         List<Account> accounts;
-        //Определяем порядок сортировки счетов по умолчанию
+        //Order of sorting by default
         if (orderState == null) {
             orderState = "ASC";
         }

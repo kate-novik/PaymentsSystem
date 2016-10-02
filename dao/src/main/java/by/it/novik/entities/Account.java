@@ -33,7 +33,7 @@ public class Account implements Serializable {
     @Id
     @GeneratedValue
     @Column(name="id_account")
-    //@Type(type = "long")
+    @Type(type = "long")
     public Long getId() {
         return id;
     }

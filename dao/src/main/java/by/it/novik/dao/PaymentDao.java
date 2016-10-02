@@ -58,17 +58,10 @@ public class PaymentDao extends Dao<Payment> implements IPaymentDao {
         } else if (orderState.equals("DESC")) {
             criteria.addOrder(Order.desc("id"));
         }
-
         criteria.setFirstResult(firstItem);
         criteria.setMaxResults(pageSize);
-
         try {
             payments = criteria.list();
-//            Query query = getSession().getNamedQuery("getPaymentsByAccount").setEntity("account",account)
-//                    .setString("orderState",orderState);
-//            query.setFirstResult(firstItem);
-//            query.setMaxResults(pageSize);
-//            payments = query.list();
             log.info("getPaymentsByAccount():" + payments);
         } catch (HibernateException e) {
             log.error("Error getPaymentsByAccount() in Dao" + e);
@@ -92,11 +85,6 @@ public class PaymentDao extends Dao<Payment> implements IPaymentDao {
 
         try {
             payments = criteria.list();
-//            Query query = getSession().getNamedQuery("getAllPayments")
-//                    .setString("orderState",orderState);
-//            query.setFirstResult(firstItem);
-//            query.setMaxResults(pageSize);
-//            payments = query.list();
             log.info("getAllPayments():" + payments);
         } catch (HibernateException e) {
             log.error("Error getAllPayments() in Dao" + e);
