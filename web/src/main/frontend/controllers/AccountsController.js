@@ -18,10 +18,10 @@ class AccountsController {
   }
 
   fetch() {
-    this.loading = this.$http.get('/api/accounts')
+    this.$http.get('/api/accounts')
       .then(resp => {
         this.accounts = resp.data;
-      })
+      });
   }
 
   create() {

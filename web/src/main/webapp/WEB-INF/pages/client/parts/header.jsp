@@ -15,7 +15,7 @@
 </head>
 <body ng-app="payments">
 
-<md-toolbar md-scroll-shrink ng-controller="Controller">
+<md-toolbar md-scroll-shrink ng-controller="HeaderController">
     <div class="md-toolbar-tools">
         <h3>
             <a ng-href="/">{{title}}</a>

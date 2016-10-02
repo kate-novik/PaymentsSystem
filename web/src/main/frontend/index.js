@@ -24,9 +24,7 @@ angular.module('payments', [
     ngMaterial,
     ngMessages,
     angularMaterialTable
-]).controller('Controller', ['$scope', $scope => {
-    $scope.title = 'Payment system';
-}]);
+]);
 
 // Controllers
 var controllers = require.context('./controllers', true, /.js$/);
