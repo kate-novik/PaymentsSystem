@@ -5,15 +5,25 @@ class PaymentsController {
   constructor($scope, $http) {
     this.$scope = $scope;
     this.$http = $http;
-    console.log(this);
-    this.fetch();
-  }
+    this.query = {
+      order: 'id',
+      limit: 10,
+      page: 1
+    };
 
-  fetch() {
-    this.loading = this.$http.get(`/api/accounts/${this.$scope.selectedAccount}/payments`)
-      .then(resp => {
-        this.payments = resp.data.payments;
-      });
+    $scope.fetch = (page, limit) => {
+      let params = {};
+      params.pageNumber = page || 1;
+      params.pageSize = limit || 10;
+
+      $http.get(`/api/accounts/${this.$scope.selectedAccount}/payments`, {params})
+        .then(resp => {
+          this.payments = resp.data.payments;
+          this.total = resp.data.totalCountItems;
+        });
+    };
+
+    $scope.fetch();
   }
 }
 

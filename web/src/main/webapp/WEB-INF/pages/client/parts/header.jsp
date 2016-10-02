@@ -10,6 +10,7 @@
     <title>Payments system</title>
     <link rel="stylesheet" href="resources/styles/bootstrap.css">
     <link rel="stylesheet" href="resources/styles/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script src="resources/js/payments.js"> </script>
 
 </head>
