@@ -2,7 +2,6 @@ package by.it.novik.services;
 
 import by.it.novik.entities.Role;
 import by.it.novik.util.ServiceException;
-
 import java.io.Serializable;
 
 /**
@@ -11,30 +10,30 @@ import java.io.Serializable;
 public interface IRoleService {
 
     /**
-     * Получение роли по названию роли
-     * @param name Название роли
-     * @return Объект Role
+     * To get object Role by name
+     * @param name Name of Role
+     * @return Object Role
      * @throws ServiceException
      */
     Role getRoleByName (String name) throws ServiceException;
 
     /**
-     * Создание/обновление записи объекта в БД
-     * @param role Объект для записи/обновления
+     * To save/update object Role
+     * @param role Object Role
      * @throws ServiceException
      */
     void saveOrUpdate(Role role) throws ServiceException;
 
     /**
-     * Чтение записи (объекта) из БД
-     * @param id Номер записи
-     * @return Прочтенный объект User
+     * To get object Role by ID
+     * @param id ID of Role
+     * @return Object Role
      */
     Role get(Serializable id) throws ServiceException;
 
     /**
-     * Удаление записи (объекта) из БД по уникальному идентификатору
-     * @param id Номер записи
+     * To delete object Role by ID
+     * @param id ID of Role
      */
     void delete(Serializable id) throws ServiceException;
 }

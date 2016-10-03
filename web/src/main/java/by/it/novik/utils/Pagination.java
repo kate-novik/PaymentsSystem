@@ -1,4 +1,4 @@
-package by.it.novik.controller;
+package by.it.novik.utils;
 
 /**
  * Created by Kate Novik.

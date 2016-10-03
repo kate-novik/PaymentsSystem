@@ -42,7 +42,6 @@ public class PaymentDao extends Dao<Payment> implements IPaymentDao {
             throw new DaoException("Error getPaymentsByUser() in Dao.");
         }
         return payments;
-
     }
 
     @Override
@@ -79,10 +78,8 @@ public class PaymentDao extends Dao<Payment> implements IPaymentDao {
         //Order for sorting
         Order order = "ASC".equals(orderState) ? Order.asc("id") : Order.desc("id");
         criteria.addOrder(order);
-
         criteria.setFirstResult(firstItem);
         criteria.setMaxResults(pageSize);
-
         try {
             payments = criteria.list();
             log.info("getAllPayments():" + payments);

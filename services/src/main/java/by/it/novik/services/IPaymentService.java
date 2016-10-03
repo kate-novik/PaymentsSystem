@@ -4,75 +4,81 @@ package by.it.novik.services;
 import by.it.novik.entities.Payment;
 import by.it.novik.util.ServiceException;
 import by.it.novik.valueObjects.PaymentsFilter;
-
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 /**
  * Created by Kate Novik.
  */
 public interface IPaymentService {
+
     /**
-     * Получение списка платежей пользователя
-     * @param id_user id пользователя
-     * @param orderState порядок сортировки по состоянию счета
-     * @param pageSize Количество элементов на странице
-     * @param firstItem Позиция первого элемента для вывода
-     * @return список платежей пользователя
+     * To get list of payments by user
+     * @param idUser ID of User
+     * @param orderState Order of sorting payments
+     * @param pageSize Size of elements on page
+     * @param firstItem Position of first element for output
+     * @return List of objects Payments
+     * @throws ServiceException
      */
-    List<Payment> getPaymentsByUser(Serializable id_user, String orderState, Integer pageSize, Integer firstItem)
+    List<Payment> getPaymentsByUser(Serializable idUser, String orderState, Integer pageSize, Integer firstItem)
             throws ServiceException;
+
     /**
-     * Получение списка платежей пользователя
-     * @param id_account id счета
-     * @param orderState порядок сортировки по состоянию счета
-     * @param pageSize Количество элементов на странице
-     * @param firstItem Позиция первого элемента для вывода
+     * To get list of payments by account
+     * @param idAccount ID of Account
+     * @param orderState Order of sorting payments
+     * @param pageSize Size of elements on page
+     * @param firstItem Position of first element for output
      * @param paymentsFilter Object paymentsFilter
-     * @return список платежей пользователя
+     * @return List of objects Payments
+     * @throws ServiceException
      */
-    List<Payment> getPaymentsByAccount (Serializable id_account, String orderState, Integer pageSize, Integer firstItem,
+    List<Payment> getPaymentsByAccount (Serializable idAccount, String orderState, Integer pageSize, Integer firstItem,
                                         PaymentsFilter paymentsFilter) throws ServiceException;
 
     /**
-     * Сделать платежку
-     * @param idAccountFrom Номер счета отправителя
-     * @param idAccountTo Номер счета получателя
-     * @param pay_amount Сумма платежа
-     * @param description Описание платежа
-     * @throws Exception
+     * To make payment
+     * @param idAccountFrom ID account of source
+     * @param idAccountTo ID account of destination
+     * @param payAmount Amount of Payment
+     * @param description Description of payment
+     * @throws ServiceException
      */
-    void makePayment(Long idAccountFrom, Long idAccountTo, Double pay_amount, String description) throws ServiceException;
+    void makePayment(Long idAccountFrom, Long idAccountTo, Double payAmount, String description)
+            throws ServiceException;
 
     /**
-     * Получение списка платежей всех пользователей
-     * @param orderState порядок сортировки по состоянию счета
-     * @param pageSize Количество элементов на странице
-     * @param firstItem Позиция первого элемента для вывода
+     * To get list of all payments
+     * @param orderState Order of sorting payments
+     * @param pageSize Size of elements on page
+     * @param firstItem Position of first element for output
      * @param paymentsFilter Object paymentsFilter
-     * @return Список платежей пользователей
+     * @return List of objects Payments
+     * @throws ServiceException
      */
     List<Payment> getAllPayments (String orderState, Integer pageSize, Integer firstItem, PaymentsFilter paymentsFilter)
             throws ServiceException;
 
     /**
-     * Создание/обновление записи объекта в БД
-     * @param payment Объект для записи/обновления
+     * To save/update object Payment
+     * @param payment Object Payment
      * @throws ServiceException
      */
     void saveOrUpdate(Payment payment) throws ServiceException;
 
     /**
-     * Чтение записи (объекта) из БД
-     * @param id Номер записи
-     * @return Прочтенный объект User
+     * To get object Payment by ID
+     * @param id ID of payment
+     * @return Object Payment
+     * @throws ServiceException
      */
     Payment get(Serializable id) throws ServiceException;
 
     /**
-     * Удаление записи (объекта) из БД по уникальному идентификатору
-     * @param id Номер записи
+     * To delete object Payment by ID
+     * @param id ID of payment
+     * @throws ServiceException
      */
     void delete(Serializable id) throws ServiceException;
 
@@ -88,6 +94,7 @@ public interface IPaymentService {
      * @param paymentsFilter Object PaymentsFilter with filters
      * @param idAccount ID account
      * @return total count of payments
+     * @throws ServiceException
      */
     Long getTotalCountOfPayments(PaymentsFilter paymentsFilter, Long idAccount) throws ServiceException;
 }

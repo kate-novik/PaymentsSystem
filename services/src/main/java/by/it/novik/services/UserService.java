@@ -38,7 +38,6 @@ public class UserService implements IUserService {
 
     }
 
-
     @Override
     public User findByLogin(String login) throws ServiceException {
         User user;
@@ -80,14 +79,12 @@ public class UserService implements IUserService {
     public void create(User user, String roleName) throws ServiceException {
         String hashPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(hashPassword);
-
         Role role = roleService.getRoleByName(roleName);
         user.setRole(role);
         Address address = user.getAddress();
         Passport passport = user.getPassport();
         address.setUser(user);
         passport.setUser(user);
-
         saveOrUpdate(user);
     }
 

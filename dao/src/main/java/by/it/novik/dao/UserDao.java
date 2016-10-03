@@ -32,7 +32,6 @@ public class UserDao extends Dao <User> implements IUserDao {
         return user;
     }
 
-
     @Override
     public List<User> getAllUsers () throws DaoException {
         List<User> users;

@@ -3,7 +3,6 @@ package by.it.novik.services;
 
 import by.it.novik.entities.User;
 import by.it.novik.util.ServiceException;
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -12,45 +11,48 @@ import java.util.List;
  */
 public interface IUserService {
 
-
     /**
-     * Поиск объекта User по логину
-     * @param login Логин
-     * @return Объект User
+     * To find user by login
+     * @param login User's login
+     * @return Object User
+     * @throws ServiceException
      */
     User findByLogin (String login) throws ServiceException;
 
     /**
-     * Получение всех объектов User
-     * @return список объектов User
+     * To get list of users
+     * @return List of Users
+     * @throws ServiceException
      */
     List<User> getAllUsers () throws ServiceException;
 
     /**
-     * Создание/обновление записи объекта в БД
-     * @param user Объект для записи/обновления
+     * To save/update object User
+     * @param user Object User
      * @throws ServiceException
      */
     void saveOrUpdate(User user) throws ServiceException;
 
     /**
-     * Создание объекта User
-     * @param user Объект User
-     * @param roleName Название роли
+     * To create object User with role
+     * @param user Object User
+     * @param roleName Name of Role
      * @throws ServiceException
      */
     void create(User user, String roleName) throws ServiceException;
 
     /**
-     * Чтение записи (объекта) из БД
-     * @param id Номер записи
-     * @return Прочтенный объект User
+     * To get object User by ID
+     * @param id ID of user
+     * @return Object User
+     * @throws ServiceException
      */
     User get(Serializable id) throws ServiceException;
 
     /**
-     * Удаление записи (объекта) из БД по уникальному идентификатору
-     * @param id Номер записи
+     * To delete object User by ID
+     * @param id ID of User
+     * @throws ServiceException
      */
     void delete(Serializable id) throws ServiceException;
 }

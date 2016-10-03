@@ -1,15 +1,15 @@
 package by.it.novik.dto;
 
 import by.it.novik.entities.Payment;
-
 import java.util.List;
 
 /**
  * Created by Kate Novik.
  */
 public class PagingTransfer {
+
     private int page;
-    private int item_per_page;
+    private int itemPerPage;
     private long totalCountItems;
     private List<Payment> payments;
 
@@ -24,12 +24,12 @@ public class PagingTransfer {
         this.page = page;
     }
 
-    public int getItem_per_page() {
-        return item_per_page;
+    public int getItemPerPage() {
+        return itemPerPage;
     }
 
-    public void setItem_per_page(int item_per_page) {
-        this.item_per_page = item_per_page;
+    public void setItemPerPage(int itemPerPage) {
+        this.itemPerPage = itemPerPage;
     }
 
     public long getTotalCountItems() {

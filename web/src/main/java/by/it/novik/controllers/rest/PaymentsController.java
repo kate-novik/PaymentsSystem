@@ -1,9 +1,8 @@
 package by.it.novik.controllers.rest;
 
-import by.it.novik.controller.Pagination;
+import by.it.novik.utils.Pagination;
 import by.it.novik.dto.PagingTransfer;
 import by.it.novik.entities.Payment;
-import by.it.novik.entities.User;
 import by.it.novik.services.IPaymentService;
 import by.it.novik.util.ServiceException;
 import by.it.novik.valueObjects.PaymentsFilter;
@@ -48,7 +47,7 @@ public class PaymentsController {
         List<Payment> payments = paymentService.getAllPayments(orderState, pageSize, Pagination.firstItem, paymentsFilter);
         PagingTransfer pagingTransfer = new PagingTransfer();
         pagingTransfer.setPage(Pagination.pageResult);
-        pagingTransfer.setItem_per_page(pageSize);
+        pagingTransfer.setItemPerPage(pageSize);
         pagingTransfer.setPayments(payments);
         pagingTransfer.setTotalCountItems(totalCountPayments);
         return pagingTransfer;

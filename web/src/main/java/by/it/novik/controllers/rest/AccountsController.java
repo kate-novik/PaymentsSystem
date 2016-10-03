@@ -1,10 +1,9 @@
 package by.it.novik.controllers.rest;
 
-import by.it.novik.controller.Pagination;
+import by.it.novik.utils.Pagination;
 import by.it.novik.dto.PagingTransfer;
 import by.it.novik.entities.Payment;
 import by.it.novik.services.IPaymentService;
-import by.it.novik.valueObjects.AccountsFilter;
 import by.it.novik.dto.MoneyTransfer;
 import by.it.novik.dto.Refill;
 import by.it.novik.entities.Account;
@@ -27,7 +26,6 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/api/accounts")
 public class AccountsController {
-
 
     private static Logger log = Logger.getLogger (AccountsController.class);
 
@@ -123,7 +121,7 @@ public class AccountsController {
         List<Payment> payments = paymentService.getPaymentsByAccount(id, orderState, pageSize, Pagination.firstItem, paymentsFilter);
         PagingTransfer pagingTransfer = new PagingTransfer();
         pagingTransfer.setPage(Pagination.pageResult);
-        pagingTransfer.setItem_per_page(pageSize);
+        pagingTransfer.setItemPerPage(pageSize);
         pagingTransfer.setPayments(payments);
         pagingTransfer.setTotalCountItems(totalCountPayments);
         return pagingTransfer;

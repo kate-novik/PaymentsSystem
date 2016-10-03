@@ -85,7 +85,7 @@ public class AccountService implements IAccountService {
 
     @Override
     public void lockingAccount(Account account) throws ServiceException {
-        //Меняем поле счета на заблокированное
+        //Changing the field state in LOCKED
         account.setState(AccountState.LOCKED);
         saveOrUpdate(account);
     }
@@ -116,7 +116,7 @@ public class AccountService implements IAccountService {
 
     @Override
     public void unlockingAccount(Account account) throws ServiceException {
-        //Меняем поле счета на рабочее
+        //Changing the field state in WORKING
         account.setState(AccountState.WORKING);
         saveOrUpdate(account);
     }
@@ -129,9 +129,9 @@ public class AccountService implements IAccountService {
 
     @Override
     public void deleteAccount(Serializable id_account) throws ServiceException {
-        //Получаем объект из базы данных по id и типу класса
+        //Getting object by id
         Account account = get(id_account);
-        //Устанавливаем статус для аккаунта на удален
+        //Setting status for account in DELETED
         account.setState(AccountState.DELETED);
         saveOrUpdate(account);
     }

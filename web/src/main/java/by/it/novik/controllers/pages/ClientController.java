@@ -48,7 +48,8 @@ public class ClientController {
     MessageSource messageSource;
 
     @RequestMapping(value="/createAccount", method = RequestMethod.GET)
-    public String createAccount(ModelMap model, Principal principal, RedirectAttributes redirectAttr, Locale locale) throws ServiceException {
+    public String createAccount(ModelMap model, Principal principal, RedirectAttributes redirectAttr, Locale locale)
+            throws ServiceException {
         //Getting user from session
         User user = getUserFromSession(principal,model);
         if (user == null) {
@@ -140,7 +141,6 @@ public class ClientController {
             @RequestParam(value = "error", required = false) String error,
             @RequestParam(value = "logout", required = false) String logout,
             RedirectAttributes redirectAttr) {
-
         if (error != null) {
             model.addAttribute("error", "Invalid username and password!");
         }
@@ -148,7 +148,6 @@ public class ClientController {
         if (logout != null) {
             model.addAttribute("msg", "You've been logged out successfully.");
         }
-
         Map <String, ?> mapAttr = redirectAttr.getFlashAttributes();
         if (!mapAttr.isEmpty()) {
             model.addAttribute("message", mapAttr.get("message"));

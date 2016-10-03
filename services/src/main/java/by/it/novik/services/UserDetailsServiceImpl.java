@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,14 +21,16 @@ import java.util.List;
  */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
+
     private static Logger log = Logger.getLogger(UserDetailsServiceImpl.class);
+
     @Autowired
     private UserDao userDao;
 
     @Transactional
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        by.it.novik.entities.User user = null;
+        by.it.novik.entities.User user;
         try {
             user = userDao.findByLogin(username);
         } catch (DaoException e) {
@@ -41,8 +42,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return buildUserForAuthentication(user, authorities);
     }
 
-    // Converts by.it.novik.entities.User user to
-    // org.springframework.security.core.userdetails.User
+    // Converts by.it.novik.entities.User user to org.springframework.security.core.userdetails.User
     private User buildUserForAuthentication(by.it.novik.entities.User user,
                                             List<GrantedAuthority> authorities) {
         return new User(user.getLogin(), user.getPassword(), authorities);
@@ -50,12 +50,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 
     private List<GrantedAuthority> buildUserAuthority(Role userRole) {
-
         GrantedAuthority authority = new SimpleGrantedAuthority(userRole.getRole());
-
         List<GrantedAuthority> listAuthority = new ArrayList<>();
         listAuthority.add(authority);
-
         return listAuthority;
     }
 }

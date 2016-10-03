@@ -41,12 +41,12 @@ public class PaymentService implements IPaymentService {
     }
 
     @Override
-    public List<Payment> getPaymentsByUser(Serializable id_user, String orderState, Integer pageSize, Integer firstItem)
+    public List<Payment> getPaymentsByUser(Serializable idUser, String orderState, Integer pageSize, Integer firstItem)
             throws ServiceException {
         List<Payment> payments;
         User user;
         try {
-            user = userDao.get(id_user);
+            user = userDao.get(idUser);
             payments = paymentDao.getPaymentsByUser(user, orderState, pageSize, firstItem);
         }
         catch (DaoException d){
@@ -57,12 +57,12 @@ public class PaymentService implements IPaymentService {
     }
 
     @Override
-    public List<Payment> getPaymentsByAccount(Serializable id_account, String orderState, Integer pageSize,
+    public List<Payment> getPaymentsByAccount(Serializable idAccount, String orderState, Integer pageSize,
                                               Integer firstItem, PaymentsFilter paymentsFilter) throws ServiceException {
         List<Payment> payments;
         Account account;
         try {
-            account = accountDao.get(id_account);
+            account = accountDao.get(idAccount);
             payments = paymentDao.getPaymentsByAccount(account, orderState, pageSize, firstItem, paymentsFilter);
         }
         catch (DaoException d){
@@ -73,7 +73,7 @@ public class PaymentService implements IPaymentService {
     }
 
     @Override
-    public void makePayment(Long idAccountFrom, Long idAccountTo, Double pay_amount, String description) throws ServiceException {
+    public void makePayment(Long idAccountFrom, Long idAccountTo, Double payAmount, String description) throws ServiceException {
 
         //Чтение счета-источника платежа по id
         Account accountSource;
@@ -89,14 +89,14 @@ public class PaymentService implements IPaymentService {
         }
 
         //Проверим баланс счета для списывания денег
-        if (balance >= pay_amount) {
+        if (balance >= payAmount) {
             if (accountDestination != null) {
                 try{
                 //Вычислим сумму, которая останется на счете после списания
-                Double source_amount = balance - pay_amount;
+                Double source_amount = balance - payAmount;
                 accountSource.setBalance(source_amount);
                 //Вычислим сумму, которая будет на счете получателя
-                Double destination_amount = accountDestination.getBalance() + pay_amount;
+                Double destination_amount = accountDestination.getBalance() + payAmount;
                 accountDestination.setBalance(destination_amount);
                 //Обновляем данные по счетам
                 accountDao.saveOrUpdate(accountSource);
@@ -111,7 +111,7 @@ public class PaymentService implements IPaymentService {
                 payment.setAccountDestination(accountDestination);
                 payment.setDescription(description);
                 payment.setPayDate(formatDate.parse(currentDate));
-                payment.setAmountPayment(pay_amount);
+                payment.setAmountPayment(payAmount);
                 saveOrUpdate(payment);
 
                 } catch (DaoException e) {
