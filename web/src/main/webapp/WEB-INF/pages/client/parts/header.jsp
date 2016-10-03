@@ -23,16 +23,16 @@
         </h3>
         <span flex></span>
         <sec:authorize access="isAuthenticated()">
-            <md-button aria-label="Profile" ng-href="/profile">
+            <md-button aria-label="Profile" ng-href="${pageContext.request.contextPath}/profile">
                 <md-icon md-svg-src="account box"></md-icon>
                 <c:out value="${user.login}" />
             </md-button>
-            <md-button aria-label="Logout" ng-href="/getLogout">
+            <md-button aria-label="Logout" ng-href="${pageContext.request.contextPath}/getLogout">
                 <spring:message code="logout.logout"/>
             </md-button>
         </sec:authorize>
         <sec:authorize access="isAnonymous()">
-            <md-button aria-label="Registration" ng-href="/registration">
+            <md-button aria-label="Registration" ng-href="${pageContext.request.contextPath}/registration">
                 <spring:message code="reg.name"/>
             </md-button>
         </sec:authorize>

@@ -66,7 +66,7 @@ CREATE TABLE `address` (
 
 LOCK TABLES `address` WRITE;
 /*!40000 ALTER TABLE `address` DISABLE KEYS */;
-INSERT INTO `address` VALUES (1,'Minsk','105','6','Yankovskogo'),(3,'Zodino','2','1','lllddhh'),(21,'Minsk','105','6','Yankovskogo'),(22,'dfgh','5','4','fhh'),(23,'hjk','6','5','ghj'),(24,'dghj','6','5','fghj'),(25,'fghj','6','5','dfghj'),(26,'Minsk','6','5','Goreckogo');
+INSERT INTO `address` VALUES (26,'Minsk','6','5','Goreckogo');
 /*!40000 ALTER TABLE `address` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -92,7 +92,7 @@ CREATE TABLE `passport` (
 
 LOCK TABLES `passport` WRITE;
 /*!40000 ALTER TABLE `passport` DISABLE KEYS */;
-INSERT INTO `passport` VALUES (1,'2014-05-15','Minskiy ROVD','MP1234567'),(3,'2014-05-23','Godinski GOVD','MC23456745'),(21,'2014-05-15','Minskiy ROVD','MP1234567'),(22,NULL,'Godinskim Govd','MC34567894'),(23,NULL,'Godinskim Govd','MC34567894'),(24,NULL,'Godinskim Govd','MC34567894'),(25,'2016-09-12','Godinskim Govd','MC34567894'),(26,'2016-09-04','Godinskim Govd','MC34567894');
+INSERT INTO `passport` VALUES (26,'2016-09-04','Godinskim Govd','MC34567894');
 /*!40000 ALTER TABLE `passport` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -124,7 +124,6 @@ CREATE TABLE `payment` (
 
 LOCK TABLES `payment` WRITE;
 /*!40000 ALTER TABLE `payment` DISABLE KEYS */;
-INSERT INTO `payment` VALUES (1,200,'Money transfer','2016-10-03',12,10),(2,500,'Money transfer','2016-10-03',14,13),(3,100,'Money transfer','2016-10-03',12,10);
 /*!40000 ALTER TABLE `payment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -182,7 +181,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'ret@mail.ru','Anna','Ivanova','ter','Antonovna','3af8212b2bee9ac54115a6fc5d455ca8','375447547878',2),(5,'ret@mail.ru','Anna','Ivanova','qwerty','Antonovna','3af8212b2bee9ac54115a6fc5d45','375447547878',2),(23,'ekat.novik@gmail.com','dfg','fgh','zxc','fgh','$2a$10$DB7qfjHH34MvKGUVEyCUzeqlBq2OHLx5a75a6G4qJzYuqexndnbyq','375447543800',2),(24,'ekat.novik@gmail.com','dffgh','fghj','abc','fghj','$2a$10$5twVG2q4maktfbPrI8DmseGEskB/IcPCnONWn10rA9u5YRK9hkenO','375447543800',2),(26,'ekat.novik@gmail.com','Kate','Novik','user','Igorevna','$2a$10$YhpboNNP3wUTcVnAYYQN8OuaAiIZ5KnUogf2Y0Bko.ELBUrVA..RW','375447543800',2);
+INSERT INTO `user` VALUES (26,'ekat.novik@gmail.com','Kate','Novik','user','Igorevna','$2a$10$YhpboNNP3wUTcVnAYYQN8OuaAiIZ5KnUogf2Y0Bko.ELBUrVA..RW','375447543800',2);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -195,4 +194,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-10-03 16:26:01
+-- Dump completed on 2016-10-03 23:26:04

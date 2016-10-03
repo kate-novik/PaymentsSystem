@@ -11,7 +11,6 @@
             <div layout="row" layout-wrap>
                 <h3><spring:message code="account.title"/></h3>
                 <span flex></span>
-                <md-button ng-click="mc.changeView('payments')">Payments</md-button>
                 <md-button ng-click="ctrl.create()"><spring:message code="account.create"/></md-button>
             </div>
             <div layout="row" layout-wrap>

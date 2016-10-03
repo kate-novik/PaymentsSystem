@@ -8,7 +8,7 @@
     </div>
     <div class="row">
         <div class="col-sm-6 col-sm-offset-3">
-            <form class="form-horizontal" action="/accounts/${id_account}/pay" method="POST">
+            <form class="form-horizontal" action="${pageContext.request.contextPath}/accounts/${id_account}/pay" method="POST">
                 <div class="form-group">
                     <label for="dest" class="col-sm-4 control-label">Destination</label>
                     <div class="col-sm-8">

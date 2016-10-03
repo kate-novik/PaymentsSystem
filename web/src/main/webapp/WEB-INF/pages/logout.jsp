@@ -15,7 +15,7 @@
 
                 <div class="form-group">
                     <div class="col-sm-offset-9 col-sm-3">
-                        <a href="/logout" type="submit" class="btn btn-success"><spring:message code="logout.logout"/></a>
+                        <a href="${pageContext.request.contextPath}/logout" type="submit" class="btn btn-success"><spring:message code="logout.logout"/></a>
                     </div>
                 </div>
 

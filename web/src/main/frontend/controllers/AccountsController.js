@@ -14,7 +14,7 @@ class AccountsController {
     $scope.fetch = (page, limit) => {
       let params = {};
 
-      $http.get('/api/accounts', {params})
+      $http.get('/paymentsSystem/api/accounts', {params})
         .then(resp => {
           this.accounts = resp.data;
         });
@@ -24,14 +24,14 @@ class AccountsController {
   }
 
   fetch() {
-    this.$http.get('/api/accounts')
+    this.$http.get('/paymentsSystem/api/accounts')
       .then(resp => {
         this.accounts = resp.data;
       });
   }
 
   create() {
-    return this.$http.post(`/api/accounts`).then(() => {
+    return this.$http.post(`/paymentsSystem/api/accounts`).then(() => {
       this.$mdToast.show(
         this.$mdToast.simple()
           .textContent('Account was created!')
@@ -52,7 +52,7 @@ class AccountsController {
       .cancel('Cancel');
 
     this.$mdDialog.show(confirm).then(amount => {
-      return this.$http.post(`/api/accounts/refill`, {amount, idAccount});
+      return this.$http.post(`/paymentsSystem/api/accounts/refill`, {amount, idAccount});
     }).then(result => {
       this.accounts[index] = result.data;
     });
@@ -74,7 +74,7 @@ class AccountsController {
       }
     })
       .then((result) => {
-        return this.$http.post(`/api/accounts/transfer`, result);
+        return this.$http.post(`/paymentsSystem/api/accounts/transfer`, result);
       })
       .then(() => {
         this.fetch();
@@ -94,7 +94,7 @@ class AccountsController {
         .cancel('Cancel');
 
     this.$mdDialog.show(confirm).then(() => {
-      return this.$http.get(`/api/accounts/${idAccount}/lock`);
+      return this.$http.get(`/paymentsSystem/api/accounts/${idAccount}/lock`);
     })
       .then(() => {
         this.fetch();
@@ -110,7 +110,7 @@ class AccountsController {
         .cancel('Cancel');
 
     this.$mdDialog.show(confirm).then(() => {
-      return this.$http.get(`/api/accounts/${idAccount}/unlock`);
+      return this.$http.get(`/paymentsSystem/api/accounts/${idAccount}/unlock`);
     })
         .then(() => {
           this.fetch();

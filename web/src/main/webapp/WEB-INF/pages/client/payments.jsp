@@ -6,7 +6,7 @@
 <div class="main container">
     <div class="row">
         <div class="pull-right">
-            <p>(<a href="/profile" type="button" class="btn btn-link">
+            <p>(<a href="${pageContext.request.contextPath}/profile" type="button" class="btn btn-link">
             <c:out value="${user.login}" /></a>)
             </p>
         </div>

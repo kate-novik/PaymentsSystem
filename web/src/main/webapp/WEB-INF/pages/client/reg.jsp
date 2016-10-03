@@ -12,7 +12,7 @@
         </legend>
     </div>
     <md-content layout-padding>
-        <form:form class="form-horizontal" name="regForm" modelAttribute="registrationForm" action="/registration" method="post">
+        <form:form class="form-horizontal" name="regForm" modelAttribute="registrationForm" action="${pageContext.request.contextPath}/registration" method="post">
             <div layout-gt-sm="row">
                 <md-input-container class="md-block" flex-gt-sm>
                     <label><spring:message code="reg.firstName"/></label>
