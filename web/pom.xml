@@ -85,7 +85,7 @@
 
     </dependencies>
     <build>
-        <finalName>web-1.0-SNAPSHOT</finalName>
+        <finalName>paymentsSystem</finalName>
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -94,7 +94,7 @@
                 <configuration>
                     <url>http://localhost:8080/manager/text</url>
                     <server>Tomcat</server>
-                    <path>/web-1.0-SNAPSHOT</path>
+                    <path>/paymentsSystem</path>
                 </configuration>
             </plugin>
             <plugin>

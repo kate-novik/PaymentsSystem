@@ -3,7 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%@ include file="client/parts/header.jsp" %>
+<%@ include file="parts/header.jsp" %>
 
 <div class="main container">
     <div class="row">
@@ -141,4 +141,4 @@
     </md-content>
 </div>
 
-<%@ include file="client/parts/footer.jsp" %>
+<%@ include file="parts/footer.jsp" %>

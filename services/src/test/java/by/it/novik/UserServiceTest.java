@@ -10,9 +10,9 @@ import resources.ServiceTestConfig;
 /**
  * Created by Kate Novik.
  */
-@ContextConfiguration(classes = ServiceTestConfig.class)
-@RunWith(SpringJUnit4ClassRunner.class)
-@Transactional
-@Rollback(true)
+//@ContextConfiguration(classes = ServiceTestConfig.class)
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@Transactional
+//@Rollback(true)
 public class UserServiceTest {
 }
