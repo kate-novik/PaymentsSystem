@@ -13,18 +13,6 @@ import java.util.List;
 public interface IPaymentDao {
 
     /**
-     * To get list of payments by user
-     * @param user Object User
-     * @param orderState Order of sorting payments
-     * @param pageSize Size of elements on page
-     * @param firstItem Position of first element for output
-     * @return List of objects Payments
-     * @throws DaoException
-     */
-    List<Payment> getPaymentsByUser(User user, String orderState, Integer pageSize, Integer firstItem)
-            throws DaoException;
-
-    /**
      * To get list of payments by account
      * @param account Object Account
      * @param orderState Order of sorting payments
@@ -34,9 +22,8 @@ public interface IPaymentDao {
      * @return List of objects Payments
      * @throws DaoException
      */
-    List<Payment> getPaymentsByAccount(Account account, String orderState, Integer pageSize, Integer firstItem
-            , PaymentsFilter paymentsFilter)
-            throws DaoException;
+    List<Payment> getPaymentsByAccount(Account account, String orderState, Integer pageSize, Integer firstItem,
+                                       PaymentsFilter paymentsFilter) throws DaoException;
 
     /**
      * To get list of all payments
@@ -55,7 +42,7 @@ public interface IPaymentDao {
      * @param paymentsFilter Object PaymentsFilter with filters
      * @return total count of payments
      */
-    Integer getTotalCountOfPayments(PaymentsFilter paymentsFilter);
+    Long getTotalCountOfPayments(PaymentsFilter paymentsFilter);
 
     /**
      * Getting total count of payments with filter

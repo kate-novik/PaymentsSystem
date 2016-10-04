@@ -4,6 +4,7 @@ import by.it.novik.dao.AccountDao;
 import by.it.novik.entities.Account;
 import by.it.novik.entities.User;
 import by.it.novik.util.AccountState;
+import by.it.novik.util.AccountType;
 import by.it.novik.util.DaoException;
 import by.it.novik.util.ServiceException;
 import by.it.novik.valueObjects.AccountsFilter;
@@ -38,17 +39,19 @@ public class AccountService implements IAccountService {
         Account account = new Account();
         account.setUser(user);
         account.setState(AccountState.WORKING);
+        account.setType(AccountType.PERSONAL);
+        account.setTitle("New account");
         account.setBalance(0);
         saveOrUpdate(account);
         return account;
     }
 
     @Override
-    public List<Account> getAccountsByUser(Serializable id_user, String orderState, Integer pageSize, Integer firstItem) throws ServiceException {
+    public List<Account> getAccountsByUser(Serializable id_user) throws ServiceException {
         List<Account> accounts;
         try {
             User user = userService.get(id_user);
-            accounts = accountDao.getAccountsByUser(user, orderState, pageSize, firstItem);
+            accounts = accountDao.getAccountsByUser(user);
         }
         catch (DaoException d){
             log.error("Error getAccountsByUser() in AccountService." + d);
@@ -58,10 +61,11 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public List<Account> getAllAccounts() throws ServiceException {
+    public List<Account> getAllAccounts(String orderState, Integer pageSize, Integer firstItem,
+                                        AccountsFilter accountsFilter) throws ServiceException {
         List<Account> accounts;
         try {
-            accounts = accountDao.getAllAccounts();
+            accounts = accountDao.getAllAccounts(orderState, pageSize, firstItem, accountsFilter);
         }
         catch (DaoException d){
             log.error("Error getAllAccounts() in AccountService." + d);
@@ -174,5 +178,18 @@ public class AccountService implements IAccountService {
     @Override
     public Integer getTotalCountOfAccounts (AccountsFilter accountsFilter){
         return accountDao.getTotalCountOfAccounts(accountsFilter);
+    }
+
+    @Override
+    public User getUserByAccount(Account account) throws ServiceException {
+        User user;
+        try{
+            user = accountDao.getUserByAccount(account);
+        }
+        catch (DaoException e){
+            log.error("Error getUserByAccount() in AccountDao " + e);
+            throw new ServiceException("Error in getting user by account in AccountService.");
+        }
+        return user;
     }
 }

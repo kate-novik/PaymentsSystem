@@ -3,6 +3,7 @@ package by.it.novik.dao;
 import by.it.novik.entities.Account;
 import by.it.novik.entities.User;
 import by.it.novik.util.AccountState;
+import by.it.novik.valueObjects.AccountsFilter;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -44,7 +45,7 @@ public class AccountDaoTest {
         userDao.saveOrUpdate(user);
         userDao.getSession().flush();
         userDao.getSession().evict(user);
-        List<Account> accounts = accountDao.getAccountsByUser(user,"ASC", 10, 0);
+        List<Account> accounts = accountDao.getAccountsByUser(user);
         Assert.assertEquals("Don't equals accounts!", accounts.iterator().next(), user.getAccounts().iterator().next());
     }
 
@@ -54,7 +55,9 @@ public class AccountDaoTest {
         userDao.saveOrUpdate(user);
         userDao.getSession().flush();
         userDao.getSession().evict(user);
-        List<Account> accounts = accountDao.getAllAccounts();
+        AccountsFilter paymentsFilter = new AccountsFilter();
+        paymentsFilter.setMinBalance(200);
+        List<Account> accounts = accountDao.getAllAccounts("ASC", 10, 0, paymentsFilter);
         Assert.assertNotNull(accounts);
     }
 

@@ -24,13 +24,10 @@ public interface IAccountService {
     /**
      * To get list of accounts by user
      * @param id_user ID of object User
-     * @param orderState Order of sorting accounts
-     * @param pageSize Size of elements on page
-     * @param firstItem Position of first element for output
      * @return List of accounts users
      * @throws ServiceException
      */
-    List<Account> getAccountsByUser(Serializable id_user, String orderState, Integer pageSize, Integer firstItem)
+    List<Account> getAccountsByUser(Serializable id_user)
             throws ServiceException;
 
     /**
@@ -73,11 +70,16 @@ public interface IAccountService {
     void unlockingAccount(Long account) throws ServiceException;
 
     /**
-     * To get list of all accounts
+     * To get list of all accounts with filter
+     * @param orderState Order of sorting accounts
+     * @param pageSize Size of elements on page
+     * @param firstItem Position of first element for output
+     * @param accountsFilter Object AccountsFilter
      * @return List of accounts
      * @throws ServiceException
      */
-    List<Account> getAllAccounts () throws ServiceException;
+    List<Account> getAllAccounts (String orderState, Integer pageSize, Integer firstItem,
+                                  AccountsFilter accountsFilter) throws ServiceException;
 
     /**
      * To get list of locked accounts
@@ -121,4 +123,11 @@ public interface IAccountService {
      * @return total count of accounts
      */
     Integer getTotalCountOfAccounts (AccountsFilter accountsFilter);
+
+    /**
+     * Getting object User by account
+     * @param account Object Account
+     * @return Object User
+     */
+    User getUserByAccount (Account account) throws ServiceException;
 }

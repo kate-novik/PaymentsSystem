@@ -27,10 +27,12 @@ CREATE TABLE `account` (
   `balance` double DEFAULT NULL,
   `account_state` enum('LOCKED','WORKING','DELETED') DEFAULT NULL,
   `id_user` bigint(20) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `type` enum('PERSONAL','BUSINESS') DEFAULT NULL,
   PRIMARY KEY (`id_account`),
   KEY `FK_mfisqiulqmeyv1vpx65qqcbvq` (`id_user`),
   CONSTRAINT `FK_mfisqiulqmeyv1vpx65qqcbvq` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +41,7 @@ CREATE TABLE `account` (
 
 LOCK TABLES `account` WRITE;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
-INSERT INTO `account` VALUES (1,756,'LOCKED',1),(2,-44,'WORKING',5),(3,200,'LOCKED',23),(4,1000,'WORKING',23),(5,500,'WORKING',23),(6,1000,'WORKING',24),(7,490,'WORKING',24),(8,0,'WORKING',NULL),(9,49960,'LOCKED',24),(10,200,'WORKING',26),(11,700,'WORKING',26),(12,300,'WORKING',26),(13,1100,'WORKING',26),(14,500,'WORKING',26);
+INSERT INTO `account` VALUES (10,200,'WORKING',26,'Job','PERSONAL'),(11,700,'WORKING',26,'General','PERSONAL'),(12,300,'LOCKED',26,'Family','PERSONAL'),(13,1100,'WORKING',26,'New','PERSONAL'),(14,500,'WORKING',26,'New','PERSONAL'),(15,0,'WORKING',26,'New','PERSONAL'),(16,0,'WORKING',26,'New','PERSONAL'),(17,0,'WORKING',26,'New','PERSONAL'),(18,0,'WORKING',26,'New','PERSONAL'),(19,0,'WORKING',26,'New','PERSONAL'),(20,0,'WORKING',26,'New','PERSONAL'),(21,4000,'WORKING',NULL,'School 255','BUSINESS'),(22,3780,'WORKING',NULL,'English school','BUSINESS'),(23,0,'WORKING',28,'New account','PERSONAL');
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -66,7 +68,7 @@ CREATE TABLE `address` (
 
 LOCK TABLES `address` WRITE;
 /*!40000 ALTER TABLE `address` DISABLE KEYS */;
-INSERT INTO `address` VALUES (26,'Minsk','6','5','Goreckogo');
+INSERT INTO `address` VALUES (26,'Minsk','6','5','Goreckogo'),(28,'Minsk','3','5','Goreckogo');
 /*!40000 ALTER TABLE `address` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -92,7 +94,7 @@ CREATE TABLE `passport` (
 
 LOCK TABLES `passport` WRITE;
 /*!40000 ALTER TABLE `passport` DISABLE KEYS */;
-INSERT INTO `passport` VALUES (26,'2016-09-04','Godinskim Govd','MC34567894');
+INSERT INTO `passport` VALUES (26,'2016-09-04','Godinskim Govd','MC34567894'),(28,'2016-10-01','Minski ROVD','MC34567894');
 /*!40000 ALTER TABLE `passport` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -172,7 +174,7 @@ CREATE TABLE `user` (
   UNIQUE KEY `UK_ew1hvam8uwaknuaellwhqchhb` (`login`),
   KEY `FK_k8y42vh44lwf9u6ypkgyjpf4k` (`id_role`),
   CONSTRAINT `FK_k8y42vh44lwf9u6ypkgyjpf4k` FOREIGN KEY (`id_role`) REFERENCES `role` (`id_role`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -181,7 +183,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (26,'ekat.novik@gmail.com','Kate','Novik','user','Igorevna','$2a$10$YhpboNNP3wUTcVnAYYQN8OuaAiIZ5KnUogf2Y0Bko.ELBUrVA..RW','375447543800',2);
+INSERT INTO `user` VALUES (26,'ekat.novik@gmail.com','Kate','Novik','user','Igorevna','$2a$10$YhpboNNP3wUTcVnAYYQN8OuaAiIZ5KnUogf2Y0Bko.ELBUrVA..RW','375447543800',2),(28,'ret@mail.ru','Alex','Ivanov','admin','Ivanovich','$2a$10$bQQzbvqmPxFaHuWRslH4/.MIrtd1GAaZGUF2wFLeCaeF3lpEaqI8e','375293567654',1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -194,4 +196,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-10-03 23:26:04
+-- Dump completed on 2016-10-04 17:01:59

@@ -53,18 +53,6 @@ public class PaymentDaoTest {
     }
 
     @Test
-    public void getPaymentsByUserTest() throws DaoException {
-            user.setLogin("tefk");
-            userDao.saveOrUpdate(user);
-            paymentDao.saveOrUpdate(payment);
-            paymentDao.getSession().flush();
-            paymentDao.getSession().evict(payment);
-            userDao.getSession().evict(user);
-            List<Payment> payments = paymentDao.getPaymentsByUser(user, "ASC", 10, 0);
-            Assert.assertEquals("Don't equals payments!", payments.iterator().next(), payment);
-    }
-
-    @Test
     public void getPaymentsByAccountTest() throws Exception {
         user.setLogin("Ppetya");
         userDao.saveOrUpdate(user);

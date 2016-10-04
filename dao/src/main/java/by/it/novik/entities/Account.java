@@ -2,11 +2,11 @@ package by.it.novik.entities;
 
 
 import by.it.novik.util.AccountState;
+import by.it.novik.util.AccountType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
-
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -19,20 +19,22 @@ import java.io.Serializable;
 @Table(name = "account")
 @NamedQueries({
         @NamedQuery(name="getAccountsByUser", query= Account.QUERY_GET_ACCOUNTS_BY_USER),
+        @NamedQuery(name="getUserByAccount", query= Account.QUERY_GET_USER_BY_ACCOUNT),
         @NamedQuery(name="getLockedAccounts", query= Account.QUERY_GET_LOCKED_ACCOUNTS),
         @NamedQuery(name="getAllAccounts", query= Account.QUERY_GET_ALL_ACCOUNTS)
 })
 public class Account implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    static final String QUERY_GET_ACCOUNTS_BY_USER = "FROM Account a WHERE a.user = :user ORDER BY :orderState";
+    static final String QUERY_GET_ACCOUNTS_BY_USER = "FROM Account a WHERE a.user = :user";
+    static final String QUERY_GET_USER_BY_ACCOUNT = "FROM Account a WHERE a.id = :id";
     static final String QUERY_GET_ALL_ACCOUNTS = "FROM Account";
     static final String QUERY_GET_LOCKED_ACCOUNTS = "FROM Account a WHERE a.state = 'LOCKED'";
 
     private Long id;
     @Id
     @GeneratedValue
-    @Column(name="id_account")
+    @Column(name = "id_account")
     @Type(type = "long")
     public Long getId() {
         return id;
@@ -42,7 +44,7 @@ public class Account implements Serializable {
     }
 
     private AccountState state;
-    @Column(name="account_state", columnDefinition = "enum('LOCKED', 'WORKING','DELETED')")
+    @Column(name = "account_state", columnDefinition = "enum('LOCKED', 'WORKING','DELETED')")
     @Enumerated(EnumType.STRING)
     public AccountState getState() {
         return state;
@@ -52,7 +54,7 @@ public class Account implements Serializable {
     }
 
     private double balance;
-    @Column(name="balance")
+    @Column(name = "balance")
     @Type(type = "double")
     public double getBalance() {
         return balance;
@@ -60,6 +62,18 @@ public class Account implements Serializable {
     public void setBalance(double balance) {
         this.balance = balance;
     }
+
+    private String title;
+    @Column (name = "title")
+    @Type(type = "string")
+    public String getTitle() { return title;  }
+    public void setTitle(String title) { this.title = title; }
+
+    private AccountType type;
+    @Column (name = "type", columnDefinition = "enum('PERSONAL', 'BUSINESS')")
+    @Enumerated(EnumType.STRING)
+    public AccountType getType() { return type;  }
+    public void setType(AccountType type) { this.type = type; }
 
     @JsonIgnore
     private User user;
@@ -84,7 +98,9 @@ public class Account implements Serializable {
 
         if (Double.compare(account.balance, balance) != 0) return false;
         if (id != null ? !id.equals(account.id) : account.id != null) return false;
-        return state == account.state;
+        if (state != account.state) return false;
+        if (title != null ? !title.equals(account.title) : account.title != null) return false;
+        return type == account.type;
 
     }
 
@@ -96,6 +112,8 @@ public class Account implements Serializable {
         result = 31 * result + (state != null ? state.hashCode() : 0);
         temp = Double.doubleToLongBits(balance);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (type != null ? type.hashCode() : 0);
         return result;
     }
 
@@ -103,8 +121,10 @@ public class Account implements Serializable {
     public String toString() {
         return "Account{" +
                 "id=" + id +
-                ", state='" + state + '\'' +
+                ", state=" + state +
                 ", balance=" + balance +
+                ", title='" + title + '\'' +
+                ", type=" + type +
                 '}';
     }
 }

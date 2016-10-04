@@ -1,6 +1,8 @@
 package by.it.novik.dao;
 import by.it.novik.entities.*;
 import by.it.novik.util.AccountState;
+import by.it.novik.util.AccountType;
+
 import java.sql.Date;
 
 /**
@@ -41,6 +43,8 @@ public class BuilderEntity {
         Account account = new Account();
         account.setBalance(256);
         account.setState(AccountState.WORKING);
+        account.setTitle("My account");
+        account.setType(AccountType.PERSONAL);
         account.setUser(user);
 
         Account accountSecond = new Account();

@@ -53,3 +53,5 @@
     </form>
 
 </div>
+
+<%@ include file="client/parts/footer.jsp" %>

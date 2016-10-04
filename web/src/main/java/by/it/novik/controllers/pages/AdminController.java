@@ -1,5 +1,11 @@
 package by.it.novik.controllers.pages;
 
+import by.it.novik.entities.Role;
+import by.it.novik.entities.User;
+import by.it.novik.services.IUserService;
+import by.it.novik.util.ServiceException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,6 +17,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
+import java.security.Principal;
+import java.util.Locale;
+
 /**
  * Created by Kate Novik.
  */
@@ -18,9 +28,28 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/admin")
 public class AdminController {
 
-    @RequestMapping("/")
-    public String adminPage (ModelMap model) {
-        model.addAttribute("message", "Page for admins!");
+    @Autowired
+    IUserService userService;
+    @Autowired
+    MessageSource messageSource;
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String adminPage (ModelMap model, HttpSession session, Principal principal, Locale locale) throws ServiceException {
+        //Getting user from session
+        User user = userService.findByLogin(principal.getName());
+        //Getting role for user in session
+        String role = user.getRole().getRole();
+        if (user == null) {
+            model.addAttribute("message", messageSource.getMessage("message.access", null, locale));
+            model.addAttribute("type", "danger");
+            return "login";
+        } else if (!role.equals("admin")){
+            model.addAttribute("message", messageSource.getMessage("message.errorAccess", null, locale));
+            model.addAttribute("type", "danger");
+            return "login";
+        } else {
+            session.setAttribute("user", user);
+        }
         return "admin/dashboard";
     }
 
@@ -29,21 +58,6 @@ public class AdminController {
         return "admin/payments";
     }
 
-
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login (ModelMap model,
-                         @RequestParam(value = "error", required = false) String error,
-                         @RequestParam(value = "logout", required = false) String logout) {
-        if (error != null) {
-            model.addAttribute("error", "Invalid username and password!");
-        }
-
-        if (logout != null) {
-            model.addAttribute("msg", "You've been logged out successfully.");
-        }
-
-        return "login";
-    }
 
     //for 403 access denied page
     @RequestMapping(value = "/403", method = RequestMethod.GET)

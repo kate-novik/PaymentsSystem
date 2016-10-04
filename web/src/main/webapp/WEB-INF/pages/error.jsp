@@ -4,6 +4,6 @@
 
 <p>Cmd ERROR: ${message}</p>
 
-<%@ include file="client/parts/footer.jsp" %>
+<%--<%@ include file="client/parts/footer.jsp" %>--%>
 
 

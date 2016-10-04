@@ -14,6 +14,7 @@ import by.it.novik.util.ServiceException;
 import by.it.novik.valueObjects.PaymentsFilter;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -37,31 +38,18 @@ public class AccountsController {
     IUserService userService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Account> findAll(HttpSession session,
-//                                 @RequestBody AccountsFilter accountsFilter,
-                                 @RequestParam (value = "pageNumber", required = false, defaultValue = "1") Integer pageNumber ,
-                                 @RequestParam (value = "pageSize", required = false, defaultValue = "10") Integer pageSize,
-                                 @RequestParam (value = "orderState", required = false, defaultValue = "ASC") String orderState
-    ) throws ServiceException {
+    public List<Account> findAll(HttpSession session) throws ServiceException {
         //Getting user from session
         User user = (User)session.getAttribute("user");
-//        Integer totalCountAccounts = accountService.getTotalCountOfPayments(accountsFilter);
-        long totalCountAccounts = 10; // hard code value
-//        if (totalCountAccounts == null) {
-//            return null;
-//        }
-        Pagination.checkPage(pageNumber,pageSize,totalCountAccounts);
-        pageNumber = Pagination.pageResult;
-        pageSize = Pagination.item_per_page_result;
-        return accountService.getAccountsByUser(user.getId(),orderState, pageSize, Pagination.firstItem);
+        return accountService.getAccountsByUser(user.getId());
     }
 
-    @RequestMapping(value="/{id}", method = RequestMethod.GET)
-    public Account findOne(@PathVariable Long id){
-        Account account = new Account();
-        account.setId(id);
-        return account;
-    }
+//    @RequestMapping(value="/{id}", method = RequestMethod.GET)
+//    public Account findOne(@PathVariable Long id){
+//        Account account = new Account();
+//        account.setId(id);
+//        return account;
+//    }
 
     @RequestMapping(method = RequestMethod.POST)
     public Account create(HttpSession session) throws ServiceException {
@@ -70,16 +58,20 @@ public class AccountsController {
     }
 
     @RequestMapping(value="/{id}", method = RequestMethod.PUT)
-    public Account update(@PathVariable Long id){
-        Account account = new Account();
-        account.setId(id);
+    public Account update(@PathVariable Long id) throws ServiceException {
+        Account account = accountService.get(id);
+        accountService.saveOrUpdate(account);
         return account;
     }
 
+    //For admin page
+    @Secured(value = "admin")
     @RequestMapping(value="/{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable Long id){
+    public void delete(@PathVariable Long id) throws ServiceException {
+        accountService.deleteAccount(id);
     }
 
+    @Secured(value = "admin")
     @RequestMapping(value="/refill", method = RequestMethod.POST)
     public Account refill(@RequestBody Refill refill) throws ServiceException {
         return accountService.refill(refill.getIdAccount(), refill.getAmount());

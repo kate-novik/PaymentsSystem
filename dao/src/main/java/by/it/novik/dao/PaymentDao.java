@@ -19,44 +19,23 @@ import java.util.List;
  */
 @Repository("paymentDao")
 public class PaymentDao extends Dao<Payment> implements IPaymentDao {
+
     public PaymentDao() {
     }
 
     @Override
-    public List<Payment> getPaymentsByUser(User user, String orderState, Integer pageSize, Integer firstItem)
-            throws DaoException {
+    public List<Payment> getPaymentsByAccount(Account account, String orderState, Integer pageSize, Integer firstItem,
+            PaymentsFilter paymentsFilter) throws DaoException {
         List<Payment> payments;
-        //Order for sorting by default
-        if (orderState == null) {
-            orderState = "ASC";
-        }
-        try {
-            Query query = getSession().getNamedQuery("getPaymentsByUser").setEntity("user", user)
-                    .setString("orderState", orderState);
-            query.setFirstResult(firstItem);
-            query.setMaxResults(pageSize);
-            payments = query.list();
-            log.info("getPaymentsByUser():" + payments);
-        } catch (HibernateException e) {
-            log.error("Error getPaymentsByUser() in Dao" + e);
-            throw new DaoException("Error getPaymentsByUser() in Dao.");
-        }
-        return payments;
-    }
-
-    @Override
-    public List<Payment> getPaymentsByAccount(Account account, String orderState, Integer pageSize, Integer firstItem
-            , PaymentsFilter paymentsFilter) throws DaoException {
-        List<Payment> payments;
-        //Order for sorting by default
         Criteria criteria = getCriteriaOfFilter(paymentsFilter);
-        criteria.add(Restrictions.eq("accountSource", account));
+        //To add checking payments of source and destination
+        Criterion accountSource = Restrictions.eq("accountSource", account);
+        Criterion accountDest = Restrictions.eq("accountDestination", account);
+        LogicalExpression andExp = Restrictions.or(accountSource, accountDest);
+        criteria.add(andExp);
         //Order for sorting
-        if (orderState == null || orderState.equals("ASC")) {
-            criteria.addOrder(Order.asc("id"));
-        } else if (orderState.equals("DESC")) {
-            criteria.addOrder(Order.desc("id"));
-        }
+        Order order = "ASC".equals(orderState) ? Order.asc("payDate") : Order.desc("payDate");
+        criteria.addOrder(order);
         criteria.setFirstResult(firstItem);
         criteria.setMaxResults(pageSize);
         try {
@@ -76,7 +55,7 @@ public class PaymentDao extends Dao<Payment> implements IPaymentDao {
         //Order for sorting by default
         Criteria criteria = getCriteriaOfFilter(paymentsFilter);
         //Order for sorting
-        Order order = "ASC".equals(orderState) ? Order.asc("id") : Order.desc("id");
+        Order order = "ASC".equals(orderState) ? Order.asc("payDate") : Order.desc("payDate");
         criteria.addOrder(order);
         criteria.setFirstResult(firstItem);
         criteria.setMaxResults(pageSize);
@@ -91,11 +70,11 @@ public class PaymentDao extends Dao<Payment> implements IPaymentDao {
     }
 
     @Override
-    public Integer getTotalCountOfPayments(PaymentsFilter paymentsFilter) {
+    public Long getTotalCountOfPayments(PaymentsFilter paymentsFilter) {
         Criteria criteria = getCriteriaOfFilter(paymentsFilter);
         //To get total row count
         criteria.setProjection(Projections.rowCount());
-        return (Integer) criteria.uniqueResult();
+        return (Long) criteria.uniqueResult();
     }
 
     @Override
@@ -108,8 +87,7 @@ public class PaymentDao extends Dao<Payment> implements IPaymentDao {
     }
 
     /**
-     * Getting Object Criteria depending on the filter values
-     *
+     * Getting Object Criteria depending on the filter values PaymentsFilter
      * @param paymentsFilter Object PaymentsFilter
      * @return Object Criteria
      */
@@ -129,16 +107,16 @@ public class PaymentDao extends Dao<Payment> implements IPaymentDao {
         } else if (payDate == null && minAmountPayment != 0 && maxAmountPayment != 0) {
             criteria.add(Restrictions.between("amountPayment", minAmountPayment, maxAmountPayment));
         } else if (payDate == null && minAmountPayment == 0 && maxAmountPayment != 0) {
-            criteria.add(Restrictions.eq("amountPayment", maxAmountPayment));
+            criteria.add(Restrictions.le("amountPayment", maxAmountPayment));
         } else if (payDate == null && minAmountPayment != 0 && maxAmountPayment == 0) {
-            criteria.add(Restrictions.eq("amountPayment", minAmountPayment));
+            criteria.add(Restrictions.ge("amountPayment", minAmountPayment));
         } else if (payDate != null && minAmountPayment != 0 && maxAmountPayment == 0) {
-            Criterion amount = Restrictions.eq("amountPayment", minAmountPayment);
+            Criterion amount = Restrictions.ge("amountPayment", minAmountPayment);
             Criterion date = Restrictions.eq("payDate", payDate);
             LogicalExpression andExp = Restrictions.and(amount, date);
             criteria.add(andExp);
         } else if (payDate != null && minAmountPayment == 0 && maxAmountPayment != 0) {
-            Criterion amount = Restrictions.eq("amountPayment", maxAmountPayment);
+            Criterion amount = Restrictions.le("amountPayment", maxAmountPayment);
             Criterion date = Restrictions.eq("payDate", payDate);
             LogicalExpression andExp = Restrictions.and(amount, date);
             criteria.add(andExp);

@@ -17,6 +17,7 @@
                 <md-card flex="23"  ng-repeat="account in ctrl.accounts">
                     <md-card-title>
                         <md-card-title-text>
+                            <span class="md-subhead">{{account.title}}</span>
                             <span class="md-subhead">({{account.state}})</span>
                             <span class="md-subhead"><spring:message code="account.amount"/></span>
                             <span class="md-headline">{{account.balance | currency}}</span>
@@ -55,20 +56,20 @@
         </div>
         <div ng-switch-when="payments" ng-controller="PaymentsController as pc">
             <div layout="row" layout-wrap>
-                <h3>Payments for account ({{mc.selectedAccount}})</h3>
+                <h3><spring:message code="payment.title"/> ({{mc.selectedAccount}})</h3>
                 <span flex></span>
-                <md-button ng-click="mc.changeView('accounts')">Accounts</md-button>
+                <md-button ng-click="mc.changeView('accounts')"><spring:message code="account.title"/></md-button>
             </div>
             <div>
                 <md-table-container>
                     <table md-table md-promise="pc.loading">
                         <thead md-head md-order="pc.query.order" md-on-reorder="pc.fetch">
                         <tr md-row>
-                            <th md-column md-order-by="nameToLower"><span># of payment</span></th>
-                            <th md-column md-numeric>Description</th>
-                            <th md-column md-numeric>Date</th>
-                            <th md-column md-numeric>State</th>
-                            <th md-column md-numeric>Amount</th>
+                            <th md-column md-order-by="nameToLower"><span># <spring:message code="payment.number"/></span></th>
+                            <th md-column md-numeric><spring:message code="payment.desc"/></th>
+                            <th md-column md-numeric><spring:message code="payment.date"/></th>
+                            <th md-column md-numeric><spring:message code="payment.state"/></th>
+                            <th md-column md-numeric><spring:message code="payment.amount"/></th>
                         </tr>
                         </thead>
                         <tbody md-body>
@@ -84,13 +85,13 @@
                 </md-table-container>
 
                 <md-table-pagination md-limit="pc.query.limit"
-                                     md-limit-options="[5, 10, 15]"
+                                     md-limit-options="[10, 15, 20]"
                                      md-page="pc.query.page"
                                      md-total="{{pc.total}}"
                                      md-on-paginate="fetch">
                 </md-table-pagination>
             </div>
-            TOTAL - {{pc.total}}
+            <spring:message code="payment.total"/> - {{pc.total}}
         </div>
     </div>
 </div>

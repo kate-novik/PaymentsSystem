@@ -47,32 +47,32 @@ public class ClientController {
     @Autowired
     MessageSource messageSource;
 
-    @RequestMapping(value="/createAccount", method = RequestMethod.GET)
-    public String createAccount(ModelMap model, Principal principal, RedirectAttributes redirectAttr, Locale locale)
-            throws ServiceException {
-        //Getting user from session
-        User user = getUserFromSession(principal,model);
-        if (user == null) {
-            return "login";
-        }
-        Account account = new Account();
-        account.setUser(user);
-        account.setState(AccountState.WORKING);
-        account.setBalance(0);
-
-//        try {
-            accountService.saveOrUpdate(account);
-            String name =  messageSource.getMessage("name.account", null, locale);
-            redirectAttr.addFlashAttribute("message", messageSource.getMessage("message.isCreated", new Object[] {name}, locale));
-            redirectAttr.addFlashAttribute("type","success");
+//    @RequestMapping(value="/createAccount", method = RequestMethod.GET)
+//    public String createAccount(ModelMap model, Principal principal, RedirectAttributes redirectAttr, Locale locale)
+//            throws ServiceException {
+//        //Getting user from session
+//        User user = getUserFromSession(principal,model);
+//        if (user == null) {
+//            return "login";
 //        }
-//        catch (ServiceException e){
-//            log.error("Error in CommandCreateAccount. Account wasn't created." + e);
-//            model.addAttribute("message", "Account wasn't created.");
-//            model.addAttribute("type", "danger");
-//        }
-        return "redirect:/";
-    }
+//        Account account = new Account();
+//        account.setUser(user);
+//        account.setState(AccountState.WORKING);
+//        account.setBalance(0);
+//
+////        try {
+//            accountService.saveOrUpdate(account);
+//            String name =  messageSource.getMessage("name.account", null, locale);
+//            redirectAttr.addFlashAttribute("message", messageSource.getMessage("message.isCreated", new Object[] {name}, locale));
+//            redirectAttr.addFlashAttribute("type","success");
+////        }
+////        catch (ServiceException e){
+////            log.error("Error in CommandCreateAccount. Account wasn't created." + e);
+////            model.addAttribute("message", "Account wasn't created.");
+////            model.addAttribute("type", "danger");
+////        }
+//        return "redirect:/";
+//    }
 
     @RequestMapping(value = "/getLogout", method = RequestMethod.GET)
     public String getLogout(ModelMap model) {
@@ -105,7 +105,7 @@ public class ClientController {
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String getRegistration(ModelMap model, Authentication auth, RedirectAttributes redirectAttr, Locale locale) {
         if (auth != null){
-            redirectAttr.addFlashAttribute("message",messageSource.getMessage("message.isReg", null, locale));
+            redirectAttr.addFlashAttribute("message", messageSource.getMessage("message.isReg", null, locale));
             redirectAttr.addFlashAttribute("type","danger");
             return "redirect:/profile";
         }
@@ -133,7 +133,7 @@ public class ClientController {
                 return "client/reg";
             }
         }
-        return "redirect:/";
+        return "redirect:/login";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -153,7 +153,6 @@ public class ClientController {
             model.addAttribute("message", mapAttr.get("message"));
             model.addAttribute("type", mapAttr.get("type"));
         }
-
         return "login";
     }
 

@@ -13,18 +13,6 @@ import java.util.List;
 public interface IPaymentService {
 
     /**
-     * To get list of payments by user
-     * @param idUser ID of User
-     * @param orderState Order of sorting payments
-     * @param pageSize Size of elements on page
-     * @param firstItem Position of first element for output
-     * @return List of objects Payments
-     * @throws ServiceException
-     */
-    List<Payment> getPaymentsByUser(Serializable idUser, String orderState, Integer pageSize, Integer firstItem)
-            throws ServiceException;
-
-    /**
      * To get list of payments by account
      * @param idAccount ID of Account
      * @param orderState Order of sorting payments
@@ -87,7 +75,7 @@ public interface IPaymentService {
      * @param paymentsFilter Object PaymentsFilter with filters
      * @return total count of payments
      */
-    Integer getTotalCountOfPayments(PaymentsFilter paymentsFilter);
+    Long getTotalCountOfPayments(PaymentsFilter paymentsFilter);
 
     /**
      * Getting total count of payments with filter
