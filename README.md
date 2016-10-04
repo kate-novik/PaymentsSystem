@@ -50,7 +50,7 @@ roles="tomcat,manager-gui,manager-script"/>
 - Open the settings of access to the data base for project   
 (path ..\dao\src\main\resources\hibernate.properties)  
 and check the port, username, password (change they if it need).
-- Open the file mysql.bat (path ..\paymentsSystem\bin) and change login, password "root" (if they are another) for access to the MySQL data base in first, second, last lines.
+- Open the file mysql.bat (path ..\paymentsSystem\bin) and change login, password "root" (if they are another) for access to the MySQL data base in first and second lines.
 - Start the server Apache Tomcat in package installed Tomcat ../bin/startup.bat
 
 ### Installation
@@ -61,5 +61,5 @@ You need run three steps for deploying project:
 
 *************************************************************************
 Input data for log in as user:  
-*login* :**user**  
+*login* : **user**  
 *password*: **user**
