@@ -45,6 +45,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login").permitAll()
                 .antMatchers("/registration").permitAll()
                 .antMatchers("/api/**").permitAll()
+                // why is it commented?
+                // why don't you use Spring Security here?
+                // or is it not fully configured yet?
       //         .antMatchers("/admin/**").access("hasRole('ADMIN')")
                 .antMatchers("/admin/**").permitAll()
                 .anyRequest().authenticated()

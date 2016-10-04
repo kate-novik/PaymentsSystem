@@ -3,6 +3,7 @@ package by.it.novik.dto;
 /**
  * Created by Kate Novik.
  */
+// please add DTO suffix to this class name
 public class MoneyTransfer {
 
     private Long accountSource;

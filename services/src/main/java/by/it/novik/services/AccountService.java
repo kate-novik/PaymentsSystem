@@ -84,6 +84,7 @@ public class AccountService implements IAccountService {
     }
 
     @Override
+    // please rename to lockAccount()
     public void lockingAccount(Account account) throws ServiceException {
         //Changing the field state in LOCKED
         account.setState(AccountState.LOCKED);
@@ -91,6 +92,7 @@ public class AccountService implements IAccountService {
     }
 
     @Override
+    // please rename to lockAccount()
     public void lockingAccount(Long id) throws ServiceException {
         Account account = get(id);
         lockingAccount(account);
@@ -115,6 +117,7 @@ public class AccountService implements IAccountService {
     }
 
     @Override
+    // please rename to unlockAccount()
     public void unlockingAccount(Account account) throws ServiceException {
         //Changing the field state in WORKING
         account.setState(AccountState.WORKING);

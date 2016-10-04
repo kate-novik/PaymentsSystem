@@ -16,6 +16,9 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(value = "/api/users")
+// I didn't understand what this class methods do.
+// Are they incomplete implementation and are not used?
+// If so please remove this class.
 public class UserController {
 
     @Autowired
@@ -37,11 +40,13 @@ public class UserController {
         return user;
     }
 
+    // should be removed
     @RequestMapping(method = RequestMethod.POST)
     public User create(User user){
         return user;
     }
 
+    //// should be removed
     @RequestMapping(value="/{id}", method = RequestMethod.PUT)
     public User update(@PathVariable Long id){
         User user = new User();
@@ -49,6 +54,7 @@ public class UserController {
         return user;
     }
 
+    // should be removed
     @RequestMapping(value="/{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable Long id){
     }

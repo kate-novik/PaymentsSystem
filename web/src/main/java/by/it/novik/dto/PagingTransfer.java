@@ -6,6 +6,7 @@ import java.util.List;
 /**
  * Created by Kate Novik.
  */
+// please add DTO suffix to this class name
 public class PagingTransfer {
 
     private int page;

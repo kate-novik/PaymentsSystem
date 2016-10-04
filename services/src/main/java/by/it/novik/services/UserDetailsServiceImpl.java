@@ -51,6 +51,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private List<GrantedAuthority> buildUserAuthority(Role userRole) {
         GrantedAuthority authority = new SimpleGrantedAuthority(userRole.getRole());
+        // consider using Arrays.asList()
         List<GrantedAuthority> listAuthority = new ArrayList<>();
         listAuthority.add(authority);
         return listAuthority;

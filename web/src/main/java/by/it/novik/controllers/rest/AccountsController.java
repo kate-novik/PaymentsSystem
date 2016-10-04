@@ -46,16 +46,19 @@ public class AccountsController {
         //Getting user from session
         User user = (User)session.getAttribute("user");
 //        Integer totalCountAccounts = accountService.getTotalCountOfPayments(accountsFilter);
-        long totalCountAccounts = 10; // hard code value
+        long totalCountAccounts = 10; // hard code value // bad comment, this is clear that it is hard coded. please remove
 //        if (totalCountAccounts == null) {
 //            return null;
 //        }
         Pagination.checkPage(pageNumber,pageSize,totalCountAccounts);
-        pageNumber = Pagination.pageResult;
+        pageNumber = Pagination.pageResult; // this is never used, please remove
         pageSize = Pagination.item_per_page_result;
         return accountService.getAccountsByUser(user.getId(),orderState, pageSize, Pagination.firstItem);
     }
 
+    // I didn't understand what does this method do.
+    // Is it incomplete implementation which is not used in your app?
+    // If so please remove this method.
     @RequestMapping(value="/{id}", method = RequestMethod.GET)
     public Account findOne(@PathVariable Long id){
         Account account = new Account();
@@ -69,6 +72,7 @@ public class AccountsController {
         return accountService.create(user);
     }
 
+    // please see my comment for update()
     @RequestMapping(value="/{id}", method = RequestMethod.PUT)
     public Account update(@PathVariable Long id){
         Account account = new Account();
@@ -76,6 +80,7 @@ public class AccountsController {
         return account;
     }
 
+    // please see my comment for update()
     @RequestMapping(value="/{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable Long id){
     }

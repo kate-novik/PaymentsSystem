@@ -31,6 +31,8 @@ public class AdminController {
 
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
+    // this code is duplicated in ClientController, please extract to some other class so that the code is reused
+    // guess which class :)
     public String login (ModelMap model,
                          @RequestParam(value = "error", required = false) String error,
                          @RequestParam(value = "logout", required = false) String logout) {

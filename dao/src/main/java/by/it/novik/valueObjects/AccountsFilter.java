@@ -1,3 +1,5 @@
+// package name should be in lowercase
+// and you can use "vo" for value objects in package name
 package by.it.novik.valueObjects;
 
 import by.it.novik.util.AccountState;
@@ -8,6 +10,7 @@ import by.it.novik.util.AccountState;
 public class AccountsFilter {
 
     private AccountState state;
+    // variable names should start with lowercase letter
     private double MinBalance;
     private double MaxBalance;
 

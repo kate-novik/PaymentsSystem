@@ -91,18 +91,22 @@ public class PaymentDao extends Dao<Payment> implements IPaymentDao {
     }
 
     @Override
-    public Integer getTotalCountOfPayments(PaymentsFilter paymentsFilter) {
+    // please remove code duplication with getTotalCountOfPayments(PaymentsFilter paymentsFilter, Account account) method.
+    // consider creating a method getPaymentsCount(Criteria criteria) and calling it from you two etTotalCountOfPayments methods
+    public Number getTotalCountOfPayments(PaymentsFilter paymentsFilter) {
         Criteria criteria = getCriteriaOfFilter(paymentsFilter);
         //To get total row count
         criteria.setProjection(Projections.rowCount());
-        return (Integer) criteria.uniqueResult();
+        return (Number) criteria.uniqueResult(); // I get java.lang.ClassCastException: java.lang.Long cannot be cast to java.lang.Integer here.
+                                                  // Please change return type to Number
+                                                  // this will work with all implementations of it - i.e. Integer, Long, etc
     }
 
     @Override
     public Long getTotalCountOfPayments(PaymentsFilter paymentsFilter, Account account) {
         Criteria criteria = getCriteriaOfFilter(paymentsFilter);
         criteria.add(Restrictions.eq("accountSource", account));
-        //To get total row count
+        //To get total row count // please remove this comment, rowCount() method is self explanatory
         criteria.setProjection(Projections.rowCount());
         return (Long) criteria.uniqueResult();
     }
@@ -119,6 +123,10 @@ public class PaymentDao extends Dao<Payment> implements IPaymentDao {
         double maxAmountPayment = paymentsFilter.getMaxAmountPayment();
         Criteria criteria = getSession().createCriteria(Payment.class);
         //To check existing filters
+        // please refactor, this is really hard to understand what us going on here and it would hard to maintain such code
+        // and moreover some conditions would literally never happen, they are unreachable code (thank to my Intellij IDEA)
+        // http://refactoring.com/catalog/replaceNestedConditionalWithGuardClauses.html
+        // what about using Restrictions.Conjunction() method?
         if (payDate != null && minAmountPayment != 0 && maxAmountPayment != 0) {
             Criterion amount = Restrictions.between("amountPayment", minAmountPayment, maxAmountPayment);
             Criterion date = Restrictions.eq("payDate", payDate);

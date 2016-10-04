@@ -37,7 +37,7 @@ public class PaymentsController {
         paymentsFilter.setPayDate(payDate);
         paymentsFilter.setMinAmountPayment(minAmountPayment);
         paymentsFilter.setMaxAmountPayment(maxAmountPayment);
-        long totalCountPayments = paymentService.getTotalCountOfPayments(paymentsFilter);
+        long totalCountPayments = (Long) paymentService.getTotalCountOfPayments(paymentsFilter);
         //Integer totalCountAccounts = 10; // hard code value
 //        if (totalCountAccounts == null) {
 //            return null;
@@ -53,11 +53,15 @@ public class PaymentsController {
         return pagingTransfer;
     }
 
+    // I didn't understand what does this method do.
+    // Is it incomplete implementation which is not used in your app?
+    // If so please remove this method.
     @RequestMapping(method = RequestMethod.POST)
     public Payment create(Payment payment){
         return payment;
     }
 
+    // please see my comment for create()
     @RequestMapping(value="/{id}", method = RequestMethod.PUT)
     public Payment update(@PathVariable Long id){
         Payment payment = new Payment();
@@ -65,6 +69,7 @@ public class PaymentsController {
         return payment;
     }
 
+    // please see my comment for create()
     @RequestMapping(value="/{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable Long id){
     }
