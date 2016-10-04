@@ -74,7 +74,8 @@ class AccountsController {
       }
     })
       .then((result) => {
-        return this.$http.post(`/paymentsSystem/api/accounts/transfer`, result);
+        result.title = 'Money transfer';
+        return this.$http.post(`/paymentsSystem/api/payments`, result);
       })
       .then(() => {
         this.fetch();

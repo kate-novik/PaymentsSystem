@@ -8,6 +8,7 @@ public class MoneyTransfer {
     private Long accountSource;
     private Long accountDestination;
     private Double amount;
+    private String title;
 
     public MoneyTransfer() {
     }
@@ -34,5 +35,13 @@ public class MoneyTransfer {
 
     public void setAmount(Double amount) {
         this.amount = amount;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

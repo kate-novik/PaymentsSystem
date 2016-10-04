@@ -34,7 +34,7 @@
                                     </md-button>
                                 </md-menu-item>
                                 <md-menu-item>
-                                    <md-button ng-disabled="ctrl.isLocked(account)" ng-click="ctrl.pay($event, account.id)">
+                                    <md-button ng-disabled="ctrl.isLocked(account)" ng-click="mc.changeView('payment')">
                                         <spring:message code="account.pay"/>
                                     </md-button>
                                 </md-menu-item>
@@ -53,6 +53,40 @@
                     </md-card-actions>
                 </md-card>
             </div>
+        </div>
+        <div ng-switch-when="payment" ng-controller="PayController as pc">
+            <form ng-cloak name="payForm">
+
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Select a service</label>
+                    <md-select ng-model="pc.destination" name="serv" required>
+                        <md-option ng-repeat="service in pc.services" ng-value="service">
+                            {{service.id}} - {{service.title}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Select an account</label>
+                    <md-select ng-model="pc.source" name="account" required>
+                        <md-option ng-repeat="acc in pc.accounts" ng-value="acc">
+                            {{acc.id}} ({{acc.balance | currency}})
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Amount</label>
+                    <input ng-model="pc.amount" name="amount" required/>
+                </md-input-container>
+
+                <md-button ng-click="mc.changeView('accounts')">
+                    Cancel
+                </md-button>
+                <md-button ng-click="pc.ok()">
+                    OK
+                </md-button>
+            </form>
         </div>
         <div ng-switch-when="payments" ng-controller="PaymentsController as pc">
             <div layout="row" layout-wrap>

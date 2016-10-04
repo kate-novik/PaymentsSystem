@@ -1,5 +1,6 @@
 package by.it.novik.controllers.rest;
 
+import by.it.novik.dto.MoneyTransfer;
 import by.it.novik.utils.Pagination;
 import by.it.novik.dto.PagingTransfer;
 import by.it.novik.entities.Payment;
@@ -54,8 +55,8 @@ public class PaymentsController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Payment create(Payment payment){
-        return payment;
+    public void create(@RequestBody MoneyTransfer mt) throws ServiceException {
+        paymentService.makePayment(mt.getAccountSource(), mt.getAccountDestination(), mt.getAmount(), mt.getTitle());
     }
 
     @RequestMapping(value="/{id}", method = RequestMethod.PUT)

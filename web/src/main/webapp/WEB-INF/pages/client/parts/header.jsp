@@ -20,7 +20,7 @@
 <md-toolbar md-scroll-shrink ng-controller="HeaderController">
     <div class="md-toolbar-tools">
         <h3>
-            <a ng-href="/">{{title}}</a>
+            <a ng-href="/paymentsSystem">{{title}}</a>
         </h3>
         <span flex></span>
         <sec:authorize access="isAuthenticated()">

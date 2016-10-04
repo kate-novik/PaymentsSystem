@@ -77,11 +77,6 @@ public class AccountsController {
         return accountService.refill(refill.getIdAccount(), refill.getAmount());
     }
 
-    @RequestMapping(value="/transfer", method = RequestMethod.POST)
-    public void transfer(@RequestBody MoneyTransfer mt) throws ServiceException {
-        paymentService.makePayment(mt.getAccountSource(), mt.getAccountDestination(), mt.getAmount(), "Money transfer");
-    }
-
     @RequestMapping(value="/{id}/lock", method = RequestMethod.GET)
     public void lock(@PathVariable Long id) throws ServiceException {
         accountService.lockingAccount(id);
