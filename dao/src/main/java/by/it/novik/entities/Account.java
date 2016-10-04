@@ -42,6 +42,9 @@ public class Account implements Serializable {
     }
 
     private AccountState state;
+    // I was just about to leave praise comment here
+    // but then found this http://komlenic.com/244/8-reasons-why-mysqls-enum-data-type-is-evil/
+    // I know this would be an overkill to use state table in such small application, but keep that in mind that enums have some drawbacks.
     @Column(name="account_state", columnDefinition = "enum('LOCKED', 'WORKING','DELETED')")
     @Enumerated(EnumType.STRING)
     public AccountState getState() {
@@ -83,6 +86,14 @@ public class Account implements Serializable {
         Account account = (Account) o;
 
         if (Double.compare(account.balance, balance) != 0) return false;
+        // avoid such constructions
+        // if (x == true) {
+        //   return true;
+        // }
+        // return false;
+        //
+        // it can be replaced with simply
+        // return x == true;
         if (id != null ? !id.equals(account.id) : account.id != null) return false;
         return state == account.state;
 

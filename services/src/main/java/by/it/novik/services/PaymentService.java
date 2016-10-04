@@ -46,7 +46,11 @@ public class PaymentService implements IPaymentService {
         List<Payment> payments;
         User user;
         try {
-            user = userDao.get(idUser);
+            user = userDao.get(idUser); // seems like redundant operation for me
+                                        // because you already know user's id
+                                        // and in order to get all user payments you need only her id, not the whole object
+                                        // consider replacing with EntityManager.getReference()
+                                        // please see http://stackoverflow.com/a/32037084/3302263 for more information
             payments = paymentDao.getPaymentsByUser(user, orderState, pageSize, firstItem);
         }
         catch (DaoException d){
@@ -62,6 +66,7 @@ public class PaymentService implements IPaymentService {
         List<Payment> payments;
         Account account;
         try {
+            // please see my comment in getPaymentsByUser()
             account = accountDao.get(idAccount);
             payments = paymentDao.getPaymentsByAccount(account, orderState, pageSize, firstItem, paymentsFilter);
         }
@@ -82,6 +87,7 @@ public class PaymentService implements IPaymentService {
         try {
             accountSource = accountDao.get(idAccountFrom);
             balance = accountSource.getBalance();
+            // please see my comment in getPaymentsByUser()
             accountDestination =  accountDao.get(idAccountTo);
         } catch (DaoException e) {
             log.error("Error makePayment() in PaymentService." + e);
@@ -92,6 +98,9 @@ public class PaymentService implements IPaymentService {
         if (balance >= payAmount) {
             if (accountDestination != null) {
                 try{
+                    // please add indents here
+                    // and consider refactoring - extracting the code above into shorter methods so that it is easier what is going on without going into details
+                    // thus you can omit the comments too
                 //Вычислим сумму, которая останется на счете после списания
                 Double source_amount = balance - payAmount;
                 accountSource.setBalance(source_amount);
@@ -103,7 +112,10 @@ public class PaymentService implements IPaymentService {
                 accountDao.saveOrUpdate(accountDestination);
                 //Создание текущей даты и ее форматирование
                 Date date = new Date(System.currentTimeMillis());
-                SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+                    // why?
+                    // aren't they extra operations - converting a date to a string and then back
+                    // why can't you just set payDate to new Date()?
+                    SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
                 String currentDate = formatDate.format(date);
                 //Создаем платежку
                 Payment payment = new Payment();
@@ -182,7 +194,7 @@ public class PaymentService implements IPaymentService {
     }
 
     @Override
-    public Integer getTotalCountOfPayments(PaymentsFilter paymentsFilter) {
+    public Number getTotalCountOfPayments(PaymentsFilter paymentsFilter) {
         return paymentDao.getTotalCountOfPayments(paymentsFilter);
     }
 

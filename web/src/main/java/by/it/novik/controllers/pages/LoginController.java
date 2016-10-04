@@ -26,6 +26,7 @@ public class LoginController {
     @RequestMapping("/")
     public String home(ModelMap model, Principal principal, HttpSession session, RedirectAttributes redirectAttr) throws ServiceException {
         //Getting user from session
+        // so if I put user
         User user = userService.findByLogin(principal.getName());
         if (user == null) {
             return "login";
@@ -34,6 +35,7 @@ public class LoginController {
         }
         //Getting role for user in session
         Role role = user.getRole();
+        // this block of code is duplicated a lot of times, consider extracting to some util method
         Map<String, ?> mapAttr = redirectAttr.getFlashAttributes();
         if (!mapAttr.isEmpty()) {
             model.addAttribute("message", mapAttr.get("message"));

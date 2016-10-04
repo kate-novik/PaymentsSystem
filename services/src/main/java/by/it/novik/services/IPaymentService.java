@@ -87,7 +87,7 @@ public interface IPaymentService {
      * @param paymentsFilter Object PaymentsFilter with filters
      * @return total count of payments
      */
-    Integer getTotalCountOfPayments(PaymentsFilter paymentsFilter);
+    Number getTotalCountOfPayments(PaymentsFilter paymentsFilter);
 
     /**
      * Getting total count of payments with filter

@@ -35,15 +35,15 @@ public class ClientController {
     private static Logger log = Logger.getLogger (ClientController.class);
 
     @Autowired
-    IPaymentService paymentService;
+    IPaymentService paymentService; // please remove ununsed dependencies from your classes. This field is never used.
     @Autowired
     IAccountService accountService;
     @Autowired
     IUserService userService;
     @Autowired
-    IRoleService roleService;
+    IRoleService roleService; // please remove ununsed dependencies from your classes. This field is never used.
     @Autowired
-    PasswordEncoder passwordEncoder;
+    PasswordEncoder passwordEncoder; // please remove ununsed dependencies from your classes. This field is never used.
     @Autowired
     MessageSource messageSource;
 
@@ -89,7 +89,7 @@ public class ClientController {
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public String profile(ModelMap model, Principal principal, RedirectAttributes redirectAttr) throws ServiceException {
-        //Getting user from session
+        //Getting user from session // extra comment, please remove
         User user = getUserFromSession(principal,model);
         if (user == null) {
             return "login";
@@ -136,6 +136,10 @@ public class ClientController {
         return "redirect:/";
     }
 
+    // consider refactoring this
+    // calling /login with parameter logout or with parameter error looks a bit strange to me
+    // could it be just /logout?
+    // and consider moving to LoginController
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login (ModelMap model,
             @RequestParam(value = "error", required = false) String error,
@@ -157,6 +161,8 @@ public class ClientController {
         return "login";
     }
 
+    // please remove commented code (not only here)
+    // if yoy need it you can get it from git history
 //    /**
 //     * Checking whether user has this account
 //     * @param user Object User
@@ -214,6 +220,8 @@ public class ClientController {
      * @param e Object ServiceException
      * @return Object ModelAndView with message of error
      */
+    // is it handler for all exceptions, thrown not only from this file?
+    // if so - consider extracting to its own class
     @ExceptionHandler(ServiceException.class)
     public ModelAndView handleServiceException(ServiceException e, Locale locale){
         log.error(e);
@@ -228,6 +236,8 @@ public class ClientController {
      * @param e Object Exception
      * @return Object ModelAndView with message of error
      */
+    // is it handler for all exceptions, thrown not only from this file?
+    // if so - consider extracting to its own class
     @ExceptionHandler(Exception.class)
     public ModelAndView handleAllException(Exception e, Locale locale){
         log.error(e);

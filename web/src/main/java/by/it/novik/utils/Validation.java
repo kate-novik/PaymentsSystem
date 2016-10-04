@@ -27,6 +27,8 @@ public class Validation {
      * @param type Тип параметра
      * @return true - данные валидны
      */
+    // my Intellij IDEA shows that this method is not used
+    // if so - please remove it
    public static boolean validDataFromForm (String data, String type) {
         if (data != null && type != null) {
             if (type.equalsIgnoreCase("password") && data.matches(PATTERN_PASSWORD)) {
