@@ -61,5 +61,5 @@ You need run three steps for deploying project:
 
 *************************************************************************
 Input data for log in as user:  
-*login* :**user**  
+*login* : **user**  
 *password*: **user**
