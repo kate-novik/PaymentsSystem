@@ -16,7 +16,7 @@ class PaymentsController {
       params.pageNumber = page || 1;
       params.pageSize = limit || 10;
 
-      $http.get(`/paymentsSystem/api/accounts/${this.$scope.selectedAccount}/payments`, {params})
+      $http.get(`/paymentsSystem/api/accounts/${this.$scope.selectedAccount.id}/payments`, {params})
         .then(resp => {
           this.payments = resp.data.payments;
           this.total = resp.data.totalCountItems;

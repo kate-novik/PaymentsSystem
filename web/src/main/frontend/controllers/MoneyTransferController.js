@@ -9,7 +9,7 @@ class MoneyTransferController {
     modalData.accounts.forEach(acc => {
       if (acc.id === modalData.current) {
         this.source = acc;
-        this.sourceInput = `${acc.id} (${$filter('currency')(acc.balance)})`;
+        this.sourceInput = `${acc.id} - ${acc.title} (${$filter('currency')(acc.balance)})`;
       } else {
         this.destAccounts.push(acc);
       }

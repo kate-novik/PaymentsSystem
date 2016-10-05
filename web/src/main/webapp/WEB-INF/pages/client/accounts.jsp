@@ -34,7 +34,7 @@
                                     </md-button>
                                 </md-menu-item>
                                 <md-menu-item>
-                                    <md-button ng-disabled="ctrl.isLocked(account)" ng-click="mc.changeView('payment')">
+                                    <md-button ng-disabled="ctrl.isLocked(account)" ng-click="mc.makePayment(account)">
                                         <spring:message code="account.pay"/>
                                     </md-button>
                                 </md-menu-item>
@@ -49,7 +49,7 @@
                                 </md-menu-item>
                             </md-menu-content>
                         </md-menu>
-                        <md-button ng-click="mc.showPaymentsForAccount(account.id)"><spring:message code="account.rightMenu"/></md-button>
+                        <md-button ng-click="mc.showPaymentsForAccount(account)"><spring:message code="account.rightMenu"/></md-button>
                     </md-card-actions>
                 </md-card>
             </div>
@@ -58,19 +58,15 @@
             <form ng-cloak name="payForm">
 
                 <md-input-container class="md-block" flex-gt-sm>
+                    <label>Source account</label>
+                    <input ng-value="pc.sourceInput" disabled/>
+                </md-input-container>
+
+                <md-input-container class="md-block" flex-gt-sm>
                     <label>Select a service</label>
                     <md-select ng-model="pc.destination" name="serv" required>
                         <md-option ng-repeat="service in pc.services" ng-value="service">
                             {{service.id}} - {{service.title}}
-                        </md-option>
-                    </md-select>
-                </md-input-container>
-
-                <md-input-container class="md-block" flex-gt-sm>
-                    <label>Select an account</label>
-                    <md-select ng-model="pc.source" name="account" required>
-                        <md-option ng-repeat="acc in pc.accounts" ng-value="acc">
-                            {{acc.id}} ({{acc.balance | currency}})
                         </md-option>
                     </md-select>
                 </md-input-container>
@@ -90,7 +86,7 @@
         </div>
         <div ng-switch-when="payments" ng-controller="PaymentsController as pc">
             <div layout="row" layout-wrap>
-                <h3><spring:message code="payment.title"/> ({{mc.selectedAccount}})</h3>
+                <h3><spring:message code="payment.title"/></h3>
                 <span flex></span>
                 <md-button ng-click="mc.changeView('accounts')"><spring:message code="account.title"/></md-button>
             </div>

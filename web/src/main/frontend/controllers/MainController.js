@@ -8,8 +8,13 @@ class MainController {
     this.selectedAccount = null;
   }
 
-  showPaymentsForAccount(accountId) {
-    this.$scope.selectedAccount = accountId;
+  makePayment(account) {
+    this.$scope.selectedAccount = account;
+    this.changeView('payment');
+  }
+
+  showPaymentsForAccount(account) {
+    this.$scope.selectedAccount = account;
     this.changeView('payments');
   }
 
