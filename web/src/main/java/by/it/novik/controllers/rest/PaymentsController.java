@@ -1,13 +1,14 @@
 package by.it.novik.controllers.rest;
 
-import by.it.novik.dto.MoneyTransfer;
+import by.it.novik.dto.MoneyTransferDTO;
 import by.it.novik.utils.Pagination;
-import by.it.novik.dto.PagingTransfer;
+import by.it.novik.dto.PagingTransferDTO;
 import by.it.novik.entities.Payment;
 import by.it.novik.services.IPaymentService;
 import by.it.novik.util.ServiceException;
 import by.it.novik.valueObjects.PaymentsFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -25,7 +26,7 @@ public class PaymentsController {
     IPaymentService paymentService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public PagingTransfer findAll(
+    public PagingTransferDTO findAll(
             HttpSession session,
             @RequestParam(value = "payDate", required = false) Date payDate,
             @RequestParam(value = "minAmountPayment", required = false, defaultValue = "0") double minAmountPayment,
@@ -38,24 +39,20 @@ public class PaymentsController {
         paymentsFilter.setPayDate(payDate);
         paymentsFilter.setMinAmountPayment(minAmountPayment);
         paymentsFilter.setMaxAmountPayment(maxAmountPayment);
-        long totalCountPayments = paymentService.getTotalCountOfPayments(paymentsFilter);
-        //Integer totalCountAccounts = 10; // hard code value
-//        if (totalCountAccounts == null) {
-//            return null;
-//        }
-        Pagination.checkPage(pageNumber,pageSize,totalCountPayments);
-        pageSize = Pagination.item_per_page_result;
-        List<Payment> payments = paymentService.getAllPayments(orderState, pageSize, Pagination.firstItem, paymentsFilter);
-        PagingTransfer pagingTransfer = new PagingTransfer();
-        pagingTransfer.setPage(Pagination.pageResult);
+        PagingTransferDTO pagingTransfer = new PagingTransferDTO();
+        pagingTransfer.setPage(pageNumber);
         pagingTransfer.setItemPerPage(pageSize);
-        pagingTransfer.setPayments(payments);
+        long totalCountPayments = (Long) paymentService.getTotalCountOfPayments(paymentsFilter);
         pagingTransfer.setTotalCountItems(totalCountPayments);
+        pagingTransfer = Pagination.calculatePage(pagingTransfer);
+        List<Payment> payments = paymentService.getAllPayments(orderState, pagingTransfer.getItemPerPage(),
+                pagingTransfer.getFirstItem(), paymentsFilter);
+        pagingTransfer.setPayments(payments);
         return pagingTransfer;
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public void create(@RequestBody MoneyTransfer mt) throws ServiceException {
+    public void create(@RequestBody MoneyTransferDTO mt) throws ServiceException {
         paymentService.makePayment(mt.getAccountSource(), mt.getAccountDestination(), mt.getAmount(), mt.getTitle());
     }
 

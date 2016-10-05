@@ -21,6 +21,13 @@ public interface IAccountDao {
             throws DaoException;
 
     /**
+     * To get list of accounts with type business
+     * @return List of accounts
+     * @throws DaoException
+     */
+    List<Account> getBusinessAccounts () throws DaoException;
+
+    /**
      * To get list of accounts all users with filter
      * @param orderState Order of sorting accounts
      * @param pageSize Size of elements on page
@@ -44,7 +51,7 @@ public interface IAccountDao {
      * @param accountsFilter Object AccountsFilter
      * @return Total count of accounts
      */
-    Integer getTotalCountOfAccounts (AccountsFilter accountsFilter);
+    Number getTotalCountOfAccounts (AccountsFilter accountsFilter);
 
     /**
      * Getting object User by account

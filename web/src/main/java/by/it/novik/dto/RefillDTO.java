@@ -3,7 +3,7 @@ package by.it.novik.dto;
 /**
  * Created by Kate Novik.
  */
-public class Refill {
+public class RefillDTO {
 
     private Double amount;
 

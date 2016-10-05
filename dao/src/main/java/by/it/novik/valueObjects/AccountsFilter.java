@@ -8,8 +8,8 @@ import by.it.novik.util.AccountState;
 public class AccountsFilter {
 
     private AccountState state;
-    private double MinBalance;
-    private double MaxBalance;
+    private double minBalance;
+    private double maxBalance;
 
     public AccountsFilter() {
     }
@@ -23,18 +23,18 @@ public class AccountsFilter {
     }
 
     public double getMinBalance() {
-        return MinBalance;
+        return minBalance;
     }
 
     public void setMinBalance(double minBalance) {
-        MinBalance = minBalance;
+        this.minBalance = minBalance;
     }
 
     public double getMaxBalance() {
-        return MaxBalance;
+        return maxBalance;
     }
 
     public void setMaxBalance(double maxBalance) {
-        MaxBalance = maxBalance;
+        this.maxBalance = maxBalance;
     }
 }

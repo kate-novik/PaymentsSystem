@@ -74,19 +74,6 @@ public class ClientController {
 //        return "redirect:/";
 //    }
 
-    @RequestMapping(value = "/getLogout", method = RequestMethod.GET)
-    public String getLogout(ModelMap model) {
-        return "logout";
-    }
-
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public String logout(HttpServletRequest request, HttpServletResponse response, Authentication auth) {
-        if (auth != null){
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-        }
-        return "redirect:/login?logout";
-    }
-
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public String profile(ModelMap model, Principal principal, RedirectAttributes redirectAttr) throws ServiceException {
         //Getting user from session
@@ -136,25 +123,7 @@ public class ClientController {
         return "redirect:/login";
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login (ModelMap model,
-            @RequestParam(value = "error", required = false) String error,
-            @RequestParam(value = "logout", required = false) String logout,
-            RedirectAttributes redirectAttr) {
-        if (error != null) {
-            model.addAttribute("error", "Invalid username and password!");
-        }
 
-        if (logout != null) {
-            model.addAttribute("msg", "You've been logged out successfully.");
-        }
-        Map <String, ?> mapAttr = redirectAttr.getFlashAttributes();
-        if (!mapAttr.isEmpty()) {
-            model.addAttribute("message", mapAttr.get("message"));
-            model.addAttribute("type", mapAttr.get("type"));
-        }
-        return "login";
-    }
 
 //    /**
 //     * Checking whether user has this account
@@ -208,31 +177,5 @@ public class ClientController {
         return user;
     }
 
-    /**
-     * Handler for ServiceException
-     * @param e Object ServiceException
-     * @return Object ModelAndView with message of error
-     */
-    @ExceptionHandler(ServiceException.class)
-    public ModelAndView handleServiceException(ServiceException e, Locale locale){
-        log.error(e);
-        ModelAndView model = new ModelAndView("error");
-        model.addObject("message",messageSource.getMessage("message.errorService", null, locale));
-        model.addObject("type", "danger");
-        return model;
-    }
 
-    /**
-     * Handler for  all Exception
-     * @param e Object Exception
-     * @return Object ModelAndView with message of error
-     */
-    @ExceptionHandler(Exception.class)
-    public ModelAndView handleAllException(Exception e, Locale locale){
-        log.error(e);
-        ModelAndView model = new ModelAndView("error");
-        model.addObject("message",messageSource.getMessage("message.errorApp", null, locale));
-        model.addObject("type", "danger");
-        return model;
-    }
 }

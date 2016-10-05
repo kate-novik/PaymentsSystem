@@ -21,12 +21,14 @@ import java.io.Serializable;
         @NamedQuery(name="getAccountsByUser", query= Account.QUERY_GET_ACCOUNTS_BY_USER),
         @NamedQuery(name="getUserByAccount", query= Account.QUERY_GET_USER_BY_ACCOUNT),
         @NamedQuery(name="getLockedAccounts", query= Account.QUERY_GET_LOCKED_ACCOUNTS),
-        @NamedQuery(name="getAllAccounts", query= Account.QUERY_GET_ALL_ACCOUNTS)
+        @NamedQuery(name="getAllAccounts", query= Account.QUERY_GET_ALL_ACCOUNTS),
+        @NamedQuery(name="getBusinessAccounts", query= Account.QUERY_GET_BUSINESS_ACCOUNTS),
 })
 public class Account implements Serializable {
     private static final long serialVersionUID = 1L;
 
     static final String QUERY_GET_ACCOUNTS_BY_USER = "FROM Account a WHERE a.user = :user";
+    static final String QUERY_GET_BUSINESS_ACCOUNTS = "FROM Account a WHERE a.type = 'BUSINESS'";
     static final String QUERY_GET_USER_BY_ACCOUNT = "FROM Account a WHERE a.id = :id";
     static final String QUERY_GET_ALL_ACCOUNTS = "FROM Account";
     static final String QUERY_GET_LOCKED_ACCOUNTS = "FROM Account a WHERE a.state = 'LOCKED'";

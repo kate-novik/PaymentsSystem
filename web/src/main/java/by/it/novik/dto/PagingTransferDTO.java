@@ -6,14 +6,15 @@ import java.util.List;
 /**
  * Created by Kate Novik.
  */
-public class PagingTransfer {
+public class PagingTransferDTO {
 
     private int page;
     private int itemPerPage;
+    private int firstItem;
     private long totalCountItems;
     private List<Payment> payments;
 
-    public PagingTransfer() {
+    public PagingTransferDTO() {
     }
 
     public int getPage() {
@@ -31,6 +32,10 @@ public class PagingTransfer {
     public void setItemPerPage(int itemPerPage) {
         this.itemPerPage = itemPerPage;
     }
+
+    public int getFirstItem() { return firstItem; }
+
+    public void setFirstItem(int firstItem) { this.firstItem = firstItem; }
 
     public long getTotalCountItems() {
         return totalCountItems;

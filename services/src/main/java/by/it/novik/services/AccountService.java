@@ -61,6 +61,19 @@ public class AccountService implements IAccountService {
     }
 
     @Override
+    public List<Account> getBusinessAccounts() throws ServiceException {
+        List<Account> accounts;
+        try {
+            accounts = accountDao.getBusinessAccounts();
+        }
+        catch (DaoException d){
+            log.error("Error getBusinessAccounts() in AccountService." + d);
+            throw new ServiceException("Error in getting accounts in AccountService.");
+        }
+        return accounts;
+    }
+
+    @Override
     public List<Account> getAllAccounts(String orderState, Integer pageSize, Integer firstItem,
                                         AccountsFilter accountsFilter) throws ServiceException {
         List<Account> accounts;
@@ -75,29 +88,29 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public List<Account> getLockedAccounts() throws ServiceException {
+    public List<Account> getLockAccounts() throws ServiceException {
         List<Account> accounts;
         try {
             accounts = accountDao.getLockedAccounts();
         }
         catch (DaoException d){
-            log.error("Error getLockedAccounts() in AccountService." + d);
+            log.error("Error getLockAccounts() in AccountService." + d);
             throw new ServiceException("Error in getting locked accounts in AccountService.");
         }
         return accounts;
     }
 
     @Override
-    public void lockingAccount(Account account) throws ServiceException {
+    public void lockAccount(Account account) throws ServiceException {
         //Changing the field state in LOCKED
         account.setState(AccountState.LOCKED);
         saveOrUpdate(account);
     }
 
     @Override
-    public void lockingAccount(Long id) throws ServiceException {
+    public void lockAccount(Long id) throws ServiceException {
         Account account = get(id);
-        lockingAccount(account);
+        lockAccount(account);
     }
 
     @Override
@@ -119,16 +132,16 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public void unlockingAccount(Account account) throws ServiceException {
+    public void unlockAccount(Account account) throws ServiceException {
         //Changing the field state in WORKING
         account.setState(AccountState.WORKING);
         saveOrUpdate(account);
     }
 
     @Override
-    public void unlockingAccount(Long id) throws ServiceException {
+    public void unlockAccount(Long id) throws ServiceException {
         Account account = get(id);
-        unlockingAccount(account);
+        unlockAccount(account);
     }
 
     @Override
@@ -176,7 +189,7 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public Integer getTotalCountOfAccounts (AccountsFilter accountsFilter){
+    public Number getTotalCountOfAccounts (AccountsFilter accountsFilter){
         return accountDao.getTotalCountOfAccounts(accountsFilter);
     }
 

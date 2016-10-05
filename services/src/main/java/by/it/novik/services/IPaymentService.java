@@ -75,7 +75,7 @@ public interface IPaymentService {
      * @param paymentsFilter Object PaymentsFilter with filters
      * @return total count of payments
      */
-    Long getTotalCountOfPayments(PaymentsFilter paymentsFilter);
+    Number getTotalCountOfPayments(PaymentsFilter paymentsFilter);
 
     /**
      * Getting total count of payments with filter
@@ -84,5 +84,5 @@ public interface IPaymentService {
      * @return total count of payments
      * @throws ServiceException
      */
-    Long getTotalCountOfPayments(PaymentsFilter paymentsFilter, Long idAccount) throws ServiceException;
+    Number getTotalCountOfPayments(PaymentsFilter paymentsFilter, Long idAccount) throws ServiceException;
 }

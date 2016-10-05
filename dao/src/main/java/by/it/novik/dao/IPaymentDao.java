@@ -42,7 +42,7 @@ public interface IPaymentDao {
      * @param paymentsFilter Object PaymentsFilter with filters
      * @return total count of payments
      */
-    Long getTotalCountOfPayments(PaymentsFilter paymentsFilter);
+    Number getTotalCountOfPayments(PaymentsFilter paymentsFilter);
 
     /**
      * Getting total count of payments with filter
@@ -50,5 +50,7 @@ public interface IPaymentDao {
      * @param account Object Account
      * @return total count of payments
      */
-    Long getTotalCountOfPayments(PaymentsFilter paymentsFilter, Account account);
+    Number getTotalCountOfPayments(PaymentsFilter paymentsFilter, Account account);
+
+
 }

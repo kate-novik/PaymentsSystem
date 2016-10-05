@@ -70,20 +70,30 @@ public class PaymentDao extends Dao<Payment> implements IPaymentDao {
     }
 
     @Override
-    public Long getTotalCountOfPayments(PaymentsFilter paymentsFilter) {
+    public Number getTotalCountOfPayments(PaymentsFilter paymentsFilter) {
         Criteria criteria = getCriteriaOfFilter(paymentsFilter);
-        //To get total row count
-        criteria.setProjection(Projections.rowCount());
-        return (Long) criteria.uniqueResult();
+        return getPaymentsCount(criteria);
     }
 
     @Override
-    public Long getTotalCountOfPayments(PaymentsFilter paymentsFilter, Account account) {
+    public Number getTotalCountOfPayments(PaymentsFilter paymentsFilter, Account account) {
         Criteria criteria = getCriteriaOfFilter(paymentsFilter);
-        criteria.add(Restrictions.eq("accountSource", account));
-        //To get total row count
+        //To add checking payments of source and destination
+        Criterion accountSource = Restrictions.eq("accountSource", account);
+        Criterion accountDest = Restrictions.eq("accountDestination", account);
+        LogicalExpression andExp = Restrictions.or(accountSource, accountDest);
+        criteria.add(andExp);
+        return getPaymentsCount(criteria);
+    }
+
+    /**
+     * Getting count of payments with criteria
+     * @param criteria Object Criteria
+     * @return Count of payments
+     */
+    private Number getPaymentsCount (Criteria criteria){
         criteria.setProjection(Projections.rowCount());
-        return (Long) criteria.uniqueResult();
+        return (Number) criteria.uniqueResult();
     }
 
     /**
@@ -97,30 +107,28 @@ public class PaymentDao extends Dao<Payment> implements IPaymentDao {
         double maxAmountPayment = paymentsFilter.getMaxAmountPayment();
         Criteria criteria = getSession().createCriteria(Payment.class);
         //To check existing filters
-        if (payDate != null && minAmountPayment != 0 && maxAmountPayment != 0) {
-            Criterion amount = Restrictions.between("amountPayment", minAmountPayment, maxAmountPayment);
-            Criterion date = Restrictions.eq("payDate", payDate);
-            LogicalExpression andExp = Restrictions.and(amount, date);
-            criteria.add(andExp);
-        } else if (payDate != null && minAmountPayment == 0 && maxAmountPayment == 0) {
-            criteria.add(Restrictions.eq("payDate", payDate));
-        } else if (payDate == null && minAmountPayment != 0 && maxAmountPayment != 0) {
-            criteria.add(Restrictions.between("amountPayment", minAmountPayment, maxAmountPayment));
-        } else if (payDate == null && minAmountPayment == 0 && maxAmountPayment != 0) {
-            criteria.add(Restrictions.le("amountPayment", maxAmountPayment));
-        } else if (payDate == null && minAmountPayment != 0 && maxAmountPayment == 0) {
-            criteria.add(Restrictions.ge("amountPayment", minAmountPayment));
-        } else if (payDate != null && minAmountPayment != 0 && maxAmountPayment == 0) {
-            Criterion amount = Restrictions.ge("amountPayment", minAmountPayment);
-            Criterion date = Restrictions.eq("payDate", payDate);
-            LogicalExpression andExp = Restrictions.and(amount, date);
-            criteria.add(andExp);
-        } else if (payDate != null && minAmountPayment == 0 && maxAmountPayment != 0) {
-            Criterion amount = Restrictions.le("amountPayment", maxAmountPayment);
-            Criterion date = Restrictions.eq("payDate", payDate);
-            LogicalExpression andExp = Restrictions.and(amount, date);
-            criteria.add(andExp);
-        }
+        criteria.add(getRestriction(payDate, minAmountPayment, maxAmountPayment));
         return criteria;
+    }
+
+    private Criterion getRestriction(Date payDate, double minAmountPayment, double maxAmountPayment) {
+        Junction conjunction = Restrictions.conjunction();
+        if (payDate != null) {
+            conjunction.add(Restrictions.eq("payDate", payDate));
+        }
+        if (minAmountPayment != 0 || maxAmountPayment != 0) {
+            conjunction.add(getAmountRestriction(minAmountPayment, maxAmountPayment));
+        }
+        return conjunction;
+    }
+
+    private Criterion getAmountRestriction(double minAmountPayment, double maxAmountPayment) {
+        if (minAmountPayment != 0) {
+            if (maxAmountPayment != 0) {
+                return Restrictions.between("amountPayment", minAmountPayment, maxAmountPayment);
+            }
+            return Restrictions.ge("amountPayment", minAmountPayment);
+        }
+        return Restrictions.le("amountPayment", minAmountPayment);
     }
 }

@@ -57,39 +57,29 @@ public class PaymentService implements IPaymentService {
     }
 
     @Override
-    public void makePayment(Long idAccountFrom, Long idAccountTo, Double payAmount, String description) throws ServiceException {
-
-        //Чтение счета-источника платежа по id
+    public void makePayment(Long idAccountFrom, Long idAccountTo, Double payAmount, String description)
+            throws ServiceException {
+        //To read source account
         Account accountSource;
-        Double balance;
         Account accountDestination;
         try {
             accountSource = accountDao.get(idAccountFrom);
-            balance = accountSource.getBalance();
             accountDestination =  accountDao.get(idAccountTo);
         } catch (DaoException e) {
             log.error("Error makePayment() in PaymentService." + e);
             throw new ServiceException("Error in making payment in PaymentService.");
         }
-
         //Проверим баланс счета для списывания денег
-        if (balance >= payAmount) {
-            if (accountDestination != null) {
+        if (calculateAccountsBalance(accountSource, accountDestination, payAmount)) {
                 try{
-                //Вычислим сумму, которая останется на счете после списания
-                Double source_amount = balance - payAmount;
-                accountSource.setBalance(source_amount);
-                //Вычислим сумму, которая будет на счете получателя
-                Double destination_amount = accountDestination.getBalance() + payAmount;
-                accountDestination.setBalance(destination_amount);
-                //Обновляем данные по счетам
+                //Update accounts data
                 accountDao.saveOrUpdate(accountSource);
                 accountDao.saveOrUpdate(accountDestination);
-                //Создание текущей даты и ее форматирование
+                //To create date
                 Date date = new Date(System.currentTimeMillis());
                 SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
                 String currentDate = formatDate.format(date);
-                //Создаем платежку
+                //To create payment
                 Payment payment = new Payment();
                 payment.setAccountSource(accountSource);
                 payment.setAccountDestination(accountDestination);
@@ -106,11 +96,6 @@ public class PaymentService implements IPaymentService {
                     log.error("Error parsing Date in PaymentService."+ e);
                     throw new ServiceException("Error date of payment.");
                 }
-            }
-            else {
-                log.error("Error make payment in PaymentService. Account of destination doesn't exist.");
-                throw new ServiceException("Account of destination doesn't exist. Repeat, please, enter.") ;
-            }
         } else {
             log.error("Error make payment in PaymentService. Few funds in the account_source.");
             throw new ServiceException("Few funds in the account source. Refill your account.") ;
@@ -166,13 +151,13 @@ public class PaymentService implements IPaymentService {
     }
 
     @Override
-    public Long getTotalCountOfPayments(PaymentsFilter paymentsFilter) {
+    public Number getTotalCountOfPayments(PaymentsFilter paymentsFilter) {
         return paymentDao.getTotalCountOfPayments(paymentsFilter);
     }
 
     @Override
-    public Long getTotalCountOfPayments(PaymentsFilter paymentsFilter, Long idAccount) throws ServiceException {
-        Account account = null;
+    public Number getTotalCountOfPayments(PaymentsFilter paymentsFilter, Long idAccount) throws ServiceException {
+        Account account;
         try {
             account = accountDao.get(idAccount);
         } catch (DaoException e) {
@@ -180,5 +165,19 @@ public class PaymentService implements IPaymentService {
             throw new ServiceException("Error in getting account in PaymentService.");
         }
         return paymentDao.getTotalCountOfPayments(paymentsFilter,account);
+    }
+
+    private boolean calculateAccountsBalance (Account sourceAccount, Account accountDest, Double payAmount) {
+        Double balance = sourceAccount.getBalance();
+        //To Check balance source Account
+        if (balance >= payAmount) {
+            //To calculate balance of account after paying
+            Double sourceAmount = balance - payAmount;
+            sourceAccount.setBalance(sourceAmount);
+            Double destinationAmount = accountDest.getBalance() + payAmount;
+            accountDest.setBalance(destinationAmount);
+            return true;
+        }
+        return false;
     }
 }

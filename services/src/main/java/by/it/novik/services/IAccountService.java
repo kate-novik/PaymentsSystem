@@ -31,18 +31,25 @@ public interface IAccountService {
             throws ServiceException;
 
     /**
+     * To get list of accounts with type business
+     * @return List of accounts
+     * @throws ServiceException
+     */
+    List<Account> getBusinessAccounts () throws ServiceException;
+
+    /**
      * Locking account by object Account
      * @param account Object Account
      * @throws ServiceException
      */
-    void lockingAccount(Account account) throws ServiceException;
+    void lockAccount(Account account) throws ServiceException;
 
     /**
      * Locking account by ID account
      * @param account ID Account
      * @throws ServiceException
      */
-    void lockingAccount(Long account) throws ServiceException;
+    void lockAccount(Long account) throws ServiceException;
 
     /**
      * To refill balance of account
@@ -60,14 +67,14 @@ public interface IAccountService {
      * @param account Object Account
      * @throws ServiceException
      */
-    void unlockingAccount(Account account) throws ServiceException;
+    void unlockAccount(Account account) throws ServiceException;
 
     /**
      * Unlocking account
      * @param account Id of account
      * @throws ServiceException
      */
-    void unlockingAccount(Long account) throws ServiceException;
+    void unlockAccount(Long account) throws ServiceException;
 
     /**
      * To get list of all accounts with filter
@@ -86,7 +93,7 @@ public interface IAccountService {
      * @return List of locked accounts
      * @throws ServiceException
      */
-    List<Account> getLockedAccounts () throws ServiceException;
+    List<Account> getLockAccounts() throws ServiceException;
 
     /**
      * To delete account
@@ -122,7 +129,7 @@ public interface IAccountService {
      * @param accountsFilter Object AccountsFilter
      * @return total count of accounts
      */
-    Integer getTotalCountOfAccounts (AccountsFilter accountsFilter);
+    Number getTotalCountOfAccounts (AccountsFilter accountsFilter);
 
     /**
      * Getting object User by account

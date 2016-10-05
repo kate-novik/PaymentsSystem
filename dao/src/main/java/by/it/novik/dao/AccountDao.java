@@ -40,6 +40,21 @@ public class AccountDao extends Dao <Account> implements IAccountDao {
     }
 
     @Override
+    public List<Account> getBusinessAccounts () throws DaoException {
+        List<Account> accounts;
+        try {
+            Query query = getSession().getNamedQuery("getBusinessAccounts");
+            accounts = query.list();
+            log.info("getBusinessAccounts():" + accounts);
+        }
+        catch (HibernateException e) {
+            log.error("Error getBusinessAccounts() in Dao" + e);
+            throw new DaoException("Error getBusinessAccounts() in Dao.");
+        }
+        return accounts;
+    }
+
+    @Override
     public List<Account> getAllAccounts (String orderState, Integer pageSize, Integer firstItem,
                                          AccountsFilter accountsFilter) throws DaoException {
         List<Account> accounts;
@@ -76,11 +91,11 @@ public class AccountDao extends Dao <Account> implements IAccountDao {
     }
 
     @Override
-    public Integer getTotalCountOfAccounts(AccountsFilter accountsFilter) {
+    public Number getTotalCountOfAccounts(AccountsFilter accountsFilter) {
         Criteria criteria = getCriteriaOfFilter(accountsFilter);
         //To get total row count
         criteria.setProjection(Projections.rowCount());
-        return (Integer) criteria.uniqueResult();
+        return (Number) criteria.uniqueResult();
     }
 
     @Override

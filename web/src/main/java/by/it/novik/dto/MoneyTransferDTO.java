@@ -3,14 +3,14 @@ package by.it.novik.dto;
 /**
  * Created by Kate Novik.
  */
-public class MoneyTransfer {
+public class MoneyTransferDTO {
 
     private Long accountSource;
     private Long accountDestination;
     private Double amount;
     private String title;
 
-    public MoneyTransfer() {
+    public MoneyTransferDTO() {
     }
 
     public Long getAccountSource() {
