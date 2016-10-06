@@ -16,26 +16,30 @@
             <div layout-gt-sm="row">
                 <md-input-container class="md-block" flex-gt-sm>
                     <label><spring:message code="reg.firstName"/></label>
-                    <form:input path="firstName" md-maxlength="15" ng-model="firstName" required="true"/>
+                    <form:input path="firstName" md-maxlength="15" ng-model="firstName" required="true" ng-pattern="/^[a-zA-Zа-яА-ЯёЁ\\-]{3,15}$/"/>
                     <div ng-messages="regForm.firstName.$error">
                         <div ng-message="required"><spring:message code="reg.required"/></div>
-                        <div ng-message="md-maxlength">The name has to be less than 15 characters long.</div>
+                        <div ng-message="md-maxlength"><spring:message code="reg.validName"/></div>
+                        <div ng-message="pattern"><spring:message code="reg.correct"/></div>
                     </div>
                 </md-input-container>
 
                 <md-input-container class="md-block" flex-gt-sm>
                     <label><spring:message code="reg.middleName"/></label>
-                    <form:input path="middleName" ng-model="middleName" required="true"/>
+                    <form:input path="middleName" ng-model="middleName" md-maxlength="15" ng-pattern="/^[a-zA-Zа-яА-ЯёЁ]{3,15}$/"/>
                     <div ng-messages="regForm.middleName.$error">
-                        <div ng-message="required"><spring:message code="reg.required"/></div>
+                        <div ng-message="md-maxlength"><spring:message code="reg.validMiddleName"/></div>
+                        <div ng-message="pattern"><spring:message code="reg.correct"/></div>
                     </div>
                 </md-input-container>
 
                 <md-input-container class="md-block" flex-gt-sm>
                     <label><spring:message code="reg.lastName"/></label>
-                    <form:input path="lastName" ng-model="lastName" required="true"/>
+                    <form:input path="lastName" ng-model="lastName" required="true" md-maxlength="15" ng-pattern="/^[a-zA-Zа-яА-ЯёЁ\\-]{3,15}$/"/>
                     <div ng-messages="regForm.lastName.$error">
                         <div ng-message="required"><spring:message code="reg.required"/></div>
+                        <div ng-message="md-maxlength"><spring:message code="reg.validLastName"/></div>
+                        <div ng-message="pattern"><spring:message code="reg.correct"/></div>
                     </div>
                 </md-input-container>
             </div>
@@ -43,32 +47,40 @@
             <div layout-gt-sm="row">
                 <md-input-container class="md-block" flex-gt-sm="33">
                     <label><spring:message code="reg.city"/></label>
-                    <form:input path="address.city" ng-model="city" required="true"/>
+                    <form:input path="address.city" ng-model="city" required="true" md-maxlength="15" ng-pattern="/^[a-zA-Zа-яА-ЯёЁ\\s\\-]{2,20}$/"/>
                     <div ng-messages="regForm.address.city.$error">
                         <div ng-message="required"><spring:message code="reg.required"/></div>
+                        <div ng-message="md-maxlength"><spring:message code="reg.validCity"/></div>
+                        <div ng-message="pattern"><spring:message code="reg.correct"/></div>
                     </div>
                 </md-input-container>
 
                 <md-input-container class="md-block" flex-gt-sm="33">
                     <label><spring:message code="reg.street"/></label>
-                    <form:input path="address.street" ng-model="street" required="true"/>
+                    <form:input path="address.street" ng-model="street" required="true" md-maxlength="20" ng-pattern="/^[1-9a-zA-Zа-яА-ЯёЁ\\s\\-]{2,20}$/"/>
                     <div ng-messages="regForm.address.street.$error">
                         <div ng-message="required"><spring:message code="reg.required"/></div>
+                        <div ng-message="md-maxlength"><spring:message code="reg.validStreet"/></div>
+                        <div ng-message="pattern"><spring:message code="reg.correct"/></div>
                     </div>
                 </md-input-container>
 
                 <md-input-container class="md-block" flex-gt-sm="15">
                     <label><spring:message code="reg.home"/></label>
-                    <form:input path="address.home" ng-model="home" required="true"/>
+                    <form:input path="address.home" ng-model="home" required="true" md-maxlength="7" ng-pattern="/^[01-9]{1,6}[a-zA-Zа-яА-ЯёЁ]?$/"/>
                     <div ng-messages="regForm.address.home.$error">
                         <div ng-message="required"><spring:message code="reg.required"/></div>
+                        <div ng-message="md-maxlength"><spring:message code="reg.validHome"/></div>
+                        <div ng-message="pattern"><spring:message code="reg.correct"/></div>
                     </div>
                 </md-input-container>
 
                 <md-input-container class="md-block" flex-gt-sm="15">
                     <label><spring:message code="reg.flat"/></label>
-                    <form:input path="address.flat" ng-model="flat"/>
+                    <form:input path="address.flat" ng-model="flat" md-maxlength="7" ng-pattern="/^[01-9]{1,6}[a-zA-Zа-яА-ЯёЁ]?$/"/>
                     <div ng-messages="regForm.address.flat.$error">
+                        <div ng-message="md-maxlength"><spring:message code="reg.validFlat"/></div>
+                        <div ng-message="pattern"><spring:message code="reg.correct"/></div>
                     </div>
                 </md-input-container>
             </div>
@@ -80,14 +92,14 @@
                     <div ng-messages="regForm.phone.$error">
                         <div ng-message="required"><spring:message code="reg.required"/></div>
                         <div ng-message="md-maxlength"><spring:message code="reg.validPhone"/></div>
-                        <div ng-message="pattern"><spring:message code="reg.correctPhone"/></div>
+                        <div ng-message="pattern"><spring:message code="reg.correct"/></div>
                     </div>
                 </md-input-container>
 
                 <md-input-container class="md-block" flex-gt-sm>
                     <label><spring:message code="reg.email"/></label>
                     <form:input path="email" ng-model="email"
-                                required="true" minlength="8" maxlength="100" ng-pattern="/^.+@.+\..+$/"/>
+                                required="true" minlength="8" maxlength="100" ng-pattern="/^([a-z0-9_-]+\\.)*[a-z0-9_-]+@[a-z0-9_-]+(\\.[a-z0-9_-]+)*\\.[a-z]{2,6}$/"/>
                     <div ng-messages="regForm.email.$error">
                         <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
                             <spring:message code="reg.validEmail"/>
@@ -99,7 +111,12 @@
             <div layout-gt-sm="row">
                 <md-input-container class="md-block" flex-gt-sm>
                     <label><spring:message code="reg.numberPassport"/></label>
-                    <form:input path="passport.number" ng-model="passportNumber" required="true"/>
+                    <form:input path="passport.number" ng-model="passportNumber" required="true" maxlength="15" ng-pattern="/^[01-9a-zA-Z]{9,12}$/"/>
+                    <div ng-messages="regForm.passport.number.$error">
+                        <div ng-message-exp="['required', 'maxlength', 'pattern']">
+                            <spring:message code="reg.correct"/>
+                        </div>
+                    </div>
                 </md-input-container>
 
                 <md-input-container class="md-block" flex-gt-sm>
@@ -109,16 +126,21 @@
 
                 <md-input-container class="md-block" flex-gt-sm>
                     <label><spring:message code="reg.issued"/></label>
-                    <form:input path="passport.issued" ng-model="issued" required="true"/>
+                    <form:input path="passport.issued" ng-model="issued" required="true" maxlength="50" ng-pattern="/^[a-zA-Zа-яА-ЯёЁ\\s]{11,30}$/"/>
+                    <div ng-messages="regForm.passport.issued.$error">
+                        <div ng-message-exp="['required', 'maxlength', 'pattern']">
+                            <spring:message code="reg.correct"/>
+                        </div>
+                    </div>
                 </md-input-container>
             </div>
 
             <div layout-gt-sm="row">
                 <md-input-container class="md-block" flex-gt-sm>
                     <label><spring:message code="login.login"/></label>
-                    <form:input path="login" ng-model="login" required="true" minlength="3" maxlength="10"/>
+                    <form:input path="login" ng-model="login" required="true" minlength="3" maxlength="10" ng-pattern="/^[1-9a-zA-Z]{3,10}$/"/>
                     <div ng-messages="regForm.login.$error">
-                        <div ng-message-exp="['required', 'minlength', 'maxlength']">
+                        <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
                             <spring:message code="login.validLogin"/>
                         </div>
                     </div>

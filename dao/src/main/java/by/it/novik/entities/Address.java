@@ -34,7 +34,7 @@ public class Address implements Serializable{
     }
 
     @NotEmpty
-    @Pattern(regexp = "^[a-zA-Zа-яА-ЯёЁ\\s]{2,20}$")
+    @Pattern(regexp = "^[a-zA-Zа-яА-ЯёЁ\\s\\-]{2,20}$")
     private String city;
     @Column(name="city", length = 15)
     @Type(type = "string")
@@ -46,7 +46,7 @@ public class Address implements Serializable{
     }
 
     @NotEmpty
-    @Pattern(regexp = "^[1-9a-zA-Zа-яА-ЯёЁ\\s]{2,20}$")
+    @Pattern(regexp = "^[1-9a-zA-Zа-яА-ЯёЁ\\s\\-]{2,20}$")
     private String street;
     @Column(name="street", length = 20)
     @Type(type = "string")
@@ -58,7 +58,7 @@ public class Address implements Serializable{
     }
 
     @NotEmpty
-    @Pattern(regexp = "^[01-9a-zA-Zа-яА-ЯёЁ\\s]{1,7}$")
+    @Pattern(regexp = "^[01-9]{1,6}[a-zA-Zа-яА-ЯёЁ]?$")
     private String home;
     @Column(name="home", length = 7)
     @Type(type = "string")
@@ -69,9 +69,9 @@ public class Address implements Serializable{
         this.home = home;
     }
 
-    @Pattern(regexp = "^[01-9a-zA-Zа-яА-ЯёЁ\\s]{1,7}$")
+    @Pattern(regexp = "^[01-9]{1,6}[a-zA-Zа-яА-ЯёЁ]?$")
     private String flat;
-    @Column(name="flat", length = 5)
+    @Column(name="flat", length = 7)
     @Type(type = "string")
     public String getFlat() {
         return flat;

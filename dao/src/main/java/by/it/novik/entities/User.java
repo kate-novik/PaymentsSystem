@@ -42,7 +42,7 @@ public class User implements Serializable {
     }
 
     @NotEmpty
-    @Pattern(regexp = "^[a-zA-Zа-яА-ЯёЁ]{3,15}$")
+    @Pattern(regexp = "^[a-zA-Zа-яА-ЯёЁ\\-]{3,15}$")
     private String firstName;
     @Column(name="first_name", length = 15)
     @Type(type = "string")
@@ -67,7 +67,7 @@ public class User implements Serializable {
     }
 
     @NotEmpty
-    @Pattern(regexp = "^[a-zA-Zа-яА-ЯёЁ]{3,15}$")
+    @Pattern(regexp = "^[a-zA-Zа-яА-ЯёЁ\\-]{3,15}$")
     private String lastName;
     @Column(name="last_name", length = 20)
     @Type(type = "string")
@@ -100,7 +100,7 @@ public class User implements Serializable {
     }
 
     @NotEmpty
-    @Pattern(regexp = "^\\d{3}\\d{2}\\d{3}\\d{2}\\d{2}$")
+    @Pattern(regexp = "^\\d{12}$")
     private String phone;
     @Column(name="phone", length=12)
     @Type(type = "string")
