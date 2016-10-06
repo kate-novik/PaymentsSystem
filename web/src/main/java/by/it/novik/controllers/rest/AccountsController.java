@@ -61,9 +61,10 @@ public class AccountsController {
     }
 
     @RequestMapping(value="/{id}", method = RequestMethod.PUT)
-    public Account update(@PathVariable Long id) throws ServiceException {
-        Account account = accountService.get(id);
-        accountService.saveOrUpdate(account);
+    public Account update(@PathVariable Long id, @RequestBody Account account) throws ServiceException {
+        Account currentAccount = accountService.get(id);
+        currentAccount.setTitle(account.getTitle());
+        accountService.saveOrUpdate(currentAccount);
         return account;
     }
 
