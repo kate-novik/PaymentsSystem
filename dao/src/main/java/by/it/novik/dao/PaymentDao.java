@@ -129,6 +129,6 @@ public class PaymentDao extends Dao<Payment> implements IPaymentDao {
             }
             return Restrictions.ge("amountPayment", minAmountPayment);
         }
-        return Restrictions.le("amountPayment", minAmountPayment);
+        return Restrictions.le("amountPayment", maxAmountPayment);
     }
 }

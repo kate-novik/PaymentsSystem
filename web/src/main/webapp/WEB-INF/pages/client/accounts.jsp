@@ -17,7 +17,13 @@
                 <md-card flex="23"  ng-repeat="account in ctrl.accounts">
                     <md-card-title>
                         <md-card-title-text>
-                            <span class="md-subhead">{{account.title}}</span>
+                            <div layout="row" layout-wrap>
+                                <span class="md-subhead">{{account.title}}</span>
+                                <span flex></span>
+                                <md-button ng-click="ctrl.edit($event, account)">
+                                    <md-icon>mode_edit</md-icon>
+                                </md-button>
+                            </div>
                             <span class="md-subhead">({{account.state}})</span>
                             <span class="md-subhead"><spring:message code="account.amount"/></span>
                             <span class="md-headline">{{account.balance | currency}}</span>
@@ -90,10 +96,30 @@
                 <span flex></span>
                 <md-button ng-click="mc.changeView('accounts')"><spring:message code="account.title"/></md-button>
             </div>
+            <md-content layout-padding>
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Min</label>
+                        <input name="min" ng-model="pc.filter.minAmountPayment"/>
+                    </md-input-container>
+
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Max</label>
+                        <input name="date" ng-model="pc.filter.maxAmountPayment"/>
+                    </md-input-container>
+
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <md-datepicker ng-model="pc.filter.payDate" md-placeholder="Date"></md-datepicker>
+                    </md-input-container>
+
+                    <md-button type="submit" ng-click="fetch()">Filter</md-button>
+                    <md-button type="submit" ng-click="pc.reset()">Reset</md-button>
+                </div>
+            </md-content>
             <div>
                 <md-table-container>
                     <table md-table md-promise="pc.loading">
-                        <thead md-head md-order="pc.query.order" md-on-reorder="pc.fetch">
+                        <thead md-head md-order="pc.query.order" md-on-reorder="fetch">
                         <tr md-row>
                             <th md-column md-order-by="nameToLower"><span># <spring:message code="payment.number"/></span></th>
                             <th md-column md-numeric><spring:message code="payment.desc"/></th>
@@ -107,7 +133,11 @@
                             <td md-cell>{{payment.id}}</td>
                             <td md-cell>{{payment.description}}</td>
                             <td md-cell>{{payment.payDate}}</td>
-                            <td md-cell>{{payment.state}}</td>
+                            <td md-cell>
+                                <md-icon ng-style="{color: pc.isUp(payment) ? 'green' : 'red'}">
+                                    {{pc.isUp(payment) ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}
+                                </md-icon>
+                            </td>
                             <td md-cell>{{payment.amountPayment}}</td>
                         </tr>
                         </tbody>

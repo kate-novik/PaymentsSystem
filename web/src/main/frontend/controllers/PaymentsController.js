@@ -11,10 +11,14 @@ class PaymentsController {
       page: 1
     };
 
+    this.filter = {};
+
     $scope.fetch = (page, limit) => {
       let params = {};
       params.pageNumber = page || 1;
       params.pageSize = limit || 10;
+
+      params = Object.assign(params, this.filter);
 
       $http.get(`/paymentsSystem/api/accounts/${this.$scope.selectedAccount.id}/payments`, {params})
         .then(resp => {
@@ -24,6 +28,15 @@ class PaymentsController {
     };
 
     $scope.fetch();
+  }
+
+  reset() {
+    this.filter = {};
+    this.$scope.fetch();
+  }
+
+  isUp (payment) {
+    return payment.accountDestination.id === this.$scope.selectedAccount.id;
   }
 }
 

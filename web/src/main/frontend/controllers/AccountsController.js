@@ -42,6 +42,21 @@ class AccountsController {
     });
   }
 
+  edit(ev, account) {
+    var confirm = this.$mdDialog.prompt()
+      .title('What would you title your account?')
+      .placeholder('Account title')
+      .initialValue(account.title)
+      .targetEvent(ev)
+      .ok('Ok')
+      .cancel('Cancel');
+
+    this.$mdDialog.show(confirm).then(result => {
+      account.title = result;
+      this.$http.put(`/paymentsSystem/api/accounts/${account.id}`, account);
+    });
+  }
+
   refill(ev, idAccount, index) {
     var confirm = this.$mdDialog.prompt()
       .title('Account refill')
