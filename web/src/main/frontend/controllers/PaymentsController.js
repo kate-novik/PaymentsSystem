@@ -15,10 +15,20 @@ class PaymentsController {
 
     $scope.fetch = (page, limit) => {
       let params = {};
+      let filter = Object.assign({}, this.filter);
       params.pageNumber = page || 1;
       params.pageSize = limit || 10;
 
-      params = Object.assign(params, this.filter);
+      if (filter.payDate) {
+        let date = filter.payDate;
+        let day = date.getDate();
+        let monthIndex = date.getMonth();
+        let year = date.getFullYear();
+
+        filter.payDate = day + '/' + (monthIndex + 1) + '/' + year;
+      }
+
+      params = Object.assign(params, filter);
 
       $http.get(`/paymentsSystem/api/accounts/${this.$scope.selectedAccount.id}/payments`, {params})
         .then(resp => {

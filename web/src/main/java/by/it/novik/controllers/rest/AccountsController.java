@@ -14,6 +14,7 @@ import by.it.novik.util.ServiceException;
 import by.it.novik.valueObjects.PaymentsFilter;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
@@ -100,7 +101,7 @@ public class AccountsController {
     @RequestMapping(value="/{id}/payments", method = RequestMethod.GET)
     public PagingTransferDTO findPaymentsByAccount(
             @PathVariable Long id,
-            @RequestParam(value = "payDate", required = false) Date payDate,
+            @RequestParam(value = "payDate", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") Date payDate,
             @RequestParam(value = "minAmountPayment", required = false, defaultValue = "0") double minAmountPayment,
             @RequestParam(value = "maxAmountPayment", required = false, defaultValue = "0") double maxAmountPayment,
             @RequestParam(value = "pageNumber", required = false, defaultValue = "1") Integer pageNumber ,
