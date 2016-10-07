@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -54,7 +55,7 @@ public class User implements Serializable {
         this.firstName = firstName;
     }
 
-    @Pattern(regexp = "^[a-zA-Zа-яА-ЯёЁ]{3,15}$")
+    //@Pattern(regexp = "^[a-zA-Zа-яА-ЯёЁ]{3,15}$")
     private String middleName;
     @Column(name="middle_name", length = 15)
     @Type(type = "string")

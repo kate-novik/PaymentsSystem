@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 
@@ -69,7 +70,7 @@ public class Address implements Serializable{
         this.home = home;
     }
 
-    @Pattern(regexp = "^[01-9]{1,6}[a-zA-Zа-яА-ЯёЁ]?$")
+    //@Pattern(regexp = "^[01-9]{1,6}[a-zA-Zа-яА-ЯёЁ]?$")
     private String flat;
     @Column(name="flat", length = 7)
     @Type(type = "string")

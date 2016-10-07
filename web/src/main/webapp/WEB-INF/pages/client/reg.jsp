@@ -26,10 +26,11 @@
 
                 <md-input-container class="md-block" flex-gt-sm>
                     <label><spring:message code="reg.middleName"/></label>
-                    <form:input path="middleName" ng-model="middleName" md-maxlength="15" ng-pattern="/^[a-zA-Zа-яА-ЯёЁ]{3,15}$/"/>
+                    <form:input path="middleName" ng-model="middleName" md-maxlength="15"/>
                     <div ng-messages="regForm.middleName.$error">
                         <div ng-message="md-maxlength"><spring:message code="reg.validMiddleName"/></div>
-                        <div ng-message="pattern"><spring:message code="reg.correct"/></div>
+                        <%--<div ng-message="pattern"><spring:message code="reg.correct"/></div>--%>
+                        <%--ng-pattern="/^[a-zA-Zа-яА-ЯёЁ]{3,15}$/"--%>
                     </div>
                 </md-input-container>
 
@@ -77,10 +78,11 @@
 
                 <md-input-container class="md-block" flex-gt-sm="15">
                     <label><spring:message code="reg.flat"/></label>
-                    <form:input path="address.flat" ng-model="flat" md-maxlength="7" ng-pattern="/^[01-9]{1,6}[a-zA-Zа-яА-ЯёЁ]?$/"/>
+                    <form:input path="address.flat" ng-model="flat" md-maxlength="7" />
                     <div ng-messages="regForm.address.flat.$error">
                         <div ng-message="md-maxlength"><spring:message code="reg.validFlat"/></div>
-                        <div ng-message="pattern"><spring:message code="reg.correct"/></div>
+                        <%--ng-pattern="/^[01-9]{1,6}[a-zA-Zа-яА-ЯёЁ]?$/"--%>
+                        <%--<div ng-message="pattern"><spring:message code="reg.correct"/></div>--%>
                     </div>
                 </md-input-container>
             </div>
