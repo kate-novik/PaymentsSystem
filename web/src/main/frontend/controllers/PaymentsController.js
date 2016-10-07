@@ -11,7 +11,7 @@ class PaymentsController {
       page: 1
     };
 
-    this.maxDate = new Date();
+    // this.maxDate = new Date();
 
     this.filter = {};
 

@@ -123,7 +123,7 @@
 
                 <md-input-container class="md-block" flex-gt-sm>
                     <form:input type="hidden" path="passport.dateOfIssue" ng-model="dateOfIssue" ng-value="dateOfIssue"/>
-                    <md-datepicker ng-model="dateOfIssue" md-placeholder=<spring:message code="reg.dataIssued"/> required></md-datepicker>
+                    <md-datepicker ng-model="dateOfIssue" md-max-date="maxDate" md-placeholder=<spring:message code="reg.dataIssued"/> required></md-datepicker>
                 </md-input-container>
 
                 <md-input-container class="md-block" flex-gt-sm>

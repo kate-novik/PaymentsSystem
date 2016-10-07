@@ -31,7 +31,7 @@
 
                     <md-input-container class="md-block" flex-gt-sm md-is-error="ctrl.amount > ctrl.source.balance">
                         <label>Amount</label>
-                        <input ng-model="ctrl.amount" name="amount"  required/>
+                        <input type="number" ng-model="ctrl.amount" name="amount"  required/>
                         <div class="md-input-message-animation" ng-if="ctrl.amount > ctrl.source.balance" style="opacity: 1; margin-top: 0px;">
                             <div>Недостаточно средств</div>
                         </div>

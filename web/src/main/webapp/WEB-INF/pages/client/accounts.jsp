@@ -109,7 +109,7 @@
                     </md-input-container>
 
                     <md-input-container class="md-block" flex-gt-sm>
-                        <md-datepicker ng-model="pc.filter.payDate" md-max-date="pc.maxDate" md-placeholder=<spring:message code="account.date"/>></md-datepicker>
+                        <md-datepicker ng-model="pc.filter.payDate" md-max-date="maxDate" md-placeholder=<spring:message code="account.date"/>></md-datepicker>
                     </md-input-container>
 
                     <md-button type="submit" ng-click="fetch()"><spring:message code="account.filter"/></md-button>
